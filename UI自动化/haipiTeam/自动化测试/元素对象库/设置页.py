@@ -45,6 +45,7 @@ class 设置页对象库:
         #版次列表
         版次名称='//table//tr/td[2]//span[text()="{}"]'
         版次复选框='//table//tr/td[2]//span[text()="{}"]/ancestor::tr/td[1]//span'
+        禁用_版次复选框 = '//table//tr/td[2]/div/span[text()="{}"]/ancestor::tr/td[1]//span[contains(@class,"disabled")]'
         是否默认单选框='//table//tr/td[2]//span[text()="{}"]/ancestor::tr/td[last()]//span'
 
         #版次
@@ -72,6 +73,7 @@ class 设置页对象库:
         属性系统全选复选框 = '//div[@class="edition_main_t"]//tr/th//span'
         属性系统名称='//table//tr/td[2]/div/span[text()="{}"]'
         属性系统复选框='//table//tr/td[2]//span[text()="{}"]/ancestor::tr/td[1]'
+        禁用_属性系统复选框='//table//tr/td[2]/div/span[text()="{}"]/ancestor::tr/td[1]//span[contains(@class,"disabled")]'
         属性系统名称输入框='//table[@class="el-table__body"]//tr/td[2]//input'
         属性系统描述输入框='//table[@class="el-table__body"]//tr/td[3]//input'
         属性系统保存按钮='//table[@class="el-table__body"]//tr/td[3]//i'

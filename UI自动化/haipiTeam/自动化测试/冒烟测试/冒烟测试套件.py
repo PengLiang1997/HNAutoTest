@@ -2,6 +2,7 @@ from HNtest.testcasesec.testcasesec import TestCaseSec
 from HNtest.BeautifulReport.BeautifulReport import add_to_report
 import HNtest.Secselenium.secdriver as secdriver
 from 自动化测试.冒烟测试.冒烟业务实现 import *
+from 自动化测试.基础操作.登录页面 import *
 
 class Test_登录页冒烟(TestCaseSec):
     @classmethod
@@ -249,7 +250,7 @@ class Test_项目页冒烟(TestCaseSec):
 
 
     @add_to_report
-    def test_07_创建文件目录(self):
+    def test_13_创建文件目录(self):
         '''
         用例编号：xm_027、xm_029、xm_033
         用例描述：
@@ -261,7 +262,7 @@ class Test_项目页冒烟(TestCaseSec):
         self.项目页冒烟实现.创建文件目录()
 
     @add_to_report
-    def test_08_上传单个文件(self):
+    def test_14_上传单个文件(self):
         '''
         用例编号：xm_031、xm_038、xm_035、xm_045
         用例描述：
@@ -274,7 +275,7 @@ class Test_项目页冒烟(TestCaseSec):
         self.项目页冒烟实现.上传单个文件()
 
     @add_to_report
-    def test_09_批量上传文件(self):
+    def test_15_批量上传文件(self):
         '''
         用例编号：xm_039、xm_042
         用例描述：
@@ -285,7 +286,7 @@ class Test_项目页冒烟(TestCaseSec):
         self.项目页冒烟实现.批量上传文件()
 
     @add_to_report
-    def test_10_列表显示管理(self):
+    def test_16_列表显示管理(self):
         '''
         用例编号：xm_030、xm_044
         用例描述：
@@ -296,7 +297,7 @@ class Test_项目页冒烟(TestCaseSec):
         self.项目页冒烟实现.列表显示管理()
 
     @add_to_report
-    def test_11_批量操作工具栏显示(self):
+    def test_17_批量操作工具栏显示(self):
         '''
         用例编号：
         用例描述：
@@ -306,7 +307,18 @@ class Test_项目页冒烟(TestCaseSec):
         self.项目页冒烟实现.批量操作工具栏显示()
 
     @add_to_report
-    def test_12_文件检出和撤销检出(self):
+    def test_18_收藏文件或文件目录(self):
+        '''
+        用例编号：
+        用例描述：
+                1、点击资源行操作的收藏按钮，可以对文件或文件目录收藏成功
+                2、点击资源行操作的收藏按钮，可以对文件或文件目录取消收藏成功
+        @author:彭亮
+        '''
+        self.项目页冒烟实现.收藏文件或文件目录()
+
+    @add_to_report
+    def test_19_文件检出和撤销检出(self):
         '''
         用例编号：
         用例描述：
@@ -319,7 +331,7 @@ class Test_项目页冒烟(TestCaseSec):
         self.项目页冒烟实现.文件检出和撤销检出()
 
     @add_to_report
-    def test_13_文件检入(self):
+    def test_20_文件检入(self):
         '''
         用例编号：
         用例描述：
@@ -329,10 +341,8 @@ class Test_项目页冒烟(TestCaseSec):
         '''
         self.项目页冒烟实现.文件检入()
 
-
-
     @add_to_report
-    def test_14_文件或目录删除(self):
+    def test_21_文件或目录删除(self):
         '''
         用例编号：
         用例描述：
@@ -342,7 +352,7 @@ class Test_项目页冒烟(TestCaseSec):
         self.项目页冒烟实现.文件或目录删除()
 
     @add_to_report
-    def test_15_批量上传文件并下载校验(self):
+    def test_22_批量上传文件并下载校验(self):
         '''
         用例编号：
         用例描述：
@@ -350,14 +360,15 @@ class Test_项目页冒烟(TestCaseSec):
                 2、下载文件，查看下载的文件大小是否正常
         @author:彭亮
         '''
-        for i in range(5):
-            self.项目页冒烟实现.批量上传文件并下载校验()
-            self.项目页冒烟实现.批量上传文件并下载校验2()
+        # for i in range(5):
+        #     self.项目页冒烟实现.批量上传文件并下载校验()
+        #     self.项目页冒烟实现.批量上传文件并下载校验2()
         # self.项目页冒烟实现.批量上传文件并下载校验()
         # self.项目页冒烟实现.批量上传文件并下载校验2()
+        pass
 
     @add_to_report
-    def test_16_附加文件(self):
+    def test_23_附加文件(self):
         '''
         用例编号：
         用例描述：
@@ -370,7 +381,7 @@ class Test_项目页冒烟(TestCaseSec):
         self.项目页冒烟实现.附加文件()
 
     @add_to_report
-    def test_17_文件打包(self):
+    def test_24_文件打包(self):
         '''
         用例编号：
         用例描述：
@@ -381,7 +392,7 @@ class Test_项目页冒烟(TestCaseSec):
         self.项目页冒烟实现.文件打包()
 
     @add_to_report
-    def test_18_文件下载(self):
+    def test_25_文件下载(self):
         '''
         用例编号：
         用例描述：
@@ -391,7 +402,7 @@ class Test_项目页冒烟(TestCaseSec):
         self.项目页冒烟实现.文件下载()
 
     @add_to_report
-    def test_19_批量检出(self):
+    def test_26_批量检出(self):
         '''
         用例编号：
         用例描述：
@@ -402,7 +413,7 @@ class Test_项目页冒烟(TestCaseSec):
         self.项目页冒烟实现.批量检出()
 
     @add_to_report
-    def test_20_批量撤销检出(self):
+    def test_27_批量撤销检出(self):
         '''
         用例编号：
         用例描述：
@@ -413,7 +424,7 @@ class Test_项目页冒烟(TestCaseSec):
         self.项目页冒烟实现.批量撤销检出()
 
     @add_to_report
-    def test_21_批量删除(self):
+    def test_28_批量删除(self):
         '''
         用例编号：
         用例描述：
@@ -425,18 +436,19 @@ class Test_项目页冒烟(TestCaseSec):
         self.项目页冒烟实现.批量删除()
 
     @add_to_report
-    def test_22_批量打包(self):
+    def test_29_批量收藏(self):
         '''
         用例编号：
         用例描述：
-                1、勾选多个文件，点击打包，压缩包中含有被勾选文件
-                2、勾选文件和目录，点击打包，压缩包中含有被勾选的文件和目录，目录下的文件页被打包
+                1、勾选多个文件，点击收藏，可以收藏成功
+                2、勾选多个文件，点击收藏，可以收藏成功
+                3、勾选文件和目录，点击收藏，可以收藏成功
         @author:彭亮
         '''
-        self.项目页冒烟实现.批量打包()
+        self.项目页冒烟实现.批量收藏()
 
     @add_to_report
-    def test_23_面包屑(self):
+    def test_30_面包屑(self):
         '''
         用例编号：
         用例描述：
@@ -445,3 +457,217 @@ class Test_项目页冒烟(TestCaseSec):
         @author:彭亮
         '''
         self.项目页冒烟实现.面包屑()
+
+    @add_to_report
+    def test_31_面包屑(self):
+        '''
+        用例编号：
+        用例描述：
+                1、在不同的文件目录下，面包屑会显示对应的路径
+                2、点击面包屑上的节点，会跳转到对应的页面
+        @author:彭亮
+        '''
+        self.项目页冒烟实现.面包屑()
+
+
+class Test_设置页冒烟(TestCaseSec):
+    @classmethod
+    def setUp(cls):
+        cls.driver=secdriver.Secdriver()
+        cls.driver.driver.maximize_window()
+        cls.设置页冒烟实现=设置页冒烟实现(Secdriver=cls.driver)
+        cls.登录页=登录页面(Secdriver=cls.driver)
+        cls.登录页.短信快捷登录(手机号='18942178870')
+
+    @classmethod
+    def tearDown(cls):
+        cls.driver.quite()
+
+    @add_to_report
+    def test_01_新增生命周期(self):
+        '''
+        用例编号：
+        用例描述：
+                1、点击新增生命周期节点，生命周期节点列表中新增一行空白生命周期节点
+                2、点击生命周期节点行的编辑按钮，生命周期行进入编辑状态
+                3、点击生命周期节点行，点击删除按钮，生命周期行被删除
+                4、点击生命周期节点行，点击上移按钮，节点行上移一行，点击下移按钮，节点行下移一行
+        @author:彭亮
+        '''
+        self.设置页冒烟实现.创建生命周期()
+
+    @add_to_report
+    def test_02_升版设置(self):
+        '''
+        用例编号：
+        用例描述：
+                1、点击生命周期节点，右侧节点流程显示当前节点与上级节点的流程和当前节点与下级节点的流程
+                2、不选择跨节点，右侧节点流程中不出现跨节点流程，选择跨节点，右侧节点流程出现跨节点流程
+                3、设置升版流程，项目生命周期经过此流程时，项目进行升版
+        @author:彭亮
+        '''
+        self.设置页冒烟实现.升版设置()
+
+    @add_to_report
+    def test_03_编辑生命周期(self):
+        '''
+        用例编号：
+        用例描述：
+                1、选择生命周期后，点击编辑，进入编辑生命周期界面
+                2、点击新增生命周期节点，生命周期节点列表中新增一行空白生命周期节点
+                3、点击生命周期节点行的编辑按钮，生命周期行进入编辑状态
+                4、点击生命周期节点行，点击删除按钮，生命周期行被删除
+                5、点击生命周期节点行，点击上移按钮，节点行上移一行，点击下移按钮，节点行下移一行
+        @author:彭亮
+        '''
+        self.设置页冒烟实现.编辑生命周期()
+
+    @add_to_report
+    def test_04_编辑生命周期升版流程(self):
+        '''
+        用例编号：
+        用例描述：
+                1、不选择跨节点，右侧节点流程中不出现跨节点流程，选择跨节点，右侧节点流程出现跨节点流程
+                2、设置升版流程，项目生命周期经过此流程时，项目进行升版
+        @author:彭亮
+        '''
+        self.设置页冒烟实现.编辑生命周期升版流程()
+
+    @add_to_report
+    def test_05_编辑生命周期(self):
+        '''
+        用例编号：
+        用例描述：
+                1、择生命周期后，点击复制，进入复制生命周期界面
+                2、点击生命周期节点行的编辑按钮，生命周期行进入编辑状态
+                3、点击生命周期节点行，点击删除按钮，生命周期行被删除
+        @author:彭亮
+        '''
+        self.设置页冒烟实现.编辑生命周期()
+
+    @add_to_report
+    def test_06_复制生命周期升版流程(self):
+        '''
+        用例编号：
+        用例描述：
+                1、不选择跨节点，右侧节点流程中不出现跨节点流程，选择跨节点，右侧节点流程出现跨节点流程
+                2、设置升版流程，项目生命周期经过此流程时，项目进行升版
+        @author:彭亮
+        '''
+        self.设置页冒烟实现.复制生命周期升版流程()
+
+    @add_to_report
+    def test_07_删除生命周期(self):
+        '''
+        用例编号：
+        用例描述：
+                1、勾选单个生命周期，点击删除，弹出删除提示对话框
+                2、点击确定删除提示对话框，查看生命周期是否被删除
+                3、系统上面周期不可以被删除
+        @author:彭亮
+        '''
+        self.设置页冒烟实现.删除生命周期()
+
+    @add_to_report
+    def test_08_批量删除生命周期(self):
+        '''
+        用例编号：
+        用例描述：
+                1、勾选多个生命周期，点击删除，弹出删除提示对话框
+                2、当勾选的生命周期中含有系统生命周期时，删除按钮不可用
+                3、点击确定删除提示对话框，查看生命周期是否被删除
+        @author:彭亮
+        '''
+        self.设置页冒烟实现.批量删除生命周期()
+
+    @add_to_report
+    def test_09_设置默认生命周期(self):
+        '''
+        用例编号：
+        用例描述：
+                1、点击生命周期列表中的生命周期，生命周期节点列表显示改生命周期下的生命周期节点
+                2、点击对应的生命周期节点，节点流程列表显示该节点对应的节点流程
+                3、勾选生命周期列表，生命周期行的是否默认单选按钮，设置对应的生命周期为默认生命周期
+        @author:彭亮
+        '''
+        self.设置页冒烟实现.设置默认生命周期()
+
+    @add_to_report
+    def test_10_新增版次(self):
+        '''
+        用例编号：
+        用例描述：
+                1、添加、编辑、移动、删除版次节点
+        @author:彭亮
+        '''
+        self.设置页冒烟实现.新增版次()
+
+    @add_to_report
+    def test_11_编辑版次(self):
+        '''
+        用例编号：
+        用例描述：
+                1、选择版次后，点击编辑，进入编辑版次界面
+                2、添加、编辑、移动、删除版次节点
+        @author:彭亮
+        '''
+        self.设置页冒烟实现.编辑版次()
+
+    @add_to_report
+    def test_12_删除版次(self):
+        '''
+        用例编号：
+        用例描述：
+                1、勾选单个版次，点击删除，弹出删除提示对话框
+                2、系统版次不可以被删除
+        @author:彭亮
+        '''
+        self.设置页冒烟实现.删除版次()
+
+    @add_to_report
+    def test_13_批量删除版次(self):
+        '''
+        用例编号：
+        用例描述：
+                1、勾选多个版次，点击删除，弹出删除提示对话框
+                2、点击确定按钮，勾选的版次模板被删除
+        @author:彭亮
+        '''
+        self.设置页冒烟实现.批量删除版次()
+
+    @add_to_report
+    def test_14_设置默认版次(self):
+        '''
+        用例编号：
+        用例描述：
+                1、点击版次列表中的版次，版次明细列表显示该版次下的版次节点
+                2、勾选版次列表，版次行的是否默认单选按钮，设置对应的版次为默认版次
+        @author:彭亮
+        '''
+        self.设置页冒烟实现.设置默认版次()
+
+    @add_to_report
+    def test_15_属性系统管理(self):
+        '''
+        用例编号：
+        用例描述：
+                1、点击属性列表属性新增按钮，属性列表新增一行属性系统，属性系统处于编辑状态
+                2、点击属性系统，点击编辑按钮，被选中的属性系统处于编辑状态
+                3、删除系统、系统属性模板不能被删除
+        @author:彭亮
+        '''
+        self.设置页冒烟实现.属性系统管理()
+
+    @add_to_report
+    def test_16_添加属性(self):
+        '''
+        用例编号：
+        用例描述：
+                1、点击下载模板，属性模板可以正常下载
+                2、正确填写模板，使用导入属性，可以正常导入
+                3、属性列表中，点击删除属性行操作，出现属性删除提示框、属性删除提示框点击确定，属性被删除
+                4、点击添加属性，属性列表新增一行属性、编辑属性
+                5、批量删除属性
+        @author:彭亮
+        '''
+        self.设置页冒烟实现.添加属性()
