@@ -98,7 +98,15 @@ class 用户信息页面(page):
         if 邮编:
             self.clear(公共元素对象库.输入框.format("邮编"))
             self.send_keys(公共元素对象库.输入框.format("邮编"), 邮编)
-        self.click(用户信息对象库.账号信息对象库.保存)
+        flage = True
+        self.move_to_by_pyautogui(用户信息对象库.基本信息对象库.更改头像按钮, y_offset=0)
+        while (flage):
+            try:
+                flage = False
+                self.click(用户信息对象库.账号信息对象库.保存)
+            except:
+                flage = True
+                self.scroll_by_pyautogui(-5)
         self.wait(公共元素对象库.系统提示信息弹框.format("保存成功"), 3)
 
     def 更换头像(self,文件路径):

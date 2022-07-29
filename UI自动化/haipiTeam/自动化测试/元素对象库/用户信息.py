@@ -12,7 +12,7 @@ class 用户信息对象库:
         保存='//button/span[text()="保存"]'
 
     class 基本信息对象库:
-        更改头像按钮='//button[text()="更改头像"]'
+        更改头像按钮='//span[text()="更改头像"]'
         姓输入框='//label[text()="姓名"]/following-sibling::div//input[@placeholder="姓"]'
         名输入框='//label[text()="姓名"]/following-sibling::div//input[@placeholder="名"]'
 

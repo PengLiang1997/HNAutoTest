@@ -19,14 +19,15 @@ class 登录页冒烟实现(page):
 
     def 数据准备(self):
         # 注册账号1:18942178870 pw:user8870
-        self.登录页面.短信快捷登录(手机号='18942178870')
-        self.用户信息页面.进入账号信息页面()
-        self.用户信息页面.维护用户账号信息(用户名='user8870',用户密码='user8870')
-        #注册账号2:18942178871 pw:user0000
-        self.登录页面.退出登录()
-        self.登录页面.短信快捷登录(手机号='18942178871')
-        self.用户信息页面.进入账号信息页面()
-        self.用户信息页面.维护用户账号信息(用户名='user8871', 用户密码='user0000')
+        # self.登录页面.短信快捷登录(手机号='18942178870')
+        # self.用户信息页面.进入账号信息页面()
+        # self.用户信息页面.维护用户账号信息(用户名='user8870',用户密码='user8870')
+        # #注册账号2:18942178871 pw:user0000
+        # self.登录页面.退出登录()
+        # self.登录页面.短信快捷登录(手机号='18942178871')
+        # self.用户信息页面.进入账号信息页面()
+        # self.用户信息页面.维护用户账号信息(用户名='user8871', 用户密码='user0000')
+        pass
 
     def 短信快捷登录(self):
         self.default_content()
@@ -54,7 +55,7 @@ class 登录页冒烟实现(page):
         self.send_keys(登录页对象库.账号输入框, 'user8870')
         self.click(登录页对象库.密码输入框)
         self.clear(登录页对象库.密码输入框)
-        self.send_keys(登录页对象库.密码输入框,'user8870')
+        self.send_keys(登录页对象库.密码输入框,'user@8870')
         self.click(登录页对象库.登录按钮)
         self.default_content()
         self.滑块验证.滑块验证操作()
@@ -84,16 +85,16 @@ class 登录页冒烟实现(page):
         self.send_keys(登录页对象库.验证码输入框, '888888')
         self.click(登录页对象库.忘记密码对象库.重置密码按钮)
         self.clear(登录页对象库.忘记密码对象库.密码输入框)
-        self.send_keys(登录页对象库.忘记密码对象库.密码输入框,"user"+str(num))
+        self.send_keys(登录页对象库.忘记密码对象库.密码输入框,"user@"+str(num))
         self.clear(登录页对象库.忘记密码对象库.确认密码输入框)
-        self.send_keys(登录页对象库.忘记密码对象库.确认密码输入框, "user"+str(num))
+        self.send_keys(登录页对象库.忘记密码对象库.确认密码输入框, "user@"+str(num))
         self.click(登录页对象库.忘记密码对象库.提交按钮)
         self.default_content()
         self.wait(公共元素对象库.系统提示信息弹框.format("重置成功,请重新登录"), 30)
         self.clear(登录页对象库.账号输入框)
         self.send_keys(登录页对象库.账号输入框, 'user8871')
         self.clear(登录页对象库.密码输入框)
-        self.send_keys(登录页对象库.密码输入框, "user" + str(num))
+        self.send_keys(登录页对象库.密码输入框, "user@" + str(num))
         self.click(登录页对象库.登录按钮)
         self.default_content()
         self.滑块验证.滑块验证操作()
@@ -111,7 +112,6 @@ class 用户信息冒烟实现(page):
     def 数据准备(self):
         #创建用户18942178870 pw:user8870 name:user8870 绑定邮箱123456@qq.com
         self.登录页面.退出登录()
-        self.登录页面.短信快捷登录(手机号='18942178871')
         self.登录页面.忘记密码(手机号='18942178871',验证码='888888',新密码='user@8871')
 
     def 用户基本信息维护(self):
@@ -123,10 +123,6 @@ class 用户信息冒烟实现(page):
         time.sleep(3)
         self.clear(公共元素对象库.输入框.format("用户昵称"))
         self.send_keys(公共元素对象库.输入框.format("用户昵称"), "user8870")
-        self.click(用户信息对象库.账号信息对象库.保存)
-        # if not self.wait(公共元素对象库.系统提示信息弹框.format("保存成功"), 3):
-        #     raise AssertionError("输入用户名昵称点击保存，系统未出现提示信息")
-        # 点击下拉列表，点击可以选择对应的国家
         self.click(公共元素对象库.列表框.format("国家"))
         if not self.wait(公共元素对象库.列表框选项.format("中国"), 3):
             raise AssertionError("点击国家列表框，未发现对应的列表框选项")
@@ -154,7 +150,15 @@ class 用户信息冒烟实现(page):
         self.clear(公共元素对象库.输入框.format("邮编"))
         self.send_keys(公共元素对象库.输入框.format("邮编"), "123456")
         # 合法信息点击保存是否保存成功
-        self.click(用户信息对象库.账号信息对象库.保存)
+        flage = True
+        self.move_to_by_pyautogui(用户信息对象库.基本信息对象库.更改头像按钮, y_offset=0)
+        while (flage):
+            try:
+                flage = False
+                self.click(用户信息对象库.账号信息对象库.保存)
+            except:
+                flage = True
+                self.scroll_by_pyautogui(-5)
         if not self.wait(公共元素对象库.系统提示信息弹框.format("保存成功"), 3):
             raise AssertionError("当用户信息输入合法时点击保存，系统未出现保存成功提示信息")
 
@@ -168,11 +172,14 @@ class 用户信息冒烟实现(page):
         if not self.wait(对话框对象库.弹框标题.format('修改密码'),3):
             raise AssertionError("点击修改密码按钮，未弹出修改密码弹窗")
         self.send_keys(公共元素对象库.输入框.format("当前密码"),'user@8871')
-        self.send_keys(公共元素对象库.输入框.format("当前密码"), 'user@8888')
-        self.send_keys(公共元素对象库.输入框.format("当前密码"), 'user@8888')
+        self.send_keys(公共元素对象库.输入框.format("新密码"), 'user@8888')
+        self.send_keys(公共元素对象库.输入框.format("确认密码"), 'user@8888')
         self.click(对话框对象库.对话框按钮.format("修改密码","保存"))
-        if not self.wait(公共元素对象库.系统提示信息弹框.format("重置成功,请重新登录"),3):
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("保存成功"),3):
             raise AssertionError("修改密成功后未出现提示信息")
+        self.登录页面.退出登录()
+        self.default_content()
+        self.click(登录页对象库.账号密码登录)
         #使用手机号
         self.send_keys(登录页对象库.账号输入框, "18942178871")
         self.click(登录页对象库.密码输入框)
@@ -226,6 +233,15 @@ class 项目页冒烟实现(page):
 
 
     def 数据准备(self):
+        self.项目管理页面.删除所有项目()
+        self.登录页面.退出登录()
+        self.登录页面.短信快捷登录(手机号='18942178871')
+        self.用户信息页面.进入基本信息页面()
+        self.用户信息页面.维护用户基本信息(用户昵称='18942178871')
+        self.登录页面.退出登录()
+        self.登录页面.短信快捷登录(手机号='18942178870')
+        self.用户信息页面.进入基本信息页面()
+        self.用户信息页面.维护用户基本信息(用户昵称='18942178870')
         self.进入到操作位置.进入生命周期工作区()
         self.生命周期管理页面.删除生命周期('生命周期')
         self.生命周期管理页面.删除生命周期('切换生命周期')
@@ -301,6 +317,8 @@ class 项目页冒烟实现(page):
         self.click(项目管理对象库.添加项目成员)
         if not self.wait(对话框对象库.弹框标题.format("项目协作"),3):
             raise AssertionError("点击添加项目成员，项目协作弹框未出现")
+        self.click(公共元素对象库.列表框.format("角色"))
+        self.公共操作.滚动选择列表框选项(选项名称="INDIVIDUAL ADMINISTRATOR")
         self.click(对话框对象库.弹框按钮.format("项目协作","复制链接"))
         self.click(对话框对象库.关闭弹框.format("项目协作"))
         链接=self.公共操作.获取剪切板内容()
@@ -358,8 +376,8 @@ class 项目页冒烟实现(page):
         self.click(项目管理对象库.更多操作选项.format("项目动态"))
         if not self.wait(项目管理对象库.项目动态页.项目动态页标题,3):
             raise AssertionError("点击项目动态未跳转到项目动态页面")
-        if not self.wait(项目管理对象库.项目动态页.操作2.format("18942178870","创建了"),3) or not \
-                self.wait(项目管理对象库.项目动态页.操作2.format("18942178870","邀请了"),3):
+        if not self.wait(项目管理对象库.项目动态页.操作1.format("18942178870 创建了"),3) or not \
+                self.wait(项目管理对象库.项目动态页.操作1.format("18942178870 邀请了"),3):
             raise AssertionError("项目动态内容显示有误")
 
     def 存为模板(self):
@@ -430,6 +448,7 @@ class 项目页冒烟实现(page):
         self.send_keys(公共元素对象库.输入框.format("项目名称"), "更改项目名称")
         self.clear(公共元素对象库.文本框.format("项目简介"))
         self.send_keys(公共元素对象库.文本框.format("项目简介"), "项目简介")
+        self.click(项目设置页面.项目成员tab页)
         self.进入到操作位置.进入项目管理页()
         self.wait(公共元素对象库.系统提示信息弹框.format("修改成功"), 3)
         if not self.wait(项目管理对象库.项目卡片.format("更改项目名称"), 3):
@@ -553,10 +572,10 @@ class 项目页冒烟实现(page):
         self.click(项目管理对象库.更多操作按钮.format("切换版次"))
         self.click(项目管理对象库.更多操作选项.format("项目设置"))
         self.click(公共元素对象库.列表框.format("版次"))
+        self.公共操作.滚动选择列表框选项(选项名称='切换版次')
         # 修改版次预览弹窗列表显示当前与使用版次和变更后对应版次的信息
         if not self.wait('//div[text()="A"]/ancestor::tr/td[last()]/div[text()="E"]', 3):
             raise AssertionError("修改版次弹框显示版次变更选项不正确")
-        self.公共操作.滚动选择列表框选项(选项名称='切换版次')
         self.wait(对话框对象库.弹框标题.format("修改版次预览"), 3)
         self.click(对话框对象库.弹框按钮.format("修改版次预览", "确定"))
         self.click(公共元素对象库.列表框.format("版次"))
@@ -565,14 +584,14 @@ class 项目页冒烟实现(page):
 
     def 切换属性(self):
         self.进入到操作位置.进入设置页()
-        self.进入到操作位置.进入版次工作区()
+        self.进入到操作位置.进入属性工作区()
         版次lists = []
         elements = self.driver.getelements("//table//tr/td[2]//span[1]")
         for element in elements:
             版次lists.append(element.text)
         self.进入到操作位置.进入项目管理页()
         self.项目管理页面.删除项目(项目名称="切换属性")
-        self.项目管理页面.创建空白项目(项目名称="切换属性", 版次名称='切换属性')
+        self.项目管理页面.创建空白项目(项目名称="切换属性", 属性名称='切换属性')
         # 点击版次下拉列表，列表显示所有的版次模板，选择对应的版次
         self.click(项目管理对象库.更多操作按钮.format("切换属性"))
         self.click(项目管理对象库.更多操作选项.format("项目设置"))
@@ -684,8 +703,6 @@ class 项目页冒烟实现(page):
         if not self.wait(项目设置页面.未选_成员复选框.format('18942178871'), 3):
             raise AssertionError("选择人员弹框中，未被选择的成员处于不可用状态")
         # 勾选列表中的成员，点击确定，可以在节点的成员列表中查看到新添加的成员
-        self.click(项目设置页面.添加人员按钮)
-        self.wait(对话框对象库.弹框标题.format("选择人员"), 3)
         self.click(项目设置页面.未选_成员复选框.format('18942178871'))
         self.click(对话框对象库.弹框按钮.format("选择人员", "确定"))
         if not self.wait(项目设置页面.节点下成员.format('18942178871'), 3):
@@ -777,17 +794,15 @@ class 项目页冒烟实现(page):
                 or not self.wait(项目对象库.子节点.format("一级目录","二级目录"),3):
             raise AssertionError("未查看到创建的文件目录，或文件目录的父子关系不正确")
         self.进入到操作位置.进入项目管理页()
-        #点击项目名称，进入项目页面，资源树默认全部展开
-        self.项目管理页面.点击进入项目(项目名称="创建文件目录")
-        if self.wait(项目对象库.节点展开按钮.format("一级目录"),3):
-            raise AssertionError("点击项目名称，进入项目页面，资源树默认全部展开")
         #点击展开和收缩各级资源节点，资源节点可以被正常展开和收缩
-        self.click(项目对象库.节点收起按钮.format("一级目录"))
-        if self.wait(项目对象库.目录节点.format("二级目录"),3):
-            raise AssertionError("点击目录收起按钮，目录未被正常收起")
+        self.项目管理页面.点击进入项目(项目名称="创建文件目录")
         self.click(项目对象库.节点展开按钮.format("一级目录"))
         if not self.wait(项目对象库.目录节点.format("二级目录"), 3):
             raise AssertionError("节点展开按钮，目录未被正常展开")
+        self.click(项目对象库.节点收起按钮.format("一级目录"))
+        if self.wait(项目对象库.目录节点.format("二级目录"),3):
+            raise AssertionError("点击目录收起按钮，目录未被正常收起")
+
 
     def 上传单个文件(self):
         self.进入到操作位置.进入项目管理页()
@@ -867,12 +882,12 @@ class 项目页冒烟实现(page):
         self.项目页面.创建文件目录(目录名称="二级目录", 目录父节点名称="一级目录")
         self.click(项目对象库.目录节点.format("一级目录"))
         titles=[]
-        mxpath='//div[contains(@class,"el-table--border")]//table[@class="el-table__header"]//tr/th'
+        mxpath='//div[contains(@class,"header-wrapper")]//table[@class="vxe-table--header"]//tr/th'
         elements=self.driver.getelements(mxpath)
         for element in elements:
             if element.text!="":
                 titles.append(element.text)
-        基准数据=['文件名称','作者', '创建时间', '版本', '版次']
+        基准数据=['文件名称','文件类型','文件大小','作者', '创建时间', '版本', '版次','生命周期状态','检出人','检出时间','检入人','检入时间','备注','操作']
         if titles!=基准数据:
            raise AssertionError(f"列表默认显示列错误,基准数据为：{基准数据}，页面数据为：{titles}")
 
@@ -907,18 +922,24 @@ class 项目页冒烟实现(page):
         self.项目页面.批量上传文件(目录路径=['收藏资源', '一级目录'], 文件路径列表=[['TestData', 'FrontData', '项目页', '素材1.png'],
                                                         ['TestData', 'FrontData', '项目页', '素材2.jpg']])
         # 点击资源行操作的收藏按钮，可以对文件或文件目录收藏成功
-        序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]',
-                                   文件名称='素材1.png')
-        self.click(项目对象库.未选_悬浮列收藏.format(序号))
+        # 序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]',
+        #                            文件名称='素材1.png')
+        # self.click(项目对象库.未选_悬浮列收藏.format(序号))
+        self.click(项目对象库.未收藏按钮.format("素材1.png"))
         self.wait(公共元素对象库.系统提示信息弹框.format("收藏成功"))
-        if not self.wait(项目对象库.已选_悬浮列收藏.format(序号), 3):
+        # if not self.wait(项目对象库.已选_悬浮列收藏.format(序号), 3):
+        #     raise AssertionError("点击收藏文件成功后，文件的收藏按钮未被点亮")
+        if not self.wait(项目对象库.收藏按钮.format("素材1.png"), 3):
+             raise AssertionError("点击收藏文件成功后，文件的收藏按钮未被点亮")
+        # 序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]',
+        #                            文件名称='二级目录')
+        # self.click(项目对象库.未选_悬浮列收藏.format(序号))
+        self.click(项目对象库.未收藏按钮.format("二级目录"))
+        self.wait(公共元素对象库.系统提示信息弹框.format("收藏成功"))
+        # if not self.wait(项目对象库.已选_悬浮列收藏.format(序号), 3):
+        #     raise AssertionError("点击收藏目录成功后，目录的收藏按钮未被点亮")
+        if not self.wait(项目对象库.未收藏按钮.format("二级目录"), 3):
             raise AssertionError("点击收藏文件成功后，文件的收藏按钮未被点亮")
-        序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]',
-                                   文件名称='二级目录')
-        self.click(项目对象库.未选_悬浮列收藏.format(序号))
-        self.wait(公共元素对象库.系统提示信息弹框.format("收藏成功"))
-        if not self.wait(项目对象库.已选_悬浮列收藏.format(序号), 3):
-            raise AssertionError("点击收藏目录成功后，目录的收藏按钮未被点亮")
         self.进入到操作位置.进入收藏页()
         if not self.wait(收藏对象库.资源类型.format("素材1.png", "收藏资源"), 3):
             raise AssertionError("点击文件行操作的收藏按钮，文件没有被收藏")
@@ -926,17 +947,21 @@ class 项目页冒烟实现(page):
             raise AssertionError("点击目录行操作的收藏按钮，文件没有被收藏")
         # 点击资源行操作的收藏按钮，可以对文件或文件目录取消收藏成功
         self.click(收藏对象库.查看收藏按钮.format("二级目录"))
-        序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]',
-                                   文件名称='素材1.png')
-        self.click(项目对象库.已选_悬浮列收藏.format(序号))
+        # 序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]',
+        #                            文件名称='素材1.png')
+        # self.click(项目对象库.已选_悬浮列收藏.format(序号))
+        self.click(项目对象库.收藏按钮.format("素材1.png"))
         self.wait(公共元素对象库.系统提示信息弹框.format("取消收藏成功"))
-        if not self.wait(项目对象库.未选_悬浮列收藏.format(序号)):
+        if not self.wait(项目对象库.未收藏按钮.format("素材1.png"),3):
             raise AssertionError("文件取消收藏操作成功后，收藏按钮仍是点亮状态")
-        序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]',
-                                   文件名称='二级目录')
-        self.click(项目对象库.已选_悬浮列收藏.format(序号))
+        # 序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]',
+        #                            文件名称='二级目录')
+        self.click(项目对象库.收藏按钮.format("二级目录"))
+        # self.click(项目对象库.已选_悬浮列收藏.format(序号))
         self.wait(公共元素对象库.系统提示信息弹框.format("取消收藏成功"))
-        if not self.wait(项目对象库.未选_悬浮列收藏.format(序号)):
+        # if not self.wait(项目对象库.未选_悬浮列收藏.format(序号)):
+        #     raise AssertionError("目录取消收藏操作成功后，收藏按钮仍是点亮状态")
+        if not self.wait(项目对象库.未收藏按钮.format("二级目录")):
             raise AssertionError("目录取消收藏操作成功后，收藏按钮仍是点亮状态")
         self.进入到操作位置.进入收藏页()
         if self.wait(收藏对象库.资源类型.format("素材1.png", "收藏资源"), 3):
@@ -1253,7 +1278,7 @@ class 项目页冒烟实现(page):
         self.click(项目对象库.列表复选框.format('素材1.png'))
         self.click(项目对象库.列表复选框.format('素材2.jpg'))
         self.click(项目对象库.工具栏按钮.format('检出'))
-        if not self.wait(公共元素对象库.系统提示信息弹框.format("检出成功"), 3):
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("成功"), 3):
             raise AssertionError("对文件进行批量检出操作，未查看到系统提示信息")
         if not self.wait(项目对象库.检出按钮.format('素材1.png'), 3) or not \
                 self.wait(项目对象库.检出按钮.format('素材2.jpg'), 3):
@@ -1481,6 +1506,9 @@ class 设置页冒烟实现(page):
         self.项目管理页面 = 项目管理页面(Secdriver=Secdriver)
         self.进入到操作位置 = 进入到操作位置(Secdriver=Secdriver)
 
+    def 数据准备(self):
+        self.项目管理页面.删除所有项目()
+
     def 创建生命周期(self):
         self.进入到操作位置.进入生命周期工作区()
         self.生命周期管理页面.删除生命周期(生命周期名称='创建生命周期')
@@ -1530,6 +1558,8 @@ class 设置页冒烟实现(page):
             raise AssertionError("创建生命周期时点击确定，生命周期未被保存")
 
     def 升版设置(self):
+        self.进入到操作位置.进入项目管理页()
+        self.项目管理页面.删除项目(项目名称="升版测试")
         self.进入到操作位置.进入生命周期工作区()
         self.生命周期管理页面.删除生命周期('升版周期升版测试')
         self.click(设置页对象库.生命周期管理工作区.新增)
@@ -1564,8 +1594,7 @@ class 设置页冒烟实现(page):
         self.click(设置页对象库.生命周期管理工作区.节点流程单选启用按钮.format("11", "22"))
         self.click(对话框对象库.弹框按钮.format("新增生命周期", "确定"))
         self.进入到操作位置.进入项目管理页()
-        self.项目管理页面.删除项目(项目名称="升版测试")
-        self.项目管理页面.创建空白项目(项目名称="升版测试", 生命周期名称="test2")
+        self.项目管理页面.创建空白项目(项目名称="升版测试", 生命周期名称="升版周期升版测试")
         self.项目管理页面.点击进入项目(项目名称="升版测试")
         self.项目页面.上传单个文件(目录路径=['升版测试'], 文件路径=['TestData', 'FrontData', '项目页', '检入检出素材.txt'])
         self.项目页面.改变文件状态(目录路径=['升版测试'], 文件名='检入检出素材.txt', 状态名称='22')
@@ -1599,7 +1628,6 @@ class 设置页冒烟实现(page):
         self.click(公共元素对象库.输入框.format("名称"))
         self.clear_by_key(公共元素对象库.输入框.format("名称"))
         self.send_keys(公共元素对象库.输入框.format("名称"),"编辑生命周期")
-        self.click(对话框对象库.弹框按钮.format("编辑生命周期", "确定"))
         # 点击新增生命周期节点，生命周期节点列表中新增一行空白生命周期节点
         self.click(设置页对象库.生命周期管理工作区.添加生命周期节点)
         if not self.wait(设置页对象库.生命周期管理工作区.生命周期节点名称输入框, 3):
@@ -1629,7 +1657,7 @@ class 设置页冒烟实现(page):
         text = self.driver.getelement('//div[text()="生命周期节点"]/following-sibling::div//tr[1]/td[1]//span').text
         if text != "11":
             raise AssertionError("点击上移生命周期节点，但是生命周期节点并未上移")
-        self.click(对话框对象库.弹框按钮.format("新增生命周期", "确定"))
+        self.click(对话框对象库.弹框按钮.format("编辑生命周期", "确定"))
         self.wait(公共元素对象库.系统提示信息弹框.format("添加成功"), 3)
         if not self.wait(设置页对象库.生命周期管理工作区.生命周期名称.format("编辑生命周期"), 3):
             raise AssertionError("编辑生命周期时点击确定，生命周期未被保存")
@@ -1671,9 +1699,10 @@ class 设置页冒烟实现(page):
         if self.wait(设置页对象库.生命周期管理工作区.开始节点和结束节点.format("22", "44"), 3):
             raise AssertionError("点击查看节点流程，不勾选是否跨节点按钮，但是却显示跨节点流程")
         # # 设置升版流程，项目生命周期经过此流程时，项目进行升版
+        self.click(公共元素对象库.单选按钮.format("是否跨节点"))
         self.click(设置页对象库.生命周期管理工作区.生命周期节点名称.format("11"))
         self.click(设置页对象库.生命周期管理工作区.节点流程单选启用按钮.format("11", "44"))
-        self.click(对话框对象库.弹框按钮.format("编辑生命周期", "取消"))
+        self.click(对话框对象库.弹框按钮.format("编辑生命周期", "确定"))
         self.进入到操作位置.进入项目管理页()
         self.项目管理页面.创建空白项目(项目名称="升版测试", 生命周期名称="test3")
         self.项目管理页面.点击进入项目(项目名称="升版测试")
@@ -1851,7 +1880,7 @@ class 设置页冒烟实现(page):
             raise AssertionError("勾选多个生命周期，点击删除，系统未弹出删除确认对话框")
         self.click(对话框对象库.关闭对话框.format("提示"))
         # 当勾选的生命周期中含有系统生命周期时，删除按钮不可用
-        self.click(设置页对象库.生命周期管理工作区.生命周期列表复选框.format("系统默认生命周期"))
+        self.click(设置页对象库.生命周期管理工作区.生命周期列表复选框.format("系统"))
         if not self.wait('//div[@class="life_cycle_btns comm_bgc"]//button[@disabled="disabled"]/span[text()="删除"]', 3):
             raise AssertionError("当勾选的生命周期中含有系统生命周期时，删除按钮应该不可用")
         # 点击确定删除提示对话框，查看生命周期是否被删除
@@ -1951,7 +1980,7 @@ class 设置页冒烟实现(page):
         #删除节点
         self.click(设置页对象库.版次管理工作区.版次内容.format("A"))
         self.click(设置页对象库.版次管理工作区.删除版次节点)
-        if not self.wait(设置页对象库.版次管理工作区.版次内容.format("A"),3):
+        if self.wait(设置页对象库.版次管理工作区.版次内容.format("A"),3):
             raise AssertionError("删除版次节点失败")
         self.click(对话框对象库.弹框按钮.format("新增", "确定"))
         self.wait(公共元素对象库.系统提示信息弹框.format("添加成功"))
@@ -1989,7 +2018,7 @@ class 设置页冒烟实现(page):
         # 移动版次节点
         self.click(设置页对象库.版次管理工作区.版次内容.format("A"))
         self.click(设置页对象库.版次管理工作区.下移版次节点)
-        index1 = self.driver.getelement('//tr/td//span[text()="A"]/ancestor::tr/td[1]/div/div').text
+        index1 = self.driver.getelement('//div[@aria-label="编辑"]//tr/td//span[text()="A"]/ancestor::tr/td[1]/div/div').text
         if index1 == '1':
             raise AssertionError("对版次节点进行下移操作，版次节点并未下移")
         self.click(设置页对象库.版次管理工作区.版次内容.format("A"))
@@ -2009,13 +2038,13 @@ class 设置页冒烟实现(page):
         # 删除节点
         self.click(设置页对象库.版次管理工作区.版次内容.format("A"))
         self.click(设置页对象库.版次管理工作区.删除版次节点)
-        if not self.wait(设置页对象库.版次管理工作区.版次内容.format("A"), 3):
+        if self.wait(设置页对象库.版次管理工作区.版次内容.format("A"), 3):
             raise AssertionError("删除版次节点失败")
-        self.click(对话框对象库.弹框按钮.format("新增", "确定"))
+        self.click(对话框对象库.弹框按钮.format("编辑", "确定"))
         self.wait(公共元素对象库.系统提示信息弹框.format("添加成功"))
-        if not self.wait(设置页对象库.版次管理工作区.版次名称.format("test"), 3):
+        if not self.wait(设置页对象库.版次管理工作区.版次名称.format("编辑版次"), 3):
             raise AssertionError("编辑版次时，点击确定保存按钮，新增的版次未被保存")
-        self.click(设置页对象库.版次管理工作区.版次名称.format("test"))
+        self.click(设置页对象库.版次管理工作区.版次名称.format("编辑版次"))
         if not self.wait(设置页对象库.版次管理工作区.版次明细节点.format("C"), 3):
             raise AssertionError("点击版次后，版次明细未显示版次节点")
 
@@ -2078,11 +2107,15 @@ class 设置页冒烟实现(page):
             raise AssertionError("点击确定删除确认对话框，被选择的版次未被删除")
 
     def 设置默认版次(self):
+        self.进入到操作位置.进入项目管理页()
+        self.项目管理页面.删除项目(项目名称="默认版次")
+        self.项目管理页面.删除项目(项目名称="默认生命周期")
         self.进入到操作位置.进入版次工作区()
-        self.版次管理页面.删除版次(版次名称='test2')
+        self.click(设置页对象库.版次管理工作区.是否默认单选框.format("系统"))
+        self.版次管理页面.删除版次(版次名称='设置默认版次')
         self.click(设置页对象库.版次管理工作区.新增)
         self.wait(对话框对象库.弹框标题.format("新增"), 3)
-        self.send_keys(公共元素对象库.输入框.format("名称"), "test2")
+        self.send_keys(公共元素对象库.输入框.format("名称"), "设置默认版次")
         self.click(设置页对象库.版次管理工作区.添加版次节点)
         self.wait(设置页对象库.版次管理工作区.版次内容输入框, 3)
         self.send_keys(设置页对象库.版次管理工作区.版次内容输入框, "A")
@@ -2094,14 +2127,13 @@ class 设置页冒烟实现(page):
         self.click(对话框对象库.弹框按钮.format("新增", "确定"))
         self.wait(公共元素对象库.系统提示信息弹框.format("添加成功"), 3)
         # 点击版次列表中的版次，版次明细列表显示该版次下的版次节点
-        self.click(设置页对象库.版次管理工作区.版次名称.format("test2"))
+        self.click(设置页对象库.版次管理工作区.版次名称.format("设置默认版次"))
         if not self.wait(设置页对象库.版次管理工作区.版次明细节点.format("A"), 3) or \
                 not self.wait(设置页对象库.版次管理工作区.版次明细节点.format("B"), 3):
             raise AssertionError("点击版次，版次明细中未显示该版次下的所有版次节点")
         # 勾选版次列表，版次行的是否默认单选按钮，设置对应的版次为默认版次
-        self.click(设置页对象库.版次管理工作区.是否默认单选框.format("test2"))
+        self.click(设置页对象库.版次管理工作区.是否默认单选框.format("设置默认版次"))
         self.进入到操作位置.进入项目管理页()
-        self.项目管理页面.删除项目(项目名称="默认版次")
         self.click(项目管理对象库.创建新项目)
         self.wait(创建项目页面.页面名称, 3)
         self.click(创建项目页面.创建空白项目)
@@ -2112,8 +2144,8 @@ class 设置页冒烟实现(page):
         self.default_content()
         self.wait(项目设置页面.项目成员tab页, 3)
         self.click(公共元素对象库.列表框.format("版次"))
-        if not self.wait('//ul/li[contains(@class,"dropdown__item selected")]/span[text()="test2"]', 3):
-            raise AssertionError("设置test2为默认版次，创建新项目，项目的版次未默认选择test2")
+        if not self.wait('//ul/li[contains(@class,"dropdown__item selected")]/span[text()="设置默认版次"]', 3):
+            raise AssertionError("设置test2为默认版次，创建新项目，项目的版次未默认选择设置默认版次")
 
 
     def 属性系统管理(self):
@@ -2164,7 +2196,8 @@ class 设置页冒烟实现(page):
                 self.wait(设置页对象库.属性管理工作区.属性系统名称.format("test4"), 3):
             raise AssertionError("点击确定删除确认对话框，属性系统未被删除")
         #系统属性模板不能被删除
-        if self.wait(设置页对象库.属性管理工作区.禁用_属性系统复选框.format("系统"),3):
+        self.move_to_element(设置页对象库.属性管理工作区.属性系统复选框.format("系统"))
+        if not self.wait(设置页对象库.属性管理工作区.禁用_属性系统复选框.format("系统"),3):
             raise AssertionError("系统模板属性可以进行删除操作")
 
     def 添加属性(self):
@@ -2211,15 +2244,16 @@ class 设置页冒烟实现(page):
         self.send_keys(设置页对象库.属性管理工作区.属性类别输入框.format("1"), 'test1')
         self.send_keys(设置页对象库.属性管理工作区.属性名称输入框.format("1"), 'test1')
         self.click(设置页对象库.属性管理工作区.行保存按钮.format("1"))
-        self.click(设置页对象库.属性管理工作区.属性系统名称.format("系统默认属性"))
+        self.driver.refrsh()
+        self.进入到操作位置.进入属性工作区()
         self.click(设置页对象库.属性管理工作区.属性系统名称.format("test"))
         if not self.wait('//div[@class="el-card__body"]//table[@class="el-table__body"]//tr[1]/td[3]//span[text()="test1"]',3):
             raise AssertionError("编辑属性时，点击保存，属性信息被保存")
         #批量删除属性
         self.click(设置页对象库.属性管理工作区.添加属性)
-        self.send_keys(设置页对象库.属性管理工作区.属性类别输入框.format("1"), '属性2')
-        self.send_keys(设置页对象库.属性管理工作区.属性名称输入框.format("1"), '属性2')
-        self.click(设置页对象库.属性管理工作区.行保存按钮.format("1"))
+        self.send_keys(设置页对象库.属性管理工作区.属性类别输入框.format("2"), '属性2')
+        self.send_keys(设置页对象库.属性管理工作区.属性名称输入框.format("2"), '属性2')
+        self.click(设置页对象库.属性管理工作区.行保存按钮.format("2"))
         self.wait(公共元素对象库.系统提示信息弹框.format("添加成功"), 3)
         self.click(设置页对象库.属性管理工作区.属性行复选框.format("1"))
         self.click(设置页对象库.属性管理工作区.属性行复选框.format("2"))

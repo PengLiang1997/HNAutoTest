@@ -58,14 +58,7 @@ class 项目管理页面(page):
             self.send_keys(公共元素对象库.输入框.format("标题"),标题)
         if 角色:
             self.click(公共元素对象库.列表框.format("角色"))
-            flage = True
-            while (flage):
-                try:
-                    flage = False
-                    self.click(公共元素对象库.列表框选项.format(角色))
-                except:
-                    flage = True
-                    self.scroll_by_pyautogui(-5)
+            self.公共操作.滚动选择列表框选项(选项名称=角色)
         if 有效期:
             self.click(公共元素对象库.单选按钮.format(有效期))
         if 链接:
@@ -115,6 +108,15 @@ class 项目管理页面(page):
             self.wait(对话框对象库.对话框标题.format("提示"),3)
             self.click(对话框对象库.对话框按钮.format("提示","确定"))
             self.wait(公共元素对象库.系统提示信息弹框.format("删除"),3)
+
+    def 删除所有项目(self):
+        names=[]
+        elems=self.driver.getelements('//div[@class="project_box"]//span[@class="project_name"]')
+        for elem in elems:
+            names.append(elem.text)
+        if len(names)!=0:
+            for name in names:
+                self.删除项目(项目名称=name)
 
     def 查看项目动态(self,项目名称):
         self.click(项目管理对象库.更多操作按钮.format(项目名称))

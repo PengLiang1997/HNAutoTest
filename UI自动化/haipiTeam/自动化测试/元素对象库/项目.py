@@ -33,7 +33,7 @@ class 项目对象库:
     搜索按钮='//div[@class="search_box"]/i[contains(@class,"sousuo")]'
     新建目录 = '//div[@id="pTableHeader"]/div[@class="pBtnGroup"]//span[text()="新建"]'
     上传 = '//div[@id="pTableHeader"]/div[@class="pBtnGroup"]//span[text()="上传"]'
-    目录节点='//div[@role="treeitem"]//span[contains(@title,"{}")]'#参数为目录名称
+    目录节点='//div[@role="treeitem"]//span[@title="{}"]'#参数为目录名称
     节点收起按钮='//div[@role="treeitem"]//span[contains(@title,"{}")]/preceding-sibling::span[contains(@class,"expanded")]'
     节点展开按钮='//div[@role="treeitem"]//span[contains(@title,"{}")]/preceding-sibling::span[not( contains(@class,"expanded"))]'
     子节点='//span[contains(@title,"{}")]/parent::div/following-sibling::div//span[contains(@title,"{}")]'#参数1为父节点，参数2为子节点
@@ -62,9 +62,10 @@ class 项目对象库:
     列表复选框 = '//table//tr/td[2 or 3]//span[text()="{}"]/ancestor::tr/td[1]//span'
     检出按钮='//table//tr/td[2 or 3]//span[text()="{}"]/ancestor::tr/td[2]//i[@class="iconfont icon-correct" or @class="el-icon-lock"]'
     列表文件名称='//table//tr/td[2 or 3]//span[text()="{}"]'#参数为文件名称
-    生命周期状态='//table//tr/td[2 or 3]//span[text()="{}"]/ancestor::tr/td[10]//span'
+    生命周期状态='//table//tr/td[2 or 3]//span[text()="{}"]/ancestor::tr/td[11]//span'
     文件状态='//table//tr/td[2 or 3]//span[text()="{}"]/ancestor::tr/td[5]//span'
-    收藏按钮='//table//tr/td[2 or 3]//span[text()="{}"]/ancestor::td/following-sibling::td[last()]/div/div/i'
+    收藏按钮='//table//tr/td[2 or 3]//span[text()="{}"]/ancestor::td/following-sibling::td[last()]/div/div/i[contains(@class,"shoucang-yellow")]'
+    未收藏按钮='//table//tr/td[2 or 3]//span[text()="{}"]/ancestor::td/following-sibling::td[last()]/div/div/i[contains(@class,"icon-shoucang1")]'
     列表行操作='//table//tr/td[2 or 3]//span[text()="{}"]/ancestor::td/following-sibling::td[last()]//span/i'#参数为文件名称
     列表文件序号='//table//tr/td[2 or 3]//span[text()="{}"]/ancestor::tr'#参数为文件名称
     悬浮列行操作='//table//tr[{}]//i[contains(@class,"icon-index_more")]'#参数为行号

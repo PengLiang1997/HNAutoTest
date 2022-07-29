@@ -7,7 +7,7 @@ from 自动化测试.基础操作.登录页面 import *
 class Test_登录页冒烟(TestCaseSec):
     @classmethod
     def setUp(cls):
-        cls.driver=secdriver.Secdriver(url='http://192.168.1.88/?#/login')
+        cls.driver=secdriver.Secdriver()
         cls.driver.driver.maximize_window()
         cls.登录页冒烟实现=登录页冒烟实现(Secdriver=cls.driver)
 
@@ -482,6 +482,16 @@ class Test_设置页冒烟(TestCaseSec):
     @classmethod
     def tearDown(cls):
         cls.driver.quite()
+
+    @add_to_report
+    def test_00_数据准备(self):
+        '''
+        用例编号：
+        用例描述：
+                1、
+        @author:彭亮
+        '''
+        self.设置页冒烟实现.数据准备()
 
     @add_to_report
     def test_01_新增生命周期(self):

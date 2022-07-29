@@ -14,7 +14,7 @@ class 对话框对象库:
     关闭对话框 = '//span[text()="{}"]/parent::div/following-sibling::button'
     对话框内容 = '//span[text()="{}"]/ancestor::div/following-sibling::div//p[contains(text(),"{}")]'
     对话框按钮 = '//span[text()="{}"]/ancestor::div/following-sibling::div//button/span[contains(text(),"{}")]'
-    对话框按钮2='//span[text()="{}"]/following-sibling::div//button/span[contains(text(),"{}")]'
+    对话框按钮2='//span[contains(text(),"{}")]/following-sibling::div//button/span[contains(text(),"{}")]'
 
     弹框标题='//div[@class="el-dialog__header"]/span[text()="{}"]'
     弹框按钮='//span[text()="{}"]/ancestor::div/following-sibling::div//button/span[contains(text(),"{}")]'

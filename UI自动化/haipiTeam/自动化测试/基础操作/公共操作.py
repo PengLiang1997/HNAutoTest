@@ -110,7 +110,8 @@ class 公共操作(page):
     def 滚动选择列表框选项(self,选项名称):
         flage = True
         选项list=self.driver.getelements('//ul/li[contains(@class,"dropdown__item")]/span')
-        self.move_to_by_pyautogui(公共元素对象库.列表框选项.format(选项list[0].text), y_offset=50)
+        self.move_to_by_pyautogui(公共元素对象库.列表框选项.format(选项list[0].text), y_offset=80)
+        time1=time.time()
         while (flage):
             try:
                 flage = False
@@ -118,3 +119,6 @@ class 公共操作(page):
             except:
                 flage = True
                 self.scroll_by_pyautogui(-5)
+            time2=time.time()
+            if time2-time1>300:
+                raise RuntimeError("操作超时")
