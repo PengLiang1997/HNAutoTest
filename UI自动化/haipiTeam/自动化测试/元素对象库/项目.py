@@ -31,8 +31,8 @@ class 项目管理对象库:
 class 项目对象库:
     搜索框='//div[@class="search_box"]//input[@placeholder="搜索目录或文件"]'
     搜索按钮='//div[@class="search_box"]/i[contains(@class,"sousuo")]'
-    新建目录 = '//div[@id="pTableHeader"]/div[@class="pBtnGroup"]//span[text()="新建"]'
-    上传 = '//div[@id="pTableHeader"]/div[@class="pBtnGroup"]//span[text()="上传"]'
+    新建目录 = '//div[@id="pTableHeader"]/div[@class="pBtnGroup"]//span[text()="新建目录"]'
+    上传 = '//div[@id="pTableHeader"]/div[@class="pBtnGroup"]//span[text()="上传文件"]'
     目录节点='//div[@role="treeitem"]//span[@title="{}"]'#参数为目录名称
     节点收起按钮='//div[@role="treeitem"]//span[contains(@title,"{}")]/preceding-sibling::span[contains(@class,"expanded")]'
     节点展开按钮='//div[@role="treeitem"]//span[contains(@title,"{}")]/preceding-sibling::span[not( contains(@class,"expanded"))]'
@@ -70,8 +70,8 @@ class 项目对象库:
     列表文件序号='//table//tr/td[2 or 3]//span[text()="{}"]/ancestor::tr'#参数为文件名称
     悬浮列行操作='//table//tr[{}]//i[contains(@class,"icon-index_more")]'#参数为行号
     悬浮列收藏='//table//tr[{}]//i[contains(@class,"icon-shoucang1")]'#参数为行号
-    已选_悬浮列收藏='//div[contains(@class,"fixed-right")]//table//tr[{}]//i[contains(@class,"shoucang-yellow")]'#参数为行号
-    未选_悬浮列收藏='//div[contains(@class,"body-wrapper fixed-right")]//table//tr[{}]//i[contains(@class,"icon-shoucang1")]'#参数为行号
+    已选_悬浮列收藏='//table//tr[{}]//i[contains(@class,"shoucang-yellow")]'#参数为行号
+    未选_悬浮列收藏='//table//tr[{}]//i[contains(@class,"icon-shoucang1")]'#参数为行号
 
 
     行操作选项='//ul[contains(@id,"dropdown-menu") and @x-placement="bottom-end"]//span[text()="{}"]'#参数为操作名称

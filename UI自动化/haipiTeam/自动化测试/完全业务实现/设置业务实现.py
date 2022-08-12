@@ -111,7 +111,6 @@ class 生命周期管理工作区(page):
         if self.wait(设置页对象库.生命周期管理工作区.生命周期节点名称.format("11"),3):
             raise AssertionError("进行删除生命周期节点操作后，在生命周期节点列表仍然能查看到被删除的生命周期节点")
         #点击生命周期节点行，点击上移按钮，节点行上移一行，点击下移按钮，节点行下移一行
-        self.click(设置页对象库.生命周期管理工作区.添加生命周期节点)
         self.send_keys(设置页对象库.生命周期管理工作区.生命周期节点名称输入框, "11")
         self.click(设置页对象库.生命周期管理工作区.生命周期节点保存按钮)
         self.click(设置页对象库.生命周期管理工作区.添加生命周期节点)
@@ -1617,6 +1616,7 @@ class 属性管理工作区(page):
         self.click(设置页对象库.属性管理工作区.属性系统名称.format("test2"))
         self.click(设置页对象库.属性管理工作区.编辑)
         self.wait(设置页对象库.属性管理工作区.属性系统名称输入框, 3)
+        self.clear(设置页对象库.属性管理工作区.属性系统名称输入框)
         self.send_keys(设置页对象库.属性管理工作区.属性系统名称输入框, "test1")
         self.click(设置页对象库.属性管理工作区.属性系统保存按钮)
         if not self.wait(公共元素对象库.系统提示信息弹框.format("存在同名的属性模板定义！"), 3):
@@ -1657,8 +1657,7 @@ class 属性管理工作区(page):
         if self.wait(设置页对象库.属性管理工作区.属性系统名称.format("test"), 3):
             raise AssertionError("点击确定删除确认对话框，属性系统为被删除")
         #系统属性系统不可删除
-        self.click(设置页对象库.属性管理工作区.属性系统复选框.format("系统默认属性"))
-        if not self.wait(设置页对象库.属性管理工作区.置灰_删除按钮,3):
+        if not self.wait(设置页对象库.属性管理工作区.禁用_属性系统复选框.format("系统"),3):
             raise AssertionError("勾选删除系统属性，系统属性不可以被删除")
 
     def 批量删除属性系统(self):
@@ -1699,11 +1698,6 @@ class 属性管理工作区(page):
         self.click(设置页对象库.属性管理工作区.属性系统复选框.format("test"))
         self.click(设置页对象库.属性管理工作区.属性系统复选框.format("test1"))
         self.click(设置页对象库.属性管理工作区.属性系统复选框.format("test2"))
-        # 当勾选的属性系统中含有系统属性系统时，删除按钮不可用
-        self.click(设置页对象库.属性管理工作区.属性系统复选框.format("系统默认属性"))
-        if not self.wait(设置页对象库.属性管理工作区.置灰_删除按钮, 3):
-            raise AssertionError("勾选删除系统属性，系统属性不可以被删除")
-        self.click(设置页对象库.属性管理工作区.属性系统复选框.format("系统默认属性"))
         self.click(设置页对象库.属性管理工作区.删除)
         self.wait(对话框对象库.对话框标题.format("提示"), 3)
         self.click(对话框对象库.对话框按钮.format("提示", "确定"))
@@ -1782,7 +1776,7 @@ class 属性管理工作区(page):
             raise AssertionError("属性类型为空时，点击保存按钮，该属性可以保存")
         self.clear(设置页对象库.属性管理工作区.属性名称输入框.format("1"))
         self.click(设置页对象库.属性管理工作区.行保存按钮.format("1"))
-        if not self.wait('//div[@class="el-card__body"]//table[@class="el-table__body"]//tr[1]/td[3]//input[@placeholder="请输入内容"]', 3):
+        if not self.wait(设置页对象库.属性管理工作区.属性名称输入框.format("1"), 3):
             raise AssertionError("属性名称为空时，点击保存按钮，该属性可以保存")
         # 对属性类别、属性名称、属性描述进行超长校验
         self.send_keys(设置页对象库.属性管理工作区.属性类别输入框.format("1"),
@@ -1790,14 +1784,14 @@ class 属性管理工作区(page):
         self.send_keys(设置页对象库.属性管理工作区.属性名称输入框.format("1"),
                        '123456789012345678901234567890123456789012345612345678907890')
         self.click(设置页对象库.属性管理工作区.行保存按钮.format("1"))
-        if not self.wait("未知错误", 3):
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("操作失败"), 3):
             raise AssertionError("属性类别和属性名称为空时，点击保存按钮，系统未给出对应的提示信息")
         #在属性列表中编辑属性的属性后，不点击保存，编辑的属性不会保存
         self.clear(设置页对象库.属性管理工作区.属性类别输入框.format("1"))
         self.clear(设置页对象库.属性管理工作区.属性名称输入框.format("1"))
         self.send_keys(设置页对象库.属性管理工作区.属性类别输入框.format("1"),'test1')
         self.send_keys(设置页对象库.属性管理工作区.属性名称输入框.format("1"),'test1')
-        self.click(设置页对象库.属性管理工作区.属性系统名称.format("系统默认属性"))
+        self.click(设置页对象库.属性管理工作区.属性系统名称.format("系统"))
         self.click(设置页对象库.属性管理工作区.属性系统名称.format("test"))
         if self.wait('//div[@class="el-card__body"]//table[@class="el-table__body"]//tr[1]/td[3]//span[text()="test1"]',3):
             raise AssertionError("编辑属性时，未点击保存，属性信息被保存")

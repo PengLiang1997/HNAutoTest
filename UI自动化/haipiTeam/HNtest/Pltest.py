@@ -78,6 +78,7 @@ class Pltest(object):
                     testLoader = unittest.TestLoader()
                     report_path=self.mkdir_report(project_path=self.project_path,time=now)
                     logger = Logger(logger='logger').getlog()
+                    logger.info(f"将在 {testurl} 环境执行测试，开始构建测试套件>>>>")
                     if plan[0]=="1-按方法运行":
                         strimport=f'from {conf[1]}.{plan[1]}.{plan[2]} import *'
                         exec(strimport)

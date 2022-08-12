@@ -181,10 +181,6 @@ class 项目管理工作区(page):
         self.click(创建项目页面.提交按钮)
         if not self.wait(公共元素对象库.输入框错误信息提示.format("请输入项目名称"),3):
             raise AssertionError("创建项目时项目名称为空时，没有项目名称为空的提示")
-        self.send_keys(公共元素对象库.输入框.format("项目名称"), "01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567891")
-        self.click(创建项目页面.提交按钮)
-        if not self.wait(公共元素对象库.系统提示信息弹框.format('参数检验失败'),3):
-            raise AssertionError("创建项目时项目名称超长，系统未给出提示信息")
         self.clear(公共元素对象库.输入框.format("项目名称"))
         self.send_keys(公共元素对象库.输入框.format("项目名称"), "创建空白项目")
         self.click(创建项目页面.提交按钮)
@@ -321,19 +317,19 @@ class 项目管理工作区(page):
             raise AssertionError("点击删除项目模板，未出现删除提示信息")
         #点击关闭删除确认对话框，查看项目模板是否被删除
         self.click(对话框对象库.关闭对话框.format("提示"))
-        if not self.wait(创建项目页面.模板卡片.format("存为模板3"), 3):
+        if not self.wait(创建项目页面.模板卡片.format("保存模板3"), 3):
             raise AssertionError("删除项目模板时，点击关闭删除提示对话框后，项目模板仍然被删除")
         #删除确认对话框点击取消按钮，查看项目模板是否别删除
         self.click(创建项目页面.删除.format("保存模板3"))
         self.wait(对话框对象库.对话框标题.format("提示"), 3)
         self.click(对话框对象库.对话框按钮.format("提示","取消"))
-        if not self.wait(创建项目页面.模板卡片.format("存为模板3"), 3):
+        if not self.wait(创建项目页面.模板卡片.format("保存模板3"), 3):
             raise AssertionError("删除项目模板时，点击取消删除提示对话框后，项目模板仍然被删除")
         #删除确认对话框点击确定按钮，查看项目模板是否被删除
         self.click(创建项目页面.删除.format("保存模板3"))
         self.wait(对话框对象库.对话框标题.format("提示"), 3)
         self.click(对话框对象库.对话框按钮.format("提示", "确定"))
-        if self.wait(创建项目页面.模板卡片.format("存为模板3"), 3):
+        if self.wait(创建项目页面.模板卡片.format("保存模板3"), 3):
             raise AssertionError("删除项目模板时，点击确定删除后，项目模板未被删除")
 
     def 查看项目信息(self):
@@ -384,6 +380,7 @@ class 项目管理工作区(page):
             if element.text not in 基准数据 or len(基准数据)!=9:
                 raise AssertionError(f"{element.text}不在角色列表中，或者页面角色列表长度为{len(elements)},基准长度为9")
         self.click(公共元素对象库.列表框.format("角色"))
+        self.公共操作.滚动选择列表框选项(选项名称='DOCUMENT CONSUMER')
         self.click(对话框对象库.弹框按钮.format("项目协作", "复制链接"))
         self.click(对话框对象库.关闭弹框.format("项目协作"))
         链接 = self.公共操作.获取剪切板内容()
@@ -525,6 +522,7 @@ class 项目管理工作区(page):
         self.click(创建项目页面.使用.format("保存项目模板"))
         self.wait(对话框对象库.弹框标题.format("项目名称"))
         self.send_keys(公共元素对象库.输入框.format("项目名称"),"查看模板信息是否保存")
+        self.click(创建项目页面.提交按钮)
         self.项目管理页面.点击进入项目(项目名称="查看模板信息是否保存")
         self.项目页面.按路径展开目录(目录路径=['查看模板信息是否保存','一级目录'])
         资源列表=['二级目录','素材2.jpg','素材3.jpg','检入检出素材.txt']
@@ -828,8 +826,7 @@ class 项目管理工作区(page):
         self.click(项目设置页面.移除成员按钮.format('18942178870'))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("该控制用户不可移除"),3):
             raise AssertionError("进行移除项目节点下默认节点成员时，没有出现提示信息")
-        self.wait(公共元素对象库.系统提示信息弹框.format("18942178871"), 3)
-        if not self.wait(项目设置页面.节点下成员.format('18942178871'), 3):
+        if not self.wait(项目设置页面.节点下成员.format('18942178870'), 3):
             raise AssertionError("项目创建人在生命周期节点下不可以被移除")
 
     def 验证所有人提交后可进入下一节点(self):
@@ -851,9 +848,10 @@ class 项目管理工作区(page):
         self.项目页面.改变文件状态(目录路径=['权限编辑', '一级目录', '二级目录'], 文件名='素材3.jpg', 状态名称='22')
         lines=''
         elems=self.driver.getelements(项目对象库.生命周期状态.format('素材3.jpg'))
-        for elem in elems:
-            lines=lines+elem.text
-        if lines!='11 -> 22':
+        # for elem in elems:
+        #     lines=lines+elem.text
+        # if lines!='11 -> 22':
+        if len(elems)!=2:
             raise AssertionError("开启所有人提交后可进入下一节点后，改变生命周期状态后，生命周期中间态未出现")
         #所有人提交后进入下一节点按钮开启时，该节点下一个成员提交后，其他成员未提交的情况下改变生命周期状态
         序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]',文件名称='素材2.jpg')
@@ -909,7 +907,7 @@ class 项目工作区(page):
         self.用户信息页面.维护用户基本信息(用户昵称="18942178870")
         #准备项目数据
         self.进入到操作位置.进入项目管理页()
-        self.项目管理页面.删除项目(项目名称="资源树展示")
+        self.项目管理页面.删除所有项目()
         self.项目管理页面.创建空白项目(项目名称="资源树展示")
         self.项目管理页面.点击进入项目(项目名称="资源树展示")
         self.wait(项目对象库.目录节点.format("资源树展示"), 3)
@@ -952,6 +950,13 @@ class 项目工作区(page):
             if element.text != "":
                 titles.append(element.text)
         return titles
+
+    def 收藏页清理所有收藏(self):
+        while(True):
+            if self.wait('//tr/td//i[contains(@class,"icon-shoucang shoucang-yellow")]',3):
+                self.click('//tr/td//i[contains(@class,"icon-shoucang shoucang-yellow")]')
+            else:
+                break
 
 ######################以下为业务实现方法############################
 
@@ -1111,16 +1116,16 @@ class 项目工作区(page):
         self.click(对话框对象库.对话框按钮.format("新建文件目录", "提交"))
         if not self.wait(公共元素对象库.输入框错误信息提示.format("请输入目录名称"),3):
             raise AssertionError("创建文件目录时不输入目录名称，点击提交，未出现提示信息")
-        self.clear(公共元素对象库.输入框.format("文件目录名称"))
-        leng='sadgfklasdkjlfgasldjkgfasldjgksadgfklasdkjlfgasldjkgfasldjgksadgfklasdkjlfgasldjkgfasldjgksadgfklasdkjlfgasldjkgfasldjgksadgfklasdkjlfgasldjkgfasldjgk'
-        self.send_keys(公共元素对象库.输入框.format("文件目录名称"),leng)
-        self.click(对话框对象库.对话框按钮.format("新建文件目录", "提交"))
-        if not self.wait(公共元素对象库.系统提示信息弹框.format("操作失败"),3):
-            raise AssertionError("当文件目录名称超长时，系统未给出提示")
-        self.click(项目对象库.新建目录)
-        self.default_content()
-        self.wait(对话框对象库.弹框标题.format("新建文件目录"), 3)
-        self.clear(公共元素对象库.输入框.format("文件目录名称"))
+        # self.clear(公共元素对象库.输入框.format("文件目录名称"))
+        # leng='sadgfklasdkjlfgasldjkgfasldjgksadgfklasdkjlfgasldjkgfasldjgksadgfklasdkjlfgasldjkgfasldjgksadgfklasdkjlfgasldjkgfasldjgksadgfklasdkjlfgasldjkgfasldjgk'
+        # self.send_keys(公共元素对象库.输入框.format("文件目录名称"),leng)
+        # self.click(对话框对象库.对话框按钮.format("新建文件目录", "提交"))
+        # if not self.wait(公共元素对象库.系统提示信息弹框.format("操作失败"),3):
+        #     raise AssertionError("当文件目录名称超长时，系统未给出提示")
+        # self.click(项目对象库.新建目录)
+        # self.default_content()
+        # self.wait(对话框对象库.弹框标题.format("新建文件目录"), 3)
+        # self.clear(公共元素对象库.输入框.format("文件目录名称"))
         self.send_keys(公共元素对象库.输入框.format("文件目录名称"), "一级目录")
         self.click(对话框对象库.对话框按钮.format("新建文件目录", "提交"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("操作失败"), 3):
@@ -1245,7 +1250,7 @@ class 项目工作区(page):
         self.公共操作.win上传文件(文件路径=['TestData', 'FrontData', '项目页', '检入检出素材.txt'])
         self.wait(项目对象库.待上传文件.format("检入检出素材.txt"), 5)
         self.click(项目对象库.上传文件按钮)
-        if not self.wait(公共元素对象库.系统提示信息弹框.format("该文件与检出文件相同"), 5):
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("检入文件与检出文件相同"), 5):
             raise AssertionError("检入检出时的相同的未修改的文件，系统未出现提示信息")
         #检入和检出时文件名不同的文件，提示文件不同不能检入
         time.sleep(3)
@@ -1279,7 +1284,7 @@ class 项目工作区(page):
         self.公共操作.win上传文件(文件路径=['TestData', 'FrontData', '文件上传下载', '检入检出素材.txt'])
         self.wait(项目对象库.待上传文件.format("检入检出素材.txt"), 5)
         self.click(项目对象库.上传文件按钮)
-        if not self.wait(公共元素对象库.系统提示信息弹框.format("上传文件内容不能为空"), 5):
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("请上传合法文件"), 5):
             raise AssertionError("检入空文件，系统未出现提示信息")
 
     def 检出文件(self):
@@ -1364,7 +1369,7 @@ class 项目工作区(page):
         序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称='一级目录')
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("检出"))
-        if not self.wait(公共元素对象库.系统提示信息弹框.format("文件夹下存在被锁定的文件"), 3):
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("存在已被检出的文件，不能重复检出操作"), 3):
             raise AssertionError("对文件目录进行检出操作后，再次进行检出操作，系统未给出不能检出的提示信息")
         self.click(项目对象库.目录节点.format("一级目录"))
         if not self.wait(项目对象库.检出按钮.format('检入检出素材.txt'), 3) or not\
@@ -1445,7 +1450,7 @@ class 项目工作区(page):
         #文件目录下没有未检出的文件，点击撤销检出，可以撤销成功
         self.项目页面.检出资源(目录路径=['撤销检出1', '一级目录'], 资源名称='检入检出素材.txt')
         self.项目页面.检出资源(目录路径=['撤销检出1', '一级目录'], 资源名称='头像2.txt')
-        self.click(项目对象库.目录节点.format("撤销检出"))
+        self.click(项目对象库.目录节点.format("撤销检出1"))
         序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称='一级目录')
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("撤销检出"))
@@ -1458,6 +1463,7 @@ class 项目工作区(page):
         #文件目录下含有未检出的文件，点击撤销检出，不能撤销成功
         self.项目页面.检出资源(目录路径=['撤销检出1', '一级目录'], 资源名称='头像2.txt')
         self.click(项目对象库.目录节点.format("撤销检出1"))
+        time.sleep(2)
         序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称='一级目录')
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("撤销检出"))
@@ -1767,7 +1773,7 @@ class 项目工作区(page):
             raise AssertionError('勾选单个文件资源时，出现批量操作按钮')
         #在右侧文件列表中勾选多个资源时，批量操作工具栏出现，工具栏中包括检出、撤销检出、收藏、下载、批量删除和打包按钮
         self.click(项目对象库.列表复选框.format('素材2.jpg'))
-        按钮列表=['检出','撤销检出','收藏','下载','删除','打包']
+        按钮列表=['检出','撤销检出','收藏','删除','打包']
         for 按钮 in 按钮列表:
             if not self.wait(项目对象库.工具栏按钮.format(按钮),3):
                 raise AssertionError(f"工具栏{按钮}按钮未正常出现")
@@ -1799,7 +1805,7 @@ class 项目工作区(page):
         self.click(项目对象库.列表复选框.format('素材1.png'))
         self.click(项目对象库.列表复选框.format('素材2.jpg'))
         self.click(项目对象库.工具栏按钮.format('检出'))
-        if not self.wait(公共元素对象库.系统提示信息弹框.format("检出成功"),3):
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("成功"),3):
             raise AssertionError("对文件进行批量检出操作，未查看到系统提示信息")
         if not self.wait(项目对象库.检出按钮.format('素材1.png'), 3) or not\
                 self.wait(项目对象库.检出按钮.format('素材2.jpg'), 3):
@@ -1817,7 +1823,7 @@ class 项目工作区(page):
         self.click(项目对象库.列表复选框.format('二级目录'))
         self.click(项目对象库.列表复选框.format('素材1.png'))
         self.click(项目对象库.工具栏按钮.format('检出'))
-        if not self.wait(公共元素对象库.系统提示信息弹框.format("检出成功"), 3):
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("成功"), 3):
             raise AssertionError("对文件和文件目录进行批量检出操作，未查看到系统提示信息")
         if not self.wait(项目对象库.检出按钮.format('素材3.jpg'), 3) :
             raise AssertionError("进行文件和文件目录批量检出操作后，文件列表中文件未被标记为检出状态")
@@ -1829,7 +1835,7 @@ class 项目工作区(page):
         self.click(项目对象库.列表复选框.format('一级目录3'))
         self.click(项目对象库.列表复选框.format('一级目录2'))
         self.click(项目对象库.工具栏按钮.format('检出'))
-        if not self.wait(公共元素对象库.系统提示信息弹框.format("检出成功"), 3):
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("成功"), 3):
             raise AssertionError("对文件和文件目录进行批量检出操作，未查看到系统提示信息")
         self.click(项目对象库.目录节点.format('一级目录2'))
         if not self.wait(项目对象库.检出按钮.format('检入检出素材.txt'), 3):
@@ -1939,6 +1945,8 @@ class 项目工作区(page):
             raise AssertionError('对目录进行批量撤销检出时，撤销检出失败后，目录下已检出的文件的检出状态发生改变')
 
     def 批量收藏(self):
+        self.进入到操作位置.进入收藏页()
+        self.收藏页清理所有收藏()
         self.进入到操作位置.进入项目管理页()
         self.项目管理页面.删除项目(项目名称="批量收藏资源")
         self.项目管理页面.创建空白项目(项目名称="批量收藏资源")
@@ -2010,27 +2018,27 @@ class 项目工作区(page):
                 self.wait(收藏对象库.资源类型.format("素材3.jpg", "批量收藏资源"), 3):
             raise AssertionError("点击文件和目录批量收藏按钮，文件没有被收藏")
         #勾选的文件或目录中存在以收藏的文件或目录，点击收藏，不能收藏成功
-        self.进入到操作位置.进入项目管理页()
-        self.项目管理页面.点击进入项目(项目名称="批量收藏资源")
-        self.wait(项目对象库.目录节点.format("批量收藏资源"), 3)
-        self.click(项目对象库.目录节点.format('2'))
-        self.click(项目对象库.列表复选框.format('21'))
-        self.click(项目对象库.列表复选框.format('22'))
-        self.click(项目对象库.列表复选框.format('素材3.jpg'))
-        self.click(项目对象库.列表复选框.format('素材4.png'))
-        self.click(项目对象库.工具栏按钮.format("收藏"))
-        if not self.wait(公共元素对象库.系统提示信息弹框.format("收藏记录已存在"), 3):
-            raise AssertionError("批量收藏文件和目录时，勾选已经别收藏的文件或目录，点击收藏，系统未给出提示信息")
-        序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]',
-                                   文件名称='22')
-        序号2 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]',
-                                    文件名称='素材4.png')
-        if self.wait(项目对象库.已选_悬浮列收藏.format(序号), 3) or self.wait(项目对象库.已选_悬浮列收藏.format(序号), 3):
-            raise AssertionError("点击收藏目录和文件批量收藏失败后，目录和文件的收藏按钮被点亮")
-        self.进入到操作位置.进入收藏页()
-        if self.wait(收藏对象库.资源类型.format("22", "批量收藏资源"), 3) or \
-                self.wait(收藏对象库.资源类型.format("素材4.png", "批量收藏资源"), 3):
-            raise AssertionError("点击文件和目录批量收藏失败，文件或目录被收藏")
+        # self.进入到操作位置.进入项目管理页()
+        # self.项目管理页面.点击进入项目(项目名称="批量收藏资源")
+        # self.wait(项目对象库.目录节点.format("批量收藏资源"), 3)
+        # self.click(项目对象库.目录节点.format('2'))
+        # self.click(项目对象库.列表复选框.format('21'))
+        # self.click(项目对象库.列表复选框.format('22'))
+        # self.click(项目对象库.列表复选框.format('素材3.jpg'))
+        # self.click(项目对象库.列表复选框.format('素材4.png'))
+        # self.click(项目对象库.工具栏按钮.format("收藏"))
+        # if not self.wait(公共元素对象库.系统提示信息弹框.format("收藏记录已存在"), 3):
+        #     raise AssertionError("批量收藏文件和目录时，勾选已经别收藏的文件或目录，点击收藏，系统未给出提示信息")
+        # 序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]',
+        #                            文件名称='22')
+        # 序号2 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]',
+        #                             文件名称='素材4.png')
+        # if self.wait(项目对象库.已选_悬浮列收藏.format(序号), 3) or self.wait(项目对象库.已选_悬浮列收藏.format(序号), 3):
+        #     raise AssertionError("点击收藏目录和文件批量收藏失败后，目录和文件的收藏按钮被点亮")
+        # self.进入到操作位置.进入收藏页()
+        # if self.wait(收藏对象库.资源类型.format("22", "批量收藏资源"), 3) or \
+        #         self.wait(收藏对象库.资源类型.format("素材4.png", "批量收藏资源"), 3):
+        #     raise AssertionError("点击文件和目录批量收藏失败，文件或目录被收藏")
 
     def 批量删除(self):
         self.进入到操作位置.进入项目管理页()
@@ -2180,6 +2188,8 @@ class 项目工作区(page):
                 raise AssertionError("在打包的文件中未查看到被打包的文件")
         #勾选多个文件，文件中有被检出的文件，可以被正常打包
         self.公共操作.清空浏览器下载目录()
+        self.click(项目对象库.列表复选框.format('素材1.png'))
+        self.click(项目对象库.列表复选框.format('素材2.jpg'))
         self.click(项目对象库.列表复选框.format('素材3.jpg'))
         self.click(项目对象库.工具栏按钮.format('打包'))
         downpath = self.公共操作.检查文件是否下载完成()
@@ -2366,10 +2376,12 @@ class 项目工作区(page):
         self.公共操作.win上传文件(文件路径=检入检出素材)
         self.wait(项目对象库.待上传文件.format(检入检出素材[-1]), 5)
         self.click(项目对象库.上传文件按钮)
-        if self.wait(公共元素对象库.系统提示信息弹框.format("成功"), 300):
+        if self.wait(公共元素对象库.系统提示信息弹框.format("成功"), 5):
             raise AssertionError("上传一个文件，修改该文件内容后再次点击上传,文件被上传成功")
 
     def 收藏资源(self):
+        self.进入到操作位置.进入收藏页()
+        self.收藏页清理所有收藏()
         self.进入到操作位置.进入项目管理页()
         self.项目管理页面.删除项目(项目名称="收藏资源")
         self.项目管理页面.创建空白项目(项目名称="收藏资源")
@@ -2397,6 +2409,7 @@ class 项目工作区(page):
             raise AssertionError("点击目录行操作的收藏按钮，文件没有被收藏")
         #点击资源行操作的收藏按钮，可以对文件或文件目录取消收藏成功
         self.click(收藏对象库.查看收藏按钮.format("二级目录"))
+        self.click(项目对象库.目录节点.format("一级目录"))
         序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]',文件名称='素材1.png')
         self.click(项目对象库.已选_悬浮列收藏.format(序号))
         self.wait(公共元素对象库.系统提示信息弹框.format("取消收藏成功"))

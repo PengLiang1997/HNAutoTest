@@ -18,7 +18,7 @@ class Logger(object):
             report_dir = projectdir + '\\report'
             if os.path.exists(report_dir):
                 for i, x, name in os.walk(report_dir):
-                    n=x[-1]
+                    # n=x[-1]
                     if x[-1] == "pic":
                         new_reportName = x[-2]
                     else:

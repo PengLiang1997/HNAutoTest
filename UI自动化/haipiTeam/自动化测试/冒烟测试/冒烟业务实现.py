@@ -336,7 +336,7 @@ class 项目页冒烟实现(page):
         self.进入到操作位置.进入项目管理页()
         #点击项目成员按钮，悬浮显示项目成员用户名列表
         self.click(项目管理对象库.项目成员按钮.format("邀请成员项目"))
-        if not self.wait(项目管理对象库.移除项目成员.format("18942178870"),3) or not self.wait(项目管理对象库.移除项目成员.format("18942178871"),3):
+        if not self.wait(项目管理对象库.移除项目成员.format("18942178870"),5) or not self.wait(项目管理对象库.移除项目成员.format("18942178871"),5):
             raise AssertionError("点击项目成员按钮，未查看到当前项目多有的项目成员")
 
     def 移除项目成员(self):
@@ -377,7 +377,7 @@ class 项目页冒烟实现(page):
         if not self.wait(项目管理对象库.项目动态页.项目动态页标题,3):
             raise AssertionError("点击项目动态未跳转到项目动态页面")
         if not self.wait(项目管理对象库.项目动态页.操作1.format("18942178870 创建了"),3) or not \
-                self.wait(项目管理对象库.项目动态页.操作1.format("18942178870 邀请了"),3):
+                self.wait(项目管理对象库.项目动态页.操作1.format("18942178870  邀请了"),3):
             raise AssertionError("项目动态内容显示有误")
 
     def 存为模板(self):
@@ -716,8 +716,7 @@ class 项目页冒烟实现(page):
         self.click(项目设置页面.移除成员按钮.format('18942178870'))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("该控制用户不可移除"),3):
             raise AssertionError("进行移除项目节点下默认节点成员时，没有出现提示信息")
-        self.wait(公共元素对象库.系统提示信息弹框.format("18942178871"), 3)
-        if not self.wait(项目设置页面.节点下成员.format('18942178871'), 3):
+        if not self.wait(项目设置页面.节点下成员.format('18942178870'), 3):
             raise AssertionError("项目创建人在生命周期节点下不可以被移除")
 
     def 生命周期节点人员提交设置(self):
@@ -752,9 +751,10 @@ class 项目页冒烟实现(page):
         self.项目页面.改变文件状态(目录路径=['权限编辑', '一级目录', '二级目录'], 文件名='素材3.jpg', 状态名称='22')
         lines = ''
         elems = self.driver.getelements(项目对象库.生命周期状态.format('素材3.jpg'))
-        for elem in elems:
-            lines = lines + elem.text
-        if lines != '11 -> 22':
+        # for elem in elems:
+        #     lines = lines + elem.text
+        # if lines != '11 -> 22':
+        if len(elems) !=2:
             raise AssertionError("开启所有人提交后可进入下一节点后，改变生命周期状态后，生命周期中间态未出现")
         # 所有人提交后进入下一节点按钮开启时，该节点下所有成员都提交后才能进入下个节点
         self.click(对话框对象库.关闭弹框.format("修改生命周期预览"))
@@ -938,7 +938,7 @@ class 项目页冒烟实现(page):
         self.wait(公共元素对象库.系统提示信息弹框.format("收藏成功"))
         # if not self.wait(项目对象库.已选_悬浮列收藏.format(序号), 3):
         #     raise AssertionError("点击收藏目录成功后，目录的收藏按钮未被点亮")
-        if not self.wait(项目对象库.未收藏按钮.format("二级目录"), 3):
+        if self.wait(项目对象库.未收藏按钮.format("二级目录"), 3):
             raise AssertionError("点击收藏文件成功后，文件的收藏按钮未被点亮")
         self.进入到操作位置.进入收藏页()
         if not self.wait(收藏对象库.资源类型.format("素材1.png", "收藏资源"), 3):
@@ -1287,7 +1287,7 @@ class 项目页冒烟实现(page):
         self.click(项目对象库.列表复选框.format('二级目录'))
         self.click(项目对象库.列表复选框.format('素材3.jpg'))
         self.click(项目对象库.工具栏按钮.format('检出'))
-        if not self.wait(公共元素对象库.系统提示信息弹框.format("检出成功"), 3):
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("操作成功"), 3):
             raise AssertionError("对文件和文件目录进行批量检出操作，未查看到系统提示信息")
         if not self.wait(项目对象库.检出按钮.format('素材3.jpg'), 3):
             raise AssertionError("进行文件和文件目录批量检出操作后，文件列表中文件未被标记为检出状态")
@@ -1598,7 +1598,7 @@ class 设置页冒烟实现(page):
         self.项目管理页面.点击进入项目(项目名称="升版测试")
         self.项目页面.上传单个文件(目录路径=['升版测试'], 文件路径=['TestData', 'FrontData', '项目页', '检入检出素材.txt'])
         self.项目页面.改变文件状态(目录路径=['升版测试'], 文件名='检入检出素材.txt', 状态名称='22')
-        if not self.wait('//div[contains(@class,"pane-two")]//tr[1]/td[5]/div[text()="B"]', 3):
+        if not self.wait('//div[contains(@class,"pane-two")]//tr[1]/td[5]/div[text()="B"]', 30):
             raise AssertionError("设置升版流程，项目生命周期经过此流程时，项目并没有进行升版")
         self.进入到操作位置.进入项目管理页()
         self.项目管理页面.删除项目(项目名称="升版测试")

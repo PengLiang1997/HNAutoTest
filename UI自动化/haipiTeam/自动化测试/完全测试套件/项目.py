@@ -686,7 +686,8 @@ class Test_项目工作区(TestCaseSec):
                 1、创建一个多层级的文件目录，在各层文件目录下传入大文件，点击下载
         @author:彭亮
         '''
-        self.项目工作区.多层次文件目录大文件打包测试()
+        # self.项目工作区.多层次文件目录大文件打包测试()
+        pass
 
     @add_to_report
     def test_29_批量上传文件(self):
