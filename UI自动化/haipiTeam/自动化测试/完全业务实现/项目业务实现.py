@@ -41,10 +41,10 @@ class 项目管理工作区(page):
         # self.用户信息页面.进入基本信息页面()
         # self.用户信息页面.维护用户基本信息(用户昵称="18942178870")
         #项目动态数据准备
-        self.项目管理页面.删除项目(项目名称="查看项目动态")
+        self.项目管理页面.删除所有项目()
         self.项目管理页面.创建空白项目(项目名称="查看项目动态")
         self.项目管理页面.邀请项目成员(项目名称='查看项目动态', 当前用户手机号='18942178870', 成员手机号='18942178871')
-        self.项目管理页面.邀请项目成员(项目名称='查看项目动态', 当前用户手机号='18942178870', 成员手机号='17789371241',角色='INDIVIDUAL ADMINISTRATOR')
+        self.项目管理页面.邀请项目成员(项目名称='查看项目动态', 当前用户手机号='18942178870', 成员手机号='17789371421',角色='INDIVIDUAL ADMINISTRATOR')
         self.项目管理页面.移除项目成员(项目名称="查看项目动态", 移除成员名称="18942178871")
         self.项目管理页面.点击进入项目(项目名称="查看项目动态")
         self.wait(项目对象库.目录节点.format("查看项目动态"), 3)
@@ -208,11 +208,11 @@ class 项目管理工作区(page):
         self.click(创建项目页面.提交按钮)
         if not self.wait(公共元素对象库.输入框错误信息提示.format("请输入项目名称"), 3):
             raise AssertionError("创建项目时项目名称为空时，没有项目名称为空的提示")
-        self.send_keys(公共元素对象库.输入框.format("项目名称"),
-                       "01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567891")
-        self.click(创建项目页面.提交按钮)
-        if not self.wait(公共元素对象库.系统提示信息弹框.format('操作失败'), 3):
-            raise AssertionError("创建项目时项目名称超长，系统未给出提示信息")
+        # self.send_keys(公共元素对象库.输入框.format("项目名称"),
+        #                "01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567891")
+        # self.click(创建项目页面.提交按钮)
+        # if not self.wait(公共元素对象库.系统提示信息弹框.format('操作失败'), 3):
+        #     raise AssertionError("创建项目时项目名称超长，系统未给出提示信息")
         self.clear(公共元素对象库.输入框.format("项目名称"))
         self.send_keys(公共元素对象库.输入框.format("项目名称"), "查看项目动态")
         self.click(创建项目页面.提交按钮)
@@ -221,7 +221,7 @@ class 项目管理工作区(page):
         #输入名称，点击关闭弹窗，查看项目是否被创建
         self.clear(公共元素对象库.输入框.format("项目名称"))
         self.send_keys(公共元素对象库.输入框.format("项目名称"), "根据模板创建项目")
-        self.click(对话框对象库.关闭对话框.format("项目名称"))
+        self.click(对话框对象库.关闭弹框.format("项目名称"))
         self.进入到操作位置.进入项目管理页()
         if self.wait(项目管理对象库.项目卡片.format("根据模板创建项目"), 3):
             raise AssertionError("使用模板创建项目时，点击关闭创建弹窗，项目仍然被创建")
@@ -259,14 +259,14 @@ class 项目管理工作区(page):
         self.click(对话框对象库.对话框按钮.format("存为模板", "确定"))
         self.wait(公共元素对象库.系统提示信息弹框.format("成功"), 3)
         self.click(项目管理对象库.创建新项目)
-        if not self.wait(创建项目页面.模板卡片.format("存为模板1"),3):
+        if not self.wait(创建项目页面.模板卡片.format("保存模板1"),3):
             raise AssertionError("点击保存模板，模板未被成功保存")
-        self.click(创建项目页面.预览.format("存为模板1"))
+        self.click(创建项目页面.预览.format("保存模板1"))
         self.wait(对话框对象库.弹框标题.format("模板预览"),3)
         #不勾选保留项目文件，保存模板，查看保存的模板的项目结构tab页
-        if not self.wait(创建项目页面.节点展开按钮.format("存为模板1"),3):
+        if not self.wait(创建项目页面.节点展开按钮.format("保存模板1"),3):
             raise AssertionError("保存的项目模板的项目结构未保存")
-        self.click(创建项目页面.节点展开按钮.format("存为模板1"))
+        self.click(创建项目页面.节点展开按钮.format("保存模板1"))
         if not self.wait(创建项目页面.节点展开按钮.format("一级目录"),3):
             raise AssertionError("保存的项目模板的项目结构未保存")
         self.click(创建项目页面.节点展开按钮.format("一级目录"))
@@ -287,14 +287,14 @@ class 项目管理工作区(page):
         self.click(对话框对象库.对话框按钮.format("存为模板", "确定"))
         self.wait(公共元素对象库.系统提示信息弹框.format("成功"), 3)
         self.click(项目管理对象库.创建新项目)
-        if not self.wait(创建项目页面.模板卡片.format("存为模板2"), 3):
+        if not self.wait(创建项目页面.模板卡片.format("保存模板2"), 3):
             raise AssertionError("点击保存模板，模板未被成功保存")
-        self.click(创建项目页面.预览.format("存为模板2"))
+        self.click(创建项目页面.预览.format("保存模板2"))
         self.wait(对话框对象库.弹框标题.format("模板预览"), 3)
         #勾选保留项目文件，保存模板，查看保存的模板的项目结构tab页
-        if not self.wait(创建项目页面.节点展开按钮.format("存为模板2"), 3):
+        if not self.wait(创建项目页面.节点展开按钮.format("保存模板2"), 3):
             raise AssertionError("保存的项目模板的项目结构未保存")
-        self.click(创建项目页面.节点展开按钮.format("存为模板2"))
+        self.click(创建项目页面.节点展开按钮.format("保存模板2"))
         if not self.wait(创建项目页面.节点展开按钮.format("一级目录"), 3):
             raise AssertionError("保存的项目模板的项目结构未保存")
         self.click(创建项目页面.节点展开按钮.format("一级目录"))
@@ -303,7 +303,7 @@ class 项目管理工作区(page):
         #勾选保留团队成员，保存模板，查看保存的模板的项目成员tab页
         self.click(创建项目页面.模板tab页.format("团队成员"))
         if not self.wait(创建项目页面.模板团队成员.format("18942178870","INDIVIDUAL ADMINISTRATOR"),3) or not\
-            self.wait(创建项目页面.模板团队成员.format("17789371241","INDIVIDUAL ADMINISTRATOR"),3):
+            self.wait(创建项目页面.模板团队成员.format("17789371421","INDIVIDUAL ADMINISTRATOR"),3):
             raise AssertionError("保存模板时勾选保存项目成员，预览模板时项目成员没有被保存")
 
     def 项目模板管理(self):
@@ -379,13 +379,13 @@ class 项目管理工作区(page):
         for element in elements:
             if element.text not in 基准数据 or len(基准数据)!=9:
                 raise AssertionError(f"{element.text}不在角色列表中，或者页面角色列表长度为{len(elements)},基准长度为9")
-        self.click(公共元素对象库.列表框.format("角色"))
         self.公共操作.滚动选择列表框选项(选项名称='DOCUMENT CONSUMER')
         self.click(对话框对象库.弹框按钮.format("项目协作", "复制链接"))
         self.click(对话框对象库.关闭弹框.format("项目协作"))
         链接 = self.公共操作.获取剪切板内容()
         self.登录页面.退出登录()
-        self.登录页面.短信快捷登录(手机号='18942178871')
+        # self.登录页面.短信快捷登录(手机号='18942178871')
+        self.登录页面.账号密码登录(账号='18942178871', 密码='user@8871')
         # 新开标签页
         self.driver.driver.execute_script("window.open('');")
         self.switch_to_new_window()
@@ -398,7 +398,7 @@ class 项目管理工作区(page):
         self.进入到操作位置.进入项目管理页()
         # 点击项目成员按钮，悬浮显示项目成员用户名列表
         self.click(项目管理对象库.项目成员按钮.format("邀请成员项目"))
-        if not self.wait(项目管理对象库.移除项目成员.format("18942178871"),3):
+        if not self.wait(项目管理对象库.项目成员名称.format("18942178871"),3):
             raise AssertionError("点击项目成员按钮，未查看到当前项目多有的项目成员")
 
     def 移除项目成员(self):
@@ -451,11 +451,11 @@ class 项目管理工作区(page):
         #点击右上方项目成员列表框，列表框显示当前项目所有项目成员
         self.click(公共元素对象库.列表框.format("项目动态"))
         if not self.wait(公共元素对象库.列表框选项.format("18942178870"),3) or \
-            not self.wait(公共元素对象库.列表框选项.format("17789371241"),3):
+            not self.wait(公共元素对象库.列表框选项.format("17789371421"),3):
             raise AssertionError("点击右上方项目成员列表框，列表框未查看到当前项目所有项目成员")
         #点击右上方项目成员列表框选择不同的项目成员，可以过滤显示相应成员的操作记录
-        self.click(公共元素对象库.列表框选项.format("17789371241"))
-        if not self.wait(项目管理对象库.项目动态页.操作1.format("18942178870  邀请了 17789371241 加入了"), 5):
+        self.click(公共元素对象库.列表框选项.format("17789371421"))
+        if not self.wait(项目管理对象库.项目动态页.操作1.format("18942178870  邀请了 17789371421 加入了"), 5):
             raise AssertionError("项目动态过滤显示时，勾选项目成员，项目动态未过滤出有关该成员的动态")
         elements=self.driver.getelements(项目管理对象库.项目动态页.操作1.format("18942178870"))
         if len(elements)!=1:
@@ -525,7 +525,7 @@ class 项目管理工作区(page):
         self.click(创建项目页面.提交按钮)
         self.项目管理页面.点击进入项目(项目名称="查看模板信息是否保存")
         self.项目页面.按路径展开目录(目录路径=['查看模板信息是否保存','一级目录'])
-        资源列表=['二级目录','素材2.jpg','素材3.jpg','检入检出素材.txt']
+        资源列表=['二级目录','素材2.jpg','检入检出素材.txt']
         for i in 资源列表:
             if not self.wait(项目对象库.列表文件名称.format(i),3):
                 raise AssertionError(f"使用保存项目文件的项目模板创建项目后，源项目中{i}文件不存在")
@@ -533,7 +533,7 @@ class 项目管理工作区(page):
         self.进入到操作位置.进入项目管理页()
         self.click(项目管理对象库.项目成员按钮.format("查看模板信息是否保存"))
         if not self.wait(项目管理对象库.移除项目成员.format("18942178870"), 3) or not\
-            self.wait(项目管理对象库.移除项目成员.format("17789371241"), 3):
+            self.wait(项目管理对象库.移除项目成员.format("17789371421"), 3):
             raise AssertionError("使用保存项目文件的项目模板创建项目后，源项目中的项目成员在新项目中不存在")
 
     def 进入项目设置(self):
@@ -747,7 +747,6 @@ class 项目管理工作区(page):
         self.click(对话框对象库.关闭弹框.format("权限编辑"))
         #编辑权限时，只对上级目录进行权限操作时，下级目录自动继承上级目录的权限操作结果
         self.项目设置页面.撤回用户授权(成员名称='18942178871',目录列表=['权限编辑', '一级目录'],权限列表=['目录新增','目录删除'])
-        self.click(项目设置页面.权限编辑按钮.format('18942178871'))
         self.项目设置页面.展开并点击最后一项目录(结构目录=['权限编辑', '一级目录','二级目录'])
         if not self.wait(项目设置页面.禁用_权限复选框.format("目录新增"),3) or \
             not self.wait(项目设置页面.禁用_权限复选框.format("目录删除"),3):
@@ -755,7 +754,6 @@ class 项目管理工作区(page):
         #编辑下级目录权限时，上级目录权限不收影响
         self.click(对话框对象库.关闭弹框.format("权限编辑"))
         self.项目设置页面.撤回用户授权(成员名称='18942178871', 目录列表=['权限编辑', '一级目录','二级目录'], 权限列表=['目录打包', '目录下载'])
-        self.click(项目设置页面.权限编辑按钮.format('18942178871'))
         self.项目设置页面.展开并点击最后一项目录(结构目录=['权限编辑', '一级目录'])
         if not self.wait(项目设置页面.已选_权限复选框.format("目录打包"),3) or \
             not self.wait(项目设置页面.已选_权限复选框.format("目录下载"),3):
@@ -854,7 +852,7 @@ class 项目管理工作区(page):
         if len(elems)!=2:
             raise AssertionError("开启所有人提交后可进入下一节点后，改变生命周期状态后，生命周期中间态未出现")
         #所有人提交后进入下一节点按钮开启时，该节点下一个成员提交后，其他成员未提交的情况下改变生命周期状态
-        序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]',文件名称='素材2.jpg')
+        序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]',文件名称='素材3.jpg')
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("改变状态"))
         self.click(项目对象库.行操作选项.format('22'))
@@ -870,6 +868,10 @@ class 项目管理工作区(page):
         self.click(公共元素对象库.列表框.format("生命周期"))
         self.公共操作.滚动选择列表框选项(选项名称='切换生命周期')
         self.wait(对话框对象库.弹框标题.format("修改生命周期预览"), 3)
+        self.click(项目设置页面.变更节点列表框.format("11"))
+        self.click(公共元素对象库.列表框选项.format("aa"))
+        self.click(项目设置页面.变更节点列表框.format("22"))
+        self.click(公共元素对象库.列表框选项.format("aa"))
         self.click(项目设置页面.变更节点列表框.format("33"))
         self.click(公共元素对象库.列表框选项.format("aa"))
         self.click(对话框对象库.弹框按钮.format("修改生命周期预览", "确定"))
@@ -878,7 +880,8 @@ class 项目管理工作区(page):
         #所有人提交后进入下一节点按钮开启时，该节点下所有成员都提交后才能进入下个节点
         self.click(对话框对象库.关闭弹框.format("修改生命周期预览"))
         self.登录页面.退出登录()
-        self.登录页面.短信快捷登录(手机号='18942178871')
+        # self.登录页面.短信快捷登录(手机号='18942178871')
+        self.登录页面.账号密码登录(账号='18942178871', 密码='user@8871')
         self.进入到操作位置.进入项目管理页()
         self.项目管理页面.点击进入项目(项目名称="权限编辑")
         self.项目页面.改变文件状态(目录路径=['权限编辑', '一级目录', '二级目录'], 文件名='素材3.jpg', 状态名称='22')
@@ -901,8 +904,8 @@ class 项目工作区(page):
 
     def 数据准备(self):
         # 注册账号1:18942178870 pw:user8870
-        self.用户信息页面.进入账号信息页面()
-        self.用户信息页面.维护用户账号信息(用户名='user8870')
+        # self.用户信息页面.进入账号信息页面()
+        # self.用户信息页面.维护用户账号信息(用户名='user8870')
         self.用户信息页面.进入基本信息页面()
         self.用户信息页面.维护用户基本信息(用户昵称="18942178870")
         #准备项目数据
@@ -923,10 +926,11 @@ class 项目工作区(page):
         self.click(项目对象库.目录节点.format("一级目录"))
         self.项目页面.批量上传文件(目录路径=['资源树展示', '一级目录'], 文件路径列表=[素材2, 素材3])
         #注册账号2:18942178871 pw:user0000
-        self.登录页面.退出登录()
-        self.登录页面.短信快捷登录(手机号='18942178871')
-        self.用户信息页面.进入账号信息页面()
-        self.用户信息页面.维护用户账号信息(用户名='user8871')
+        # self.登录页面.退出登录()
+        # # self.登录页面.短信快捷登录(手机号='18942178871')
+        # self.登录页面.账号密码登录(账号='18942178871', 密码='user@8871')
+        # self.用户信息页面.进入账号信息页面()
+        # self.用户信息页面.维护用户账号信息(用户名='user8871')
 
     def 对比两个列表的差异项(self,列表1,列表2):
         len1=len(列表1)
@@ -1317,7 +1321,8 @@ class 项目工作区(page):
             raise AssertionError("文件被检出后，该文件不能进行删除操作")
         #除检出人以外的其他项目成员不能对文件进行删除和撤销检出操作
         self.登录页面.退出登录()
-        self.登录页面.短信快捷登录(手机号='18942178871')
+        # self.登录页面.短信快捷登录(手机号='18942178871')
+        self.登录页面.账号密码登录(账号='18942178871', 密码='user@8871')
         self.进入到操作位置.进入项目管理页()
         self.项目管理页面.点击进入项目(项目名称="检出文件")
         self.click(项目对象库.目录节点.format("一级目录"))
@@ -1392,7 +1397,8 @@ class 项目工作区(page):
         self.click(项目对象库.行操作选项.format("检出"))
         #对文件目录检出操作后，检出人以外的其他项目成员不能对文件目录进行删除和撤销检出操作
         self.登录页面.退出登录()
-        self.登录页面.短信快捷登录(手机号='18942178871')
+        # self.登录页面.短信快捷登录(手机号='18942178871')
+        self.登录页面.账号密码登录(账号='18942178871', 密码='user@8871')
         self.进入到操作位置.进入项目管理页()
         self.项目管理页面.点击进入项目(项目名称="检出文件目录")
         序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称='一级目录')
@@ -2179,6 +2185,10 @@ class 项目工作区(page):
         self.click(项目对象库.列表复选框.format('素材1.png'))
         self.click(项目对象库.列表复选框.format('素材2.jpg'))
         self.click(项目对象库.工具栏按钮.format('打包'))
+        while (True):
+            if not self.wait(项目对象库.正在打包按钮,3):
+                break
+        time.sleep(3)
         downpath = self.公共操作.检查文件是否下载完成()
         filepath = downpath + '\批量打包.zip'
         time.sleep(4)
@@ -2192,6 +2202,10 @@ class 项目工作区(page):
         self.click(项目对象库.列表复选框.format('素材2.jpg'))
         self.click(项目对象库.列表复选框.format('素材3.jpg'))
         self.click(项目对象库.工具栏按钮.format('打包'))
+        while(True):
+            if not self.wait(项目对象库.正在打包按钮,3):
+                break
+        time.sleep(3)
         downpath = self.公共操作.检查文件是否下载完成()
         filepath = downpath + '\批量打包.zip'
         time.sleep(4)

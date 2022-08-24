@@ -15,6 +15,7 @@ class 项目管理对象库:
     #项目成员
     添加项目成员='//ul[contains(@id,"dropdown-menu")]//div[@class="invitation"]/i[contains(@class,"add")]'
     移除项目成员='//ul[contains(@id,"dropdown-menu")]//span[text()="{}"]/following-sibling::i'#参数为成员名称
+    项目成员名称='//ul[contains(@id,"dropdown-menu")]//span[text()="{}"]'
     #更多操作
     更多操作按钮='//div[@title="{}"]//following-sibling::div/div[@class="card_b_r"]//i[contains(@class,"more")]'
     更多操作选项='//ul[contains(@id,"dropdown-menu")]/li//*[text()=" {} "]'#参数为选项名称
@@ -48,6 +49,7 @@ class 项目对象库:
     移除待上传文件='//ul//a[contains(text(),"{}")]/parent::li/i[@class="el-icon-close"]'
     #工具栏按钮
     工具栏按钮='//button/span[text()="{}"]'#参数为按钮名称
+    正在打包按钮='//button[contains(@class,"is--loading")]/span[text()="打包"]'
 
     #文件列表元素
     列显示管理='//div/button[@title="列设置"]'

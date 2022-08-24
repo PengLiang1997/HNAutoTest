@@ -59,7 +59,8 @@ class Test_用户信息冒烟(TestCaseSec):
         cls.driver.driver.maximize_window()
         cls.用户信息=用户信息冒烟实现(Secdriver=cls.driver)
         cls.登录页=登录页面(Secdriver=cls.driver)
-        cls.登录页.短信快捷登录(手机号='18942178870')
+        # cls.登录页.短信快捷登录(手机号='18942178870')
+        cls.登录页.账号密码登录(账号='18942178870', 密码='user@8870')
 
     @classmethod
     def tearDown(cls):
@@ -101,7 +102,8 @@ class Test_项目页冒烟(TestCaseSec):
         cls.driver.driver.maximize_window()
         cls.项目页冒烟实现=项目页冒烟实现(Secdriver=cls.driver)
         cls.登录页 = 登录页面(Secdriver=cls.driver)
-        cls.登录页.短信快捷登录(手机号='18942178870')
+        # cls.登录页.短信快捷登录(手机号='18942178870')
+        cls.登录页.账号密码登录(账号='18942178870', 密码='user@8870')
 
     @classmethod
     def tearDown(cls):
@@ -477,7 +479,8 @@ class Test_设置页冒烟(TestCaseSec):
         cls.driver.driver.maximize_window()
         cls.设置页冒烟实现=设置页冒烟实现(Secdriver=cls.driver)
         cls.登录页=登录页面(Secdriver=cls.driver)
-        cls.登录页.短信快捷登录(手机号='18942178870')
+        # cls.登录页.短信快捷登录(手机号='18942178870')
+        cls.登录页面.账号密码登录(账号='18942178870', 密码='user@8870')
 
     @classmethod
     def tearDown(cls):

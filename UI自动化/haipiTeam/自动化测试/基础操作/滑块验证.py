@@ -67,7 +67,7 @@ class 滑块验证(page):
         self.清理pic目录()
         self.flage+=1
         self.default_content()
-        self.wait(人机验证弹窗对象库.弹窗标题,3)
+        self.wait(人机验证弹窗对象库.弹窗标题,1)
         # #获取背景图src
         # targetUrl=self.driver.getelement(人机验证弹窗对象库.背景图).get_attribute('src')
         # #获取拼图src
@@ -123,7 +123,7 @@ class 滑块验证(page):
         # #模糊匹配
         # move=self.matchImg('report\pic\\'+backtarget2,'report\pic\\'+target2)
         self.drag_and_drop_by_offset(srpath=人机验证弹窗对象库.滑动按钮,offset_x=155,offset_y=0)
-        if self.wait('//*[text()="验证失败"]',3):
+        if self.wait('//*[text()="验证失败"]',1):
             if self.flage>20:
                 raise RuntimeError("人机验证失败")
             else:

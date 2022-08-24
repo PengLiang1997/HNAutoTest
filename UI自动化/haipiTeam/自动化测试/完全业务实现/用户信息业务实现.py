@@ -17,17 +17,19 @@ class 用户信息业务实现(page):
     def 数据准备(self):
         #创建用户18942178870 pw:user8870 name:user8870 绑定邮箱123456@qq.com
         self.用户信息页面.进入账号信息页面()
-        self.用户信息页面.维护用户账号信息(电子邮箱='123456@qq.com',用户名='user8870', 用户密码='user8870')
+        self.用户信息页面.维护用户账号信息(电子邮箱='123456@qq.com',用户名='user8870',原密码="user@8870", 用户密码='user@8870')
         #创建用户17789371421 pw:user1421 name:user1421
         self.登录页面.退出登录()
-        self.登录页面.短信快捷登录(手机号='17789371421')
+        # self.登录页面.短信快捷登录(手机号='17789371421')
+        self.登录页面.账号密码登录(账号='17789371421',密码='user@1421')
         self.用户信息页面.进入账号信息页面()
-        self.用户信息页面.维护用户账号信息(用户名='user1421', 用户密码='user1421')
+        self.用户信息页面.维护用户账号信息(用户名='user1421',原密码="user@1421", 用户密码='user@1421')
         # 注册账号2:18942178871 pw:user0000
         self.登录页面.退出登录()
-        self.登录页面.短信快捷登录(手机号='18942178871')
+        self.登录页面.账号密码登录(账号='18942178871', 密码='user@8871')
+        # self.登录页面.短信快捷登录(手机号='18942178871')
         self.用户信息页面.进入账号信息页面()
-        self.用户信息页面.维护用户账号信息(用户名='user8871', 用户密码='user0000')
+        self.用户信息页面.维护用户账号信息(用户名='user8871',原密码="user@8871", 用户密码='user@0000')
 
     def 用户基本信息校验(self):
         self.用户信息页面.进入基本信息页面()
@@ -41,16 +43,20 @@ class 用户信息业务实现(page):
         element=self.driver.getelement(公共元素对象库.输入框.format("用户昵称"))
         element.send_keys(Keys.CONTROL+'a')
         element.send_keys(Keys.BACKSPACE)
+        self.move_to_by_pyautogui(公共元素对象库.输入框.format("用户昵称"))
+        self.scroll_by_pyautogui(-30)
         self.click(用户信息对象库.账号信息对象库.保存)
         if not self.wait(公共元素对象库.输入框错误信息提示.format("请输入昵称"),3):
             raise AssertionError("用户昵称未空时点击保存，未出现对应的提示信息")
         self.clear(公共元素对象库.输入框.format("用户昵称"))
         self.send_keys(公共元素对象库.输入框.format("用户昵称"),"usernametoolongtest12345678")
         self.click(用户信息对象库.账号信息对象库.保存)
-        if not self.wait(公共元素对象库.系统提示信息弹框.format("未知错误"), 3):
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("操作失败"), 3):
             raise AssertionError("用户名昵称超长时点击保存，系统未出现提示信息")
         self.clear(公共元素对象库.输入框.format("用户昵称"))
         self.send_keys(公共元素对象库.输入框.format("用户昵称"), "user8870")
+        self.move_to_by_pyautogui(公共元素对象库.输入框.format("用户昵称"))
+        self.scroll_by_pyautogui(-30)
         self.click(用户信息对象库.账号信息对象库.保存)
         if not self.wait(公共元素对象库.系统提示信息弹框.format("保存成功"), 3):
             raise AssertionError("用户名昵称超长时点击保存，系统未出现提示信息")
@@ -63,50 +69,64 @@ class 用户信息业务实现(page):
         #姓超长校验
         self.clear(用户信息对象库.基本信息对象库.姓输入框)
         self.send_keys(用户信息对象库.基本信息对象库.姓输入框, "usernametoolongtest12345678")
+        self.move_to_by_pyautogui(公共元素对象库.输入框.format("用户昵称"))
+        self.scroll_by_pyautogui(-30)
         self.click(用户信息对象库.账号信息对象库.保存)
-        if not self.wait(公共元素对象库.系统提示信息弹框.format("未知错误"), 3):
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("操作失败"), 3):
             raise AssertionError("用户姓名的姓超长时点击保存，系统未出现提示信息")
         self.clear(用户信息对象库.基本信息对象库.姓输入框)
         self.send_keys(用户信息对象库.基本信息对象库.姓输入框,"admin")
         # 名超长校验
         self.clear(用户信息对象库.基本信息对象库.名输入框)
         self.send_keys(用户信息对象库.基本信息对象库.名输入框, "usernametoolongtest12345678")
+        self.move_to_by_pyautogui(公共元素对象库.输入框.format("用户昵称"))
+        self.scroll_by_pyautogui(-30)
         self.click(用户信息对象库.账号信息对象库.保存)
-        if not self.wait(公共元素对象库.系统提示信息弹框.format("未知错误"), 3):
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("操作失败"), 3):
             raise AssertionError("用户姓名的名超长时点击保存，系统未出现提示信息")
         self.clear(用户信息对象库.基本信息对象库.名输入框)
         self.send_keys(用户信息对象库.基本信息对象库.名输入框, "admin")
         #职位名称超长校验
         self.clear(公共元素对象库.输入框.format("职位"))
         self.send_keys(公共元素对象库.输入框.format("职位"), "usernametoolonusernametoolongtest12345678usernametoolongtest12345678gtest12345678")
+        self.move_to_by_pyautogui(公共元素对象库.输入框.format("用户昵称"))
+        self.scroll_by_pyautogui(-30)
         self.click(用户信息对象库.账号信息对象库.保存)
-        if not self.wait(公共元素对象库.系统提示信息弹框.format("未知错误"), 3):
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("操作失败"), 3):
             raise AssertionError("用户名职位超长时点击保存，系统未出现提示信息")
         self.clear(公共元素对象库.输入框.format("职位"))
         self.send_keys(公共元素对象库.输入框.format("职位"), "用户职位")
         #用户办公电话超长校验
         self.clear(公共元素对象库.输入框.format("办公电话"))
         self.send_keys(公共元素对象库.输入框.format("办公电话"),"usernametoolongtest12345678usernametoolongtest12345678usernametoolongtest12345678gtest12345678")
+        self.move_to_by_pyautogui(公共元素对象库.输入框.format("用户昵称"))
+        self.scroll_by_pyautogui(-30)
         self.click(用户信息对象库.账号信息对象库.保存)
-        if not self.wait(公共元素对象库.系统提示信息弹框.format("未知错误"), 3):
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("操作失败"), 3):
             raise AssertionError("用户名办公电话超长时点击保存，系统未出现提示信息")
         self.clear(公共元素对象库.输入框.format("办公电话"))
         self.send_keys(公共元素对象库.输入框.format("办公电话"), "12345678901")
         #公司地址超长校验
-        self.clear(公共元素对象库.输入框.format("公司地址"))
-        self.send_keys(公共元素对象库.输入框.format("公司地址"),
+        self.clear(公共元素对象库.输入框.format("办公地址"))
+        self.send_keys(公共元素对象库.输入框.format("办公地址"),
                        "usernametoolonusernametoolongtest12345678usernametoolongtest12345678gtest12345678usernametoolongtest12345678gtest12345678")
+        self.send_keys(公共元素对象库.输入框.format("办公地址"),
+                       "usernametoolonusernametoolongtest12345678usernametoolongtest12345678gtest12345678usernametoolongtest12345678gtest12345678")
+        self.move_to_by_pyautogui(公共元素对象库.输入框.format("用户昵称"))
+        self.scroll_by_pyautogui(-30)
         self.click(用户信息对象库.账号信息对象库.保存)
-        if not self.wait(公共元素对象库.系统提示信息弹框.format("未知错误"), 3):
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("操作失败"), 3):
             raise AssertionError("用户名公司地址超长时点击保存，系统未出现提示信息")
-        self.clear(公共元素对象库.输入框.format("公司地址"))
-        self.send_keys(公共元素对象库.输入框.format("公司地址"), "公司地址")
+        self.clear(公共元素对象库.输入框.format("办公地址"))
+        self.send_keys(公共元素对象库.输入框.format("办公地址"), "办公地址")
         #公司名称超长校验
         self.clear(公共元素对象库.输入框.format("公司名称"))
         self.send_keys(公共元素对象库.输入框.format("公司名称"),
                        "usernametoolonusernametoolongtest12345678usernametoolongtest12345678gtest12345678usernametoolongtest12345678gtest12345678")
+        self.move_to_by_pyautogui(公共元素对象库.输入框.format("用户昵称"))
+        self.scroll_by_pyautogui(-30)
         self.click(用户信息对象库.账号信息对象库.保存)
-        if not self.wait(公共元素对象库.系统提示信息弹框.format("未知错误"), 3):
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("操作失败"), 3):
             raise AssertionError("用户名公司名称超长时点击保存，系统未出现提示信息")
         self.clear(公共元素对象库.输入框.format("公司名称"))
         self.send_keys(公共元素对象库.输入框.format("公司名称"), "公司名称")
@@ -114,8 +134,10 @@ class 用户信息业务实现(page):
         self.clear(公共元素对象库.输入框.format("城市"))
         self.send_keys(公共元素对象库.输入框.format("城市"),
                        "usernametoolonusernametoolongtest12345678usernametoolongtest12345678gtest12345678usernametoolongtest12345678gtest12345678")
+        self.move_to_by_pyautogui(公共元素对象库.输入框.format("用户昵称"))
+        self.scroll_by_pyautogui(-30)
         self.click(用户信息对象库.账号信息对象库.保存)
-        if not self.wait(公共元素对象库.系统提示信息弹框.format("未知错误"), 3):
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("操作失败"), 3):
             raise AssertionError("用户名城市超长时点击保存，系统未出现提示信息")
         self.clear(公共元素对象库.输入框.format("城市"))
         self.send_keys(公共元素对象库.输入框.format("城市"), "城市")
@@ -127,12 +149,16 @@ class 用户信息业务实现(page):
         #邮编校验
         self.clear(公共元素对象库.输入框.format("邮编"))
         self.send_keys(公共元素对象库.输入框.format("邮编"),"usernametoolongtest12345678usernametoolongtest12345678gtest12345678")
+        self.move_to_by_pyautogui(公共元素对象库.输入框.format("用户昵称"))
+        self.scroll_by_pyautogui(-30)
         self.click(用户信息对象库.账号信息对象库.保存)
-        if not self.wait(公共元素对象库.系统提示信息弹框.format("未知错误"), 3):
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("操作失败"), 3):
             raise AssertionError("用户名邮编超长时点击保存，系统未出现提示信息")
         self.clear(公共元素对象库.输入框.format("邮编"))
         self.send_keys(公共元素对象库.输入框.format("邮编"), "123456")
         #合法信息点击保存是否保存成功
+        self.move_to_by_pyautogui(公共元素对象库.输入框.format("用户昵称"))
+        self.scroll_by_pyautogui(-30)
         self.click(用户信息对象库.账号信息对象库.保存)
         if not self.wait(公共元素对象库.系统提示信息弹框.format("保存成功"), 3):
             raise AssertionError("当用户信息输入合法时点击保存，系统未出现保存成功提示信息")
@@ -157,31 +183,49 @@ class 用户信息业务实现(page):
         self.clear(登录页对象库.验证码输入框)
         self.send_keys(登录页对象库.验证码输入框, "888888")
         self.click(用户信息对象库.账号信息对象库.切换手机号弹窗保存, 3)
-        if not self.wait(公共元素对象库.系统提示信息弹框.format("当前手机号18942178870已被注册！"),3):
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("已被注册"),3):
             raise AssertionError("手机号设置为已经注册的手机号，输入验证码点击保存,未出现手机号已存在的提示信息")
 
     def 绑定邮箱(self):
         self.用户信息页面.进入账号信息页面()
         #空值校验
-        self.click(公共元素对象库.输入框.format("电子邮箱"))
-        element = self.driver.getelement(公共元素对象库.输入框.format("电子邮箱"))
-        element.send_keys(Keys.CONTROL + 'a')
-        element.send_keys(Keys.BACKSPACE)
-        self.click(用户信息对象库.账号信息对象库.绑定邮箱按钮)
-        if not self.wait(公共元素对象库.系统提示信息弹框.format("请填写邮箱"),2):
-            raise AssertionError("未填写电子邮箱，点击绑定电子邮箱，系统未给出提示")
-        #非法值校验
-        self.clear(公共元素对象库.输入框.format("电子邮箱"))
-        self.send_keys(公共元素对象库.输入框.format("电子邮箱"),"123456@ddd")
-        self.click(用户信息对象库.账号信息对象库.绑定邮箱按钮)
-        if not self.wait(公共元素对象库.输入框错误信息提示.format("请输入正确的邮箱"),3):
-            raise AssertionError("输入电子邮箱格式非法，点击绑定电子邮箱，系统未给出提示")
-        #邮箱唯一性校验
-        self.clear(公共元素对象库.输入框.format("电子邮箱"))
-        self.send_keys(公共元素对象库.输入框.format("电子邮箱"), "123456@qq.com")
-        self.click(用户信息对象库.账号信息对象库.绑定邮箱按钮)
-        if not self.wait(公共元素对象库.系统提示信息弹框.format("当前邮箱123456@qq.com已被注册！"),3):
-            raise AssertionError("输入已被绑定的邮箱，点击绑定邮箱，系统未给出提示")
+        if self.wait(用户信息对象库.账号信息对象库.绑定邮箱按钮,3):
+            self.click(公共元素对象库.输入框.format("电子邮件"))
+            element = self.driver.getelement(公共元素对象库.输入框.format("电子邮件"))
+            element.send_keys(Keys.CONTROL + 'a')
+            element.send_keys(Keys.BACKSPACE)
+            self.click(用户信息对象库.账号信息对象库.绑定邮箱按钮)
+            if not self.wait(公共元素对象库.系统提示信息弹框.format("请填写邮箱"),2):
+                raise AssertionError("未填写电子邮箱，点击绑定电子邮箱，系统未给出提示")
+            #非法值校验
+            self.clear(公共元素对象库.输入框.format("电子邮件"))
+            self.send_keys(公共元素对象库.输入框.format("电子邮件"),"123456@ddd")
+            self.click(用户信息对象库.账号信息对象库.绑定邮箱按钮)
+            if not self.wait(公共元素对象库.输入框错误信息提示.format("请输入正确的邮箱"),3):
+                raise AssertionError("输入电子邮箱格式非法，点击绑定电子邮箱，系统未给出提示")
+            #邮箱唯一性校验
+            self.clear(公共元素对象库.输入框.format("电子邮件"))
+            self.send_keys(公共元素对象库.输入框.format("电子邮件"), "123456@qq.com")
+            self.click(用户信息对象库.账号信息对象库.绑定邮箱按钮)
+            if not self.wait(公共元素对象库.系统提示信息弹框.format("当前邮箱123456@qq.com已被注册！"),3):
+                raise AssertionError("输入已被绑定的邮箱，点击绑定邮箱，系统未给出提示")
+        else:
+            self.click(用户信息对象库.账号信息对象库.切换邮箱按钮)
+            self.click(对话框对象库.对话框按钮.format("切换邮箱","保存"))
+            if not self.wait(公共元素对象库.输入框错误信息提示.format("邮箱不能为空"), 2):
+                raise AssertionError("未填写电子邮箱，保存电子邮箱，系统未给出提示")
+            self.clear(公共元素对象库.输入框.format("新邮箱"))
+            self.send_keys(公共元素对象库.输入框.format("新邮箱"), "123456@ddd")
+            self.click(对话框对象库.对话框按钮.format("切换邮箱", "保存"))
+            if not self.wait(公共元素对象库.输入框错误信息提示.format("请输入正确的邮箱"), 3):
+                raise AssertionError("输入电子邮箱格式非法，点击绑定电子邮箱，系统未给出提示")
+            # 邮箱唯一性校验
+            self.clear(公共元素对象库.输入框.format("新邮箱"))
+            self.send_keys(公共元素对象库.输入框.format("新邮箱"), "123456@qq.com")
+            self.click(对话框对象库.对话框按钮.format("切换邮箱", "保存"))
+            if not self.wait(公共元素对象库.系统提示信息弹框.format("已被注册"), 3):
+                raise AssertionError("输入已被绑定的邮箱，点击绑定邮箱，系统未给出提示")
+
 
     def 用户名密码校验(self):
         self.用户信息页面.进入账号信息页面()

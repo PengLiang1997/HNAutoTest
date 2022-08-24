@@ -11,17 +11,18 @@ class Test_项目管理工作区(TestCaseSec):
         cls.driver.driver.maximize_window()
         cls.项目管理工作区=项目管理工作区(Secdriver=cls.driver)
         cls.登录页=登录页面(Secdriver=cls.driver)
-        cls.登录页.短信快捷登录(手机号='18942178870')
+        # cls.登录页.短信快捷登录(手机号='18942178870')
+        cls.登录页.账号密码登录(账号='18942178870', 密码='user@8870')
 
     @classmethod
     def tearDown(cls):
         cls.driver.quite()
 
-    # @add_to_report
-    # def test_00_数据准备(self):
-    #     self.项目管理工作区.数据准备()
-    #     self.项目管理工作区.准备项目模板()
-    #     self.项目管理工作区.准备项目设置数据()
+    @add_to_report
+    def test_00_数据准备(self):
+        self.项目管理工作区.数据准备()
+        self.项目管理工作区.准备项目模板()
+        self.项目管理工作区.准备项目设置数据()
 
     @add_to_report
     def test_01_项目显示方式(self):
@@ -326,7 +327,8 @@ class Test_项目工作区(TestCaseSec):
         cls.driver.driver.maximize_window()
         cls.项目工作区=项目工作区(Secdriver=cls.driver)
         cls.登录页=登录页面(Secdriver=cls.driver)
-        cls.登录页.短信快捷登录(手机号='18942178870')
+        # cls.登录页.短信快捷登录(手机号='18942178870')
+        cls.登录页.账号密码登录(账号='18942178870', 密码='user@8870')
 
     @classmethod
     def tearDown(cls):

@@ -1,4 +1,6 @@
 import random
+import time
+
 from ..基础操作.用户信息页面 import *
 from ..基础操作.登录页面 import *
 from ..基础操作.滑块验证 import *
@@ -57,9 +59,18 @@ class 登录页(page):
         self.clear(登录页对象库.验证码输入框)
         self.send_keys(登录页对象库.验证码输入框, '888890')
         self.click(登录页对象库.开始使用)
-        if not self.wait(公共元素对象库.输入框错误信息提示.format("手机验证码错误，请输入正确的验证码！"),3):
-            raise AssertionError("对验证码进行非法值校验，未给出相应的提示信息")
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("手机验证码不存在或已过期，请重新输入验证码")):
+            raise AssertionError("未进行滑块验证操作，直接登录，未给出相应的提示信息")
+        self.click(登录页对象库.验证码按钮)
+        self.default_content()
+        self.滑块验证.滑块验证操作()
+        self.clear(登录页对象库.验证码输入框)
+        self.send_keys(登录页对象库.验证码输入框, '888880')
+        self.click(登录页对象库.开始使用)
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("手机验证码错误，请输入正确的验证码！")):
+            raise AssertionError("输入错误的验证码，点击登录，未给出相应的提示信息")
         #输入正确值登录
+        time.sleep(60)
         self.clear(登录页对象库.手机号输入框)
         self.send_keys(登录页对象库.手机号输入框,'18942178870')
         self.click(登录页对象库.验证码按钮)
@@ -85,12 +96,12 @@ class 登录页(page):
         self.clear(登录页对象库.账号输入框)
         self.send_keys(登录页对象库.账号输入框, 'user887user8870user8870user8870user8870user8870user8870user8870user8870user8870user8870user8870user8870user88700')
         self.click(登录页对象库.登录按钮)
-        if not self.wait(公共元素对象库.输入框错误信息提示.format("用户名为4到16位(字母，数字，下划线，减号)"), 3):
+        if not self.wait(公共元素对象库.输入框错误信息提示.format("用户名为4到16位(字母，数字，下划线，不能以下划线开头或结尾)"), 3):
             raise AssertionError("账号超长时，点击登录，未给出相应的提示")
         self.clear(登录页对象库.账号输入框)
         self.send_keys(登录页对象库.账号输入框,'@##￥')
         self.click(登录页对象库.登录按钮)
-        if not self.wait(公共元素对象库.输入框错误信息提示.format("用户名为4到16位(字母，数字，下划线，减号)"), 3):
+        if not self.wait(公共元素对象库.输入框错误信息提示.format("用户名为4到16位(字母，数字，下划线，不能以下划线开头或结尾)")):
             raise AssertionError("账号非法时，点击登录，未给出相应的提示")
         #对密码进行空值，非法值校验
         self.clear(登录页对象库.账号输入框)
@@ -118,8 +129,7 @@ class 登录页(page):
         self.click(登录页对象库.登录按钮)
         self.default_content()
         self.滑块验证.滑块验证操作()
-        self.default_content()
-        if not self.wait(公共元素对象库.系统提示信息弹框.format("用户名或密码错误,请重新输入！"),5):
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("请重新输入")):
             raise AssertionError("账号密码登录，登录密码错误，为出现提示信息")
 
     def 重置密码手机号验证码校验(self):

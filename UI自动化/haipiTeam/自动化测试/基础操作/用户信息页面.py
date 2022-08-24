@@ -30,9 +30,10 @@ class 用户信息页面(page):
         if 手机号:
             self.切换手机号(手机号=手机号,验证码=验证码)
         if 电子邮箱:
-            self.clear(公共元素对象库.输入框.format("电子邮箱"))
-            self.send_keys(公共元素对象库.输入框.format("电子邮箱"),电子邮箱)
-            self.click(用户信息对象库.账号信息对象库.绑定邮箱按钮)
+            if self.wait(用户信息对象库.账号信息对象库.绑定邮箱按钮,3):
+                self.clear(公共元素对象库.输入框.format("电子邮件"))
+                self.send_keys(公共元素对象库.输入框.format("电子邮件"),电子邮箱)
+                self.click(用户信息对象库.账号信息对象库.绑定邮箱按钮)
         if 用户名:
             if self.wait(公共元素对象库.输入框.format("用户名"),3):
                 self.clear(公共元素对象库.输入框.format("用户名"))

@@ -109,8 +109,11 @@ class 公共操作(page):
 
     def 滚动选择列表框选项(self,选项名称):
         flage = True
+        已选中的选项=self.driver.getelement('//ul/li[contains(@class,"dropdown__item selected")]/span')
+        self.move_to_by_pyautogui(公共元素对象库.列表框选项.format(已选中的选项.text), y_offset=0)
+        self.scroll_by_pyautogui(1000)
         选项list=self.driver.getelements('//ul/li[contains(@class,"dropdown__item")]/span')
-        self.move_to_by_pyautogui(公共元素对象库.列表框选项.format(选项list[0].text), y_offset=80)
+        self.move_to_by_pyautogui(公共元素对象库.列表框选项.format(选项list[0].text), y_offset=50)
         time1=time.time()
         while (flage):
             try:

@@ -4,6 +4,7 @@ class 公共元素对象库:
     列表框='//*[text()="{}"]/following-sibling::div//i'
     列表框选项='//ul/li[contains(@class,"dropdown__item")]/span[text()="{}"]'
     输入框='//*[text()="{}"]/following-sibling::div//input'
+    禁用_输入框='//*[text()="{}"]/following-sibling::div//input[@disabled="disabled"]'
     文本框='//*[text()="{}"]/following-sibling::div//textarea'
     单选按钮='//span[text()="{}"]/preceding-sibling::span'
     系统提示信息弹框='//div[contains(@class,"el-message")]//*[contains(text(),"{}")]'

@@ -89,7 +89,7 @@ class 设置页对象库:
         属性名称输入框 = '//div[@class="el-card__body"]//table[@class="el-table__body"]//tr[{}]/td[3]//input'  # 参数为行号
         属性描述输入框 = '//div[@class="el-card__body"]//table[@class="el-table__body"]//tr[{}]/td[4]//input'  # 参数为行号
         行删除按钮 = '//div[@class="el-card__body"]//table[@class="el-table__body"]//tr[{}]/td[last()]//span'  # 参数为行号
-        行保存按钮 = '//div[@class="el-card__body"]//table[@class="el-table__body"]//tr[1]/td[last()]/div/button'  # 参数为行号
+        行保存按钮 = '//div[@class="el-card__body"]//table[@class="el-table__body"]//tr[{}]/td[last()]/div/button'  # 参数为行号
 
         删除对话框='//div[contains(@id,"el-popover")]//p[contains(text(),"确定删除吗?")]'
         删除取消按钮='//div[contains(@id,"el-popover")]//button/span[contains(text(),"取消")]'

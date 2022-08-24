@@ -74,12 +74,14 @@ class 项目管理页面(page):
         self.driver.driver.get(链接)
         if self.wait(对话框对象库.对话框按钮.format("确认注销","重新登录"),3):
             self.click(对话框对象库.对话框按钮.format("确认注销","重新登录"))
-        self.登录页面.短信快捷登录(手机号=成员手机号)
+        # self.登录页面.短信快捷登录(手机号=成员手机号)
+        self.登录页面.账号密码登录(账号=成员手机号, 密码='user@'+成员手机号[7:])
         time.sleep(3)
         self.click(对话框对象库.对话框按钮2.format(f"邀请你参加“{项目名称}”", "加入"))
         self.wait(项目对象库.目录节点.format(项目名称), 3)
         self.登录页面.退出登录()
-        self.登录页面.短信快捷登录(手机号=当前用户手机号)
+        # self.登录页面.短信快捷登录(手机号=当前用户手机号)
+        self.登录页面.账号密码登录(账号=当前用户手机号, 密码='user@' + 当前用户手机号[7:])
         self.进入到操作位置.进入项目管理页()
 
     def 移除项目成员(self,项目名称,移除成员名称):
@@ -111,12 +113,13 @@ class 项目管理页面(page):
 
     def 删除所有项目(self):
         names=[]
-        elems=self.driver.getelements('//div[@class="project_box"]//span[@class="project_name"]')
-        for elem in elems:
-            names.append(elem.text)
-        if len(names)!=0:
-            for name in names:
-                self.删除项目(项目名称=name)
+        if self.wait('//div[@class="project_box"]//span[@class="project_name"]',3):
+            elems=self.driver.getelements('//div[@class="project_box"]//span[@class="project_name"]')
+            for elem in elems:
+                names.append(elem.text)
+            if len(names)!=0:
+                for name in names:
+                    self.删除项目(项目名称=name)
 
     def 查看项目动态(self,项目名称):
         self.click(项目管理对象库.更多操作按钮.format(项目名称))

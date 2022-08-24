@@ -21,6 +21,9 @@ class 生命周期管理工作区(page):
         self.项目管理页面 = 项目管理页面(Secdriver=Secdriver)
         self.进入到操作位置 = 进入到操作位置(Secdriver=Secdriver)
 
+    def 数据准备(self):
+        self.项目管理页面.删除所有项目()
+
     def 新增生命周期(self):
         self.进入到操作位置.进入生命周期工作区()
         if self.wait(设置页对象库.生命周期管理工作区.生命周期名称.format("test2"),3):
@@ -1015,6 +1018,9 @@ class 版次管理工作区(page):
         self.项目管理页面 = 项目管理页面(Secdriver=Secdriver)
         self.进入到操作位置 = 进入到操作位置(Secdriver=Secdriver)
 
+    def 数据准备(self):
+        self.项目管理页面.删除所有项目()
+
     def 新增版次(self):
         self.进入到操作位置.进入版次工作区()
         self.版次管理页面.删除版次(版次名称='test')
@@ -1537,6 +1543,9 @@ class 属性管理工作区(page):
         self.用户信息页面 = 用户信息页面(Secdriver=Secdriver)
         self.项目管理页面 = 项目管理页面(Secdriver=Secdriver)
         self.进入到操作位置 = 进入到操作位置(Secdriver=Secdriver)
+
+    def 数据准备(self):
+        self.项目管理页面.删除所有项目()
 
     def 新增属性系统(self):
         self.进入到操作位置.进入属性工作区()
