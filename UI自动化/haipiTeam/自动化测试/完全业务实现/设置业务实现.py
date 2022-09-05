@@ -65,7 +65,7 @@ class 生命周期管理工作区(page):
         self.click(设置页对象库.生命周期管理工作区.生命周期节点名称.format("22"))
         self.click(设置页对象库.生命周期管理工作区.节点流程单选启用按钮.format("22", "11"))
         self.click(对话框对象库.弹框按钮.format("新增生命周期", "确定"))
-        if not self.wait(公共元素对象库.系统提示信息弹框.format("存在同名模板名称"),3):
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("存在同名模板"),3):
             raise AssertionError("生命周期可以重名创建")
         # #超长校验
         # self.clear(公共元素对象库.输入框.format("名称"))
@@ -219,7 +219,7 @@ class 生命周期管理工作区(page):
         self.项目管理页面.点击进入项目(项目名称="升版测试")
         self.项目页面.上传单个文件(目录路径=['升版测试'], 文件路径=['TestData', 'FrontData', '项目页', '检入检出素材.txt'])
         self.项目页面.改变文件状态(目录路径=['升版测试'],文件名='检入检出素材.txt',状态名称='22')
-        if not self.wait('//div[contains(@class,"pane-two")]//tr[1]/td[5]/div[text()="B"]',3):
+        if not self.wait('//div[contains(@class,"pane-two")]//tr[1]/td[5]//span[text()="B"]',3):
             raise AssertionError("设置升版流程，项目生命周期经过此流程时，项目并没有进行升版")
         self.进入到操作位置.进入项目管理页()
         self.项目管理页面.删除项目(项目名称="升版测试")
@@ -330,7 +330,7 @@ class 生命周期管理工作区(page):
         # 重名
         self.send_keys(公共元素对象库.输入框.format("名称"), "test1")
         self.click(对话框对象库.弹框按钮.format("编辑生命周期", "确定"))
-        if not self.wait(公共元素对象库.系统提示信息弹框.format("存在同名模板名称"), 3):
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("存在同名模板"), 3):
             raise AssertionError("生命周期可以重名创建")
         # # 超长校验
         # self.clear(公共元素对象库.输入框.format("名称"))
@@ -515,7 +515,7 @@ class 生命周期管理工作区(page):
         self.项目管理页面.点击进入项目(项目名称="升版测试")
         self.项目页面.上传单个文件(目录路径=['升版测试'], 文件路径=['TestData', 'FrontData', '项目页', '检入检出素材.txt'])
         self.项目页面.改变文件状态(目录路径=['升版测试'], 文件名='检入检出素材.txt', 状态名称='22')
-        if not self.wait('//div[contains(@class,"pane-two")]//tr[1]/td[5]/div[text()="B"]', 3):
+        if not self.wait('//div[contains(@class,"pane-two")]//tr[1]/td[5]//span[text()="B"]', 3):
             raise AssertionError("设置升版流程，项目生命周期经过此流程时，项目并没有进行升版")
         #如果生命周期已经被使用，再编辑升版流程，系统会给出对应的提示
         self.进入到操作位置.进入生命周期工作区()
@@ -615,7 +615,7 @@ class 生命周期管理工作区(page):
         self.clear(公共元素对象库.输入框.format("名称"))
         self.send_keys(公共元素对象库.输入框.format("名称"), "test5")
         self.click(对话框对象库.弹框按钮.format("复制生命周期", "确定"))
-        if not self.wait(公共元素对象库.系统提示信息弹框.format("存在同名模板名称！"), 3):
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("存在同名模板"), 3):
             raise AssertionError("生命周期可以重名创建")
         # 超长校验
         # self.clear(公共元素对象库.输入框.format("名称"))
@@ -790,7 +790,7 @@ class 生命周期管理工作区(page):
         self.项目管理页面.点击进入项目(项目名称="升版测试")
         self.项目页面.上传单个文件(目录路径=['升版测试'], 文件路径=['TestData', 'FrontData', '项目页', '检入检出素材.txt'])
         self.项目页面.改变文件状态(目录路径=['升版测试'], 文件名='检入检出素材.txt', 状态名称='22')
-        if not self.wait('//div[contains(@class,"pane-two")]//tr[1]/td[5]/div[text()="B"]', 3):
+        if not self.wait('//div[contains(@class,"pane-two")]//tr[1]/td[5]//span[text()="B"]', 3):
             raise AssertionError("设置升版流程，项目生命周期经过此流程时，项目并没有进行升版")
         # 如果生命周期已经被使用，再编辑升版流程，系统会给出对应的提示
         self.进入到操作位置.进入生命周期工作区()
@@ -1666,7 +1666,8 @@ class 属性管理工作区(page):
         if self.wait(设置页对象库.属性管理工作区.属性系统名称.format("test"), 3):
             raise AssertionError("点击确定删除确认对话框，属性系统为被删除")
         #系统属性系统不可删除
-        if not self.wait(设置页对象库.属性管理工作区.禁用_属性系统复选框.format("系统"),3):
+        self.click(设置页对象库.属性管理工作区.属性系统复选框.format("系统"))
+        if not self.wait(设置页对象库.属性管理工作区.置灰_删除按钮,3):
             raise AssertionError("勾选删除系统属性，系统属性不可以被删除")
 
     def 批量删除属性系统(self):

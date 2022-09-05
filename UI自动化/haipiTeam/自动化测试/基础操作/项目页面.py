@@ -208,21 +208,23 @@ class 项目管理页面(page):
 
         def 用户授权(self,成员名称,目录列表,权限列表):
             self.click(项目设置页面.权限编辑按钮.format(成员名称))
-            self.wait(对话框对象库.弹框标题.format("权限编辑"),3)
+            self.wait(对话框对象库.弹框标题.format("编辑权限"),3)
             self.展开并点击最后一项目录(结构目录=目录列表)
             for qx in 权限列表:
                 if self.wait(项目设置页面.未选_权限复选框.format(qx),3):
                     self.click(项目设置页面.未选_权限复选框.format(qx))
-            self.click(对话框对象库.弹框按钮.format("权限编辑","保存"))
+            self.click(对话框对象库.弹框按钮.format("编辑权限","保存"))
+            self.click(对话框对象库.关闭弹框.format("编辑权限"))
 
         def 撤回用户授权(self,成员名称,目录列表,权限列表):
             self.click(项目设置页面.权限编辑按钮.format(成员名称))
-            self.wait(对话框对象库.弹框标题.format("权限编辑"), 3)
+            self.wait(对话框对象库.弹框标题.format("编辑权限"), 3)
             self.展开并点击最后一项目录(结构目录=目录列表)
             for qx in 权限列表:
                 if self.wait(项目设置页面.已选_权限复选框.format(qx), 3):
                     self.click(项目设置页面.未选_权限复选框.format(qx))
-            self.click(对话框对象库.弹框按钮.format("权限编辑", "保存"))
+            self.click(对话框对象库.弹框按钮.format("编辑权限", "保存"))
+            self.click(对话框对象库.关闭弹框.format("编辑权限"))
 
         def 添加节点人员(self,节点名称,成员名称=None,所有人提交后可进入下一节点=True):
             self.click(项目设置页面.节点下成员.format(节点名称))

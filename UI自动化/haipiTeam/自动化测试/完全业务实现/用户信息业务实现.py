@@ -35,7 +35,7 @@ class 用户信息业务实现(page):
         self.用户信息页面.进入基本信息页面()
         #点击更换头像，选择非图片文件，点击确定
         self.用户信息页面.更换头像(文件路径=['TestData', 'FrontData', '用户信息', '头像2.txt'])
-        if not self.wait(公共元素对象库.系统提示信息弹框.format("请上传图片类型"),3):
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("请上传正确的图片类型"),3):
             raise AssertionError("头像上传非图片文件，系统未出现提示信息")
         #对用户昵称进行空值、超长校验
         time.sleep(3)
@@ -59,7 +59,7 @@ class 用户信息业务实现(page):
         self.scroll_by_pyautogui(-30)
         self.click(用户信息对象库.账号信息对象库.保存)
         if not self.wait(公共元素对象库.系统提示信息弹框.format("保存成功"), 3):
-            raise AssertionError("用户名昵称超长时点击保存，系统未出现提示信息")
+            raise AssertionError("用户昵称保存成功，系统未出现提示信息")
         #点击下拉列表，点击可以选择对应的国家
         self.click(公共元素对象库.列表框.format("国家"))
         if not self.wait(公共元素对象库.列表框选项.format("中国"),3):
@@ -223,7 +223,7 @@ class 用户信息业务实现(page):
             self.clear(公共元素对象库.输入框.format("新邮箱"))
             self.send_keys(公共元素对象库.输入框.format("新邮箱"), "123456@qq.com")
             self.click(对话框对象库.对话框按钮.format("切换邮箱", "保存"))
-            if not self.wait(公共元素对象库.系统提示信息弹框.format("已被注册"), 3):
+            if not self.wait(公共元素对象库.系统提示信息弹框.format("邮箱已被注册！"), 3):
                 raise AssertionError("输入已被绑定的邮箱，点击绑定邮箱，系统未给出提示")
 
 

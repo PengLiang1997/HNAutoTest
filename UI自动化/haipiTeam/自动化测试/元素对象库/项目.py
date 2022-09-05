@@ -64,8 +64,8 @@ class 项目对象库:
     列表复选框 = '//table//tr/td[2 or 3]//span[text()="{}"]/ancestor::tr/td[1]//span'
     检出按钮='//table//tr/td[2 or 3]//span[text()="{}"]/ancestor::tr/td[2]//i[@class="iconfont icon-correct" or @class="el-icon-lock"]'
     列表文件名称='//table//tr/td[2 or 3]//span[text()="{}"]'#参数为文件名称
-    生命周期状态='//table//tr/td[2 or 3]//span[text()="{}"]/ancestor::tr/td[11]//span'
-    文件状态='//table//tr/td[2 or 3]//span[text()="{}"]/ancestor::tr/td[5]//span'
+    生命周期状态='//div[contains(@class,"pane-one")]//td[2 or 3]//span[text()="{}"]/ancestor::tr/td[11]//span'
+    文件状态='//div[contains(@class,"pane-one")]//td[2 or 3]//span[text()="{}"]/ancestor::tr/td[5]//span'
     收藏按钮='//table//tr/td[2 or 3]//span[text()="{}"]/ancestor::td/following-sibling::td[last()]/div/div/i[contains(@class,"shoucang-yellow")]'
     未收藏按钮='//table//tr/td[2 or 3]//span[text()="{}"]/ancestor::td/following-sibling::td[last()]/div/div/i[contains(@class,"icon-shoucang1")]'
     列表行操作='//table//tr/td[2 or 3]//span[text()="{}"]/ancestor::td/following-sibling::td[last()]//span/i'#参数为文件名称
@@ -130,7 +130,7 @@ class 项目设置页面:
     项目成员tab页='//div[@id="tab-projectMember"]'
     生命周期控制tab页='//div[@id="tab-cyclePlanning"]'
     项目成员名称='//div[text()="{}"]/ancestor::tr/td[3]/div[text()="{}"]'#参数1为成员名称，参数2为角色名称
-    权限编辑按钮='//div[text()="{}"]/ancestor::tr/td[last()]//i'
+    权限编辑按钮='//div[text()="{}"]/ancestor::tr/td[last()]//i[@title="编辑权限"]'
 
     #切换生命周期弹框
     当前节点名称='//div[@aria-label="修改生命周期预览"]//table//tr/td/div[text()="{}"]'
