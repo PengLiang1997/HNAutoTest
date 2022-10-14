@@ -35,7 +35,7 @@ class 用户信息业务实现(page):
         self.用户信息页面.进入基本信息页面()
         #点击更换头像，选择非图片文件，点击确定
         self.用户信息页面.更换头像(文件路径=['TestData', 'FrontData', '用户信息', '头像2.txt'])
-        if not self.wait(公共元素对象库.系统提示信息弹框.format("请上传正确的图片类型"),3):
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("上传头像图片只能是 JPG 或 PNG 格式!"),3):
             raise AssertionError("头像上传非图片文件，系统未出现提示信息")
         #对用户昵称进行空值、超长校验
         time.sleep(3)

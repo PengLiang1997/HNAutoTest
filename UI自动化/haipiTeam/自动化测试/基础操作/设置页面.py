@@ -30,6 +30,22 @@ class 生命周期管理页面(page):
             self.click(对话框对象库.弹框按钮.format("提示", "确定"))
             self.wait(公共元素对象库.系统提示信息弹框.format("删除成功"),3)
 
+    def 删除所有生命周期(self):
+        namelist=[]
+        list=self.driver.getelements("//table//tr/td[2]//span[1]")
+        syslist=self.driver.getelements('//table//tr/td[2]//span[text()="系统"]/preceding-sibling::span')
+        if len(list)>len(syslist):
+            for name in syslist:
+                namelist.append(name.text)
+            self.click(设置页对象库.生命周期管理工作区.设置默认单选框.format(namelist[0]))
+            self.click(设置页对象库.生命周期管理工作区.生命周期列表全选按钮)
+            for sysname in namelist:
+                self.click(设置页对象库.生命周期管理工作区.生命周期列表复选框.format(sysname))
+            self.click(设置页对象库.生命周期管理工作区.删除)
+            self.wait(对话框对象库.对话框标题.format("提示"), 3)
+            self.click(对话框对象库.弹框按钮.format("提示", "确定"))
+            self.wait(公共元素对象库.系统提示信息弹框.format("删除成功"), 3)
+
     def 添加生命周期节点(self,节点名称,节点描述=None):
         self.click(设置页对象库.生命周期管理工作区.添加生命周期节点)
         self.send_keys(设置页对象库.生命周期管理工作区.生命周期节点名称输入框,节点名称)
@@ -63,6 +79,22 @@ class 版次管理页面(page):
             self.wait(对话框对象库.对话框标题.format("提示"),3)
             self.click(对话框对象库.弹框按钮.format("提示", "确定"))
             self.wait(公共元素对象库.系统提示信息弹框.format("删除成功"),3)
+
+    def 删除所有版次(self):
+        namelist = []
+        list = self.driver.getelements("//table//tr/td[2]//span[1]")
+        syslist = self.driver.getelements('//table//tr/td[2]//span[text()="系统"]/preceding-sibling::span')
+        if len(list) > len(syslist):
+            for name in syslist:
+                namelist.append(name.text)
+            self.click(设置页对象库.版次管理工作区.是否默认单选框.format(namelist[0]))
+            self.click(设置页对象库.生命周期管理工作区.生命周期列表全选按钮)
+            for sysname in namelist:
+                self.click(设置页对象库.版次管理工作区.版次复选框.format(sysname))
+            self.click(设置页对象库.版次管理工作区.删除)
+            self.wait(对话框对象库.对话框标题.format("提示"), 3)
+            self.click(对话框对象库.弹框按钮.format("提示", "确定"))
+            self.wait(公共元素对象库.系统提示信息弹框.format("删除成功"), 3)
 
     def 添加版次节点(self,节点名称):
         self.click(设置页对象库.版次管理工作区.添加版次节点)
@@ -103,6 +135,22 @@ class 属性管理页面(page):
         self.wait(对话框对象库.对话框标题.format("提示"), 3)
         self.click(对话框对象库.弹框按钮.format("提示", "确定"))
         self.wait(公共元素对象库.系统提示信息弹框.format("删除成功"), 3)
+
+    def 删除所有属性系统(self):
+        namelist = []
+        list = self.driver.getelements('//div[@class="attr_main_t"]//table//tr/td[2]/div/span[1]')
+        syslist = self.driver.getelements('//div[@class="attr_main_t"]//table//tr/td[2]/div/span[text()="系统"]/preceding-sibling::span')
+        if len(list) > len(syslist):
+            for name in syslist:
+                namelist.append(name.text)
+            self.click(设置页对象库.版次管理工作区.是否默认单选框.format(namelist[0]))
+            self.click(设置页对象库.属性管理工作区.属性系统全选复选框)
+            for sysname in namelist:
+                self.click(设置页对象库.属性管理工作区.属性系统复选框.format(sysname))
+            self.click(设置页对象库.属性管理工作区.删除)
+            self.wait(对话框对象库.对话框标题.format("提示"), 3)
+            self.click(对话框对象库.弹框按钮.format("提示", "确定"))
+            self.wait(公共元素对象库.系统提示信息弹框.format("删除成功"), 3)
 
     def 添加属性(self,属性类型,属性名称,描述=None):
         self.click(设置页对象库.属性管理工作区.添加属性)

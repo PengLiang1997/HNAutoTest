@@ -19,6 +19,8 @@ class 项目管理对象库:
     #更多操作
     更多操作按钮='//div[@title="{}"]//following-sibling::div/div[@class="card_b_r"]//i[contains(@class,"more")]'
     更多操作选项='//ul[contains(@id,"dropdown-menu")]/li//*[text()=" {} "]'#参数为选项名称
+    更多操作选项2 = '//ul[contains(@id,"dropdown-menu")]/li//*[text()="{}"]'  # 参数为选项名称，标签、项目节点等选项
+    展开操作选项='//ul[contains(@id,"dropdown-menu")]/li//*[text()="{}"]/following-sibling::div/i'
     #标签
     标签='//ul[contains(@id,"dropdown-menu")]/li[{}]/div[@class="tip_bgc" and contains(@style,"background-color")]'#参数为标签序号
 
@@ -50,6 +52,7 @@ class 项目对象库:
     #工具栏按钮
     工具栏按钮='//button/span[text()="{}"]'#参数为按钮名称
     正在打包按钮='//button[contains(@class,"is--loading")]/span[text()="打包"]'
+    刷新列表='//button[contains(@class,"el-icon-refresh")]'
 
     #文件列表元素
     列显示管理='//div/button[@title="列设置"]'
@@ -80,6 +83,11 @@ class 项目对象库:
     置灰_行操作选项='//ul[contains(@id,"dropdown-menu") and @x-placement="bottom-end"]/li[contains(@class,"is-disabled")]/span[text()="{}"]'
 
     #版本列表
+    文件版本='//div[@id="pane-edition"]//tr/td[4]//span[text()="{}"]'
+
+    #可清理版本列表
+    可清理版本='//div[@aria-label="清理版本"]//tr/td[5]/div[text()="{}"]'
+    可清理版本复选框='//div[@aria-label="清理版本"]//tr/td[5]/div[text()="{}"]/ancestor::tr/td[1]'
 
     #附加文件弹窗
     class 附加文件:

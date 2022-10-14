@@ -98,18 +98,22 @@ class 项目管理页面(page):
 
     def 设置项目节点(self,项目名称,状态):
         self.click(项目管理对象库.更多操作按钮.format(项目名称))
-        self.click(项目管理对象库.更多操作选项.format("项目节点"))
-        self.wait(项目管理对象库.更多操作选项.format(状态),3)
-        self.click(项目管理对象库.更多操作选项.format(状态))
+        self.click(项目管理对象库.展开操作选项.format("项目节点"))
+        self.wait(项目管理对象库.更多操作选项2.format(状态),3)
+        self.click(项目管理对象库.更多操作选项2.format(状态))
 
     def 删除项目(self,项目名称):
         if self.wait(项目管理对象库.项目卡片.format(项目名称),3):
             self.click(项目管理对象库.更多操作按钮.format(项目名称))
-            self.click(项目管理对象库.更多操作选项.format("删除项目"))
-            self.default_content()
-            self.wait(对话框对象库.对话框标题.format("提示"),3)
-            self.click(对话框对象库.对话框按钮.format("提示","确定"))
-            self.wait(公共元素对象库.系统提示信息弹框.format("删除"),3)
+            if self.wait(项目管理对象库.更多操作选项.format("删除项目"),3):
+                self.click(项目管理对象库.更多操作选项.format("删除项目"))
+                self.default_content()
+                self.wait(对话框对象库.对话框标题.format("提示"),3)
+                self.click(对话框对象库.对话框按钮.format("提示","确定"))
+                self.wait(公共元素对象库.系统提示信息弹框.format("删除"),3)
+            else:
+                self.click(项目管理对象库.更多操作选项.format("退出项目"))
+                self.wait(公共元素对象库.系统提示信息弹框.format("成功"),3)
 
     def 删除所有项目(self):
         names=[]
@@ -255,6 +259,10 @@ class 项目页面(page):
         self.公共操作 = 公共操作(Secdriver=Secdriver)
         self.登录页面 = 登录页面(Secdriver=Secdriver)
 
+    def 刷新列表(self):
+        self.click(项目对象库.刷新列表)
+        time.sleep(3)
+
     def 创建文件目录(self,目录名称,目录父节点名称):
         self.click(项目对象库.目录节点.format(目录父节点名称))
         self.click(项目对象库.新建目录)
@@ -273,6 +281,7 @@ class 项目页面(page):
             if self.wait(项目对象库.节点展开按钮.format(path),1):
                 self.click(项目对象库.节点展开按钮.format(path))
         self.click(项目对象库.目录节点.format(目录路径[-1]))
+        time.sleep(2)
 
     def 收起目录(self,目录名称):
         if self.wait(项目对象库.节点收起按钮.format(目录名称),3):
@@ -318,15 +327,19 @@ class 项目页面(page):
         self.click(项目对象库.悬浮列收藏.format(序号))
         self.wait(公共元素对象库.系统提示信息弹框.format("收藏成功"))
 
-    def 检出资源(self, 目录路径, 资源名称):
-        self.按路径展开目录(目录路径=目录路径)
+    def 检出资源(self, 资源名称, 目录路径=None):
+        if 目录路径:
+            self.按路径展开目录(目录路径=目录路径)
+        time.sleep(1)
         序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称=资源名称)
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("检出"))
         self.wait(项目对象库.检出按钮.format(资源名称), 3)
 
-    def 文件撤销检出(self, 目录路径, 资源名称):
-        self.按路径展开目录(目录路径=目录路径)
+    def 文件撤销检出(self, 资源名称, 目录路径=None):
+        if 目录路径:
+            self.按路径展开目录(目录路径=目录路径)
+        time.sleep(1)
         序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称=资源名称)
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("撤销检出"))
@@ -334,6 +347,7 @@ class 项目页面(page):
 
     def 文件检入(self,目录路径,文件名,文件路径):
         self.按路径展开目录(目录路径=目录路径)
+        time.sleep(1)
         序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称=文件名)
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("检入"))
@@ -343,8 +357,10 @@ class 项目页面(page):
         self.click(项目对象库.上传文件按钮)
         self.wait(公共元素对象库.系统提示信息弹框.format("成功"), 300)
 
-    def 改变文件状态(self,目录路径,文件名,状态名称):
-        self.按路径展开目录(目录路径=目录路径)
+    def 改变文件状态(self,文件名,状态名称,目录路径=None):
+        if 目录路径:
+            self.按路径展开目录(目录路径=目录路径)
+            time.sleep(1)
         序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称=文件名)
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("改变状态"))
@@ -361,7 +377,8 @@ class 项目页面(page):
         for 附加文件路径 in 附加文件路径列表:
             附加文件=附加文件路径[-1]
             文件路径=附加文件路径.remove(附加文件路径[-1])
-            self.展开附加文件弹窗资源树(资源路径=文件路径)
+            if 文件路径:
+                self.展开附加文件弹窗资源树(资源路径=文件路径)
             self.click(项目对象库.附加文件.列表单选按钮.format(附加文件))
         self.click(项目对象库.附加文件.附加按钮)
         self.default_content()

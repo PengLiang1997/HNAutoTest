@@ -42,9 +42,14 @@ class 项目管理工作区(page):
         # self.用户信息页面.维护用户基本信息(用户昵称="18942178870")
         #项目动态数据准备
         self.项目管理页面.删除所有项目()
+        self.进入到操作位置.进入生命周期工作区()
+        self.生命周期管理页面.删除所有生命周期()
+        self.进入到操作位置.进入版次工作区()
+        self.版次管理页面.删除所有版次()
+        self.进入到操作位置.进入项目管理页()
         self.项目管理页面.创建空白项目(项目名称="查看项目动态")
         self.项目管理页面.邀请项目成员(项目名称='查看项目动态', 当前用户手机号='18942178870', 成员手机号='18942178871')
-        self.项目管理页面.邀请项目成员(项目名称='查看项目动态', 当前用户手机号='18942178870', 成员手机号='17789371421',角色='INDIVIDUAL ADMINISTRATOR')
+        self.项目管理页面.邀请项目成员(项目名称='查看项目动态', 当前用户手机号='18942178870', 成员手机号='17789371421',角色='PROJECT MANAGER')
         self.项目管理页面.移除项目成员(项目名称="查看项目动态", 移除成员名称="18942178871")
         self.项目管理页面.点击进入项目(项目名称="查看项目动态")
         self.wait(项目对象库.目录节点.format("查看项目动态"), 3)
@@ -110,7 +115,7 @@ class 项目管理工作区(page):
         self.进入到操作位置.进入项目管理页()
         self.项目管理页面.删除项目(项目名称="权限编辑")
         self.项目管理页面.创建空白项目(项目名称="权限编辑",生命周期名称='生命周期')
-        self.项目管理页面.邀请项目成员(项目名称='权限编辑', 当前用户手机号='18942178870', 成员手机号='18942178871', 角色='INDIVIDUAL ADMINISTRATOR')
+        self.项目管理页面.邀请项目成员(项目名称='权限编辑', 当前用户手机号='18942178870', 成员手机号='18942178871', 角色='PROJECT MANAGER')
         self.项目管理页面.点击进入项目(项目名称="权限编辑")
         self.wait(项目对象库.目录节点.format("权限编辑"), 3)
         self.driver.refrsh()
@@ -300,8 +305,8 @@ class 项目管理工作区(page):
             raise AssertionError("保存的项目模板的项目结构未保存")
         #勾选保留团队成员，保存模板，查看保存的模板的项目成员tab页
         self.click(创建项目页面.模板tab页.format("团队成员"))
-        if not self.wait(创建项目页面.模板团队成员.format("18942178870","INDIVIDUAL ADMINISTRATOR"),3) or not\
-            self.wait(创建项目页面.模板团队成员.format("17789371421","INDIVIDUAL ADMINISTRATOR"),3):
+        if not self.wait(创建项目页面.模板团队成员.format("18942178870","PROJECT MANAGER"),3) or not \
+               self.wait(创建项目页面.模板团队成员.format("17789371421","PROJECT MANAGER"),3):
             raise AssertionError("保存模板时勾选保存项目成员，预览模板时项目成员没有被保存")
 
     def 项目模板管理(self):
@@ -350,7 +355,7 @@ class 项目管理工作区(page):
             raise AssertionError("项目详情中团队人数未被显示或者显示有误")
         if not self.wait(项目管理对象库.项目详情信息.format("文件数量", "0"), 3):
             raise AssertionError("项目详情中文件数量未被显示或者显示有误")
-        if not self.wait(项目管理对象库.项目详情信息.format("项目状态", "工作中"), 3):
+        if not self.wait(项目管理对象库.项目详情信息.format("项目状态", "进行中"), 3):
             raise AssertionError("项目详情中项目状态未被显示或者显示有误")
         if not self.wait(项目管理对象库.项目详情信息.format("备注", ""), 3):
             raise AssertionError("项目详情中项目备注未被显示或者显示有误")
@@ -724,8 +729,8 @@ class 项目管理工作区(page):
         self.click(项目管理对象库.更多操作按钮.format("权限编辑"))
         self.click(项目管理对象库.更多操作选项.format("项目设置"))
         #点击成员tab页，显示当前项目下的所有项目成员
-        if not self.wait(项目设置页面.项目成员名称.format('18942178870','INDIVIDUAL ADMINISTRATOR'),3) or not\
-            self.wait(项目设置页面.项目成员名称.format('18942178871','INDIVIDUAL ADMINISTRATOR'),3):
+        if not self.wait(项目设置页面.项目成员名称.format('18942178870','PROJECT MANAGER'),3) or not\
+            self.wait(项目设置页面.项目成员名称.format('18942178871','PROJECT MANAGER'),3):
             raise AssertionError("项目设置中，项目成员tab页下项目成员信息显示不正确")
         #点击成员列表中的权限编辑按钮，出现权限编辑弹框
         self.click(项目设置页面.权限编辑按钮.format('18942178871'))
@@ -816,6 +821,7 @@ class 项目管理工作区(page):
         #点击成员的移除按钮，人员被移除
         self.click(项目设置页面.移除成员按钮.format('18942178871'))
         self.wait(公共元素对象库.系统提示信息弹框.format("18942178871"),3)
+        self.click(对话框对象库.删除确认按钮)
         if self.wait(项目设置页面.节点下成员.format('18942178871'), 3):
             raise AssertionError("进行移除节点成员成功后，节点成员列表仍然能看到被移除的成员")
 
@@ -880,6 +886,89 @@ class 项目管理工作区(page):
         生命周期状态1 = self.driver.getelement(项目对象库.生命周期状态.format('素材3.jpg')).text
         if 生命周期状态1 != '22':
             raise AssertionError("所有人提交后进入下一节点按钮开启时，该节点下所有成员都提交后生命周期没有进入下个节点")
+
+    def 清理项目版本(self):
+        self.进入到操作位置.进入项目管理页()
+        self.项目管理页面.删除项目(项目名称="清理项目版本")
+        self.项目管理页面.创建空白项目(项目名称="清理项目版本",生命周期名称='系统默认生命周期')
+        self.项目管理页面.点击进入项目(项目名称="清理项目版本")
+        素材1 = ['TestData', 'FrontData', '项目页', '素材1.png']
+        素材2 = ['TestData', 'FrontData', '项目页', '素材2.jpg']
+        素材3 = ['TestData', 'FrontData', '项目页', '素材3.jpg']
+        素材4 = ['TestData', 'FrontData', '项目页', '素材4.png']
+        素材5 = ['TestData', 'FrontData', '项目页', '素材5.png']
+
+        self.项目页面.批量上传文件(目录路径=['清理项目版本'], 文件路径列表=[素材1,素材2, 素材3,素材4,素材5])
+        for filename in ['素材2.jpg','素材3.jpg','素材4.png','素材5.png']:
+            self.项目页面.附加文件(目录路径=['清理项目版本'],文件名称="素材1.png",附加文件路径列表=[['清理项目版本',filename]])
+        self.进入到操作位置.进入项目管理页()
+        #点击项目更多操作，点击清理版本，弹出清理版本弹窗
+        self.click(项目管理对象库.更多操作按钮.format("清理项目版本"))
+        self.click(项目管理对象库.更多操作选项.format("清除项目版本"))
+        self.default_content()
+        if not self.wait(对话框对象库.弹框标题.format("清除项目版本"),3):
+            raise AssertionError("点击项目的清理项目版本操作按钮，未查看到清理项目版本弹窗")
+        #设置保留版本数，关闭弹窗，版本没有被清理
+        self.click(对话框对象库.关闭弹框.format("清除项目版本"))
+        self.项目管理页面.点击进入项目(项目名称="清理项目版本")
+        self.click(项目对象库.列表文件名称.format("素材1.png"))
+        if not self.wait(项目对象库.文件版本.format("4"),3):
+            raise AssertionError("设置保留版本数为1，关闭清理项目版本弹窗，文件版本还是被清理")
+        self.进入到操作位置.进入项目管理页()
+        #设置保留版本数，点击提交，符合要求的版本被清理，设置保留版本数为1时，只保留最新版本
+        self.click(项目管理对象库.更多操作按钮.format("清理项目版本"))
+        self.click(项目管理对象库.更多操作选项.format("清除项目版本"))
+        self.default_content()
+        self.click(公共元素对象库.增加版本数)
+        self.click(对话框对象库.弹框按钮.format("清除项目版本","提交"))
+        self.wait(公共元素对象库.系统提示信息弹框.format("成功"))
+        self.项目管理页面.点击进入项目(项目名称="清理项目版本")
+        self.click(项目对象库.列表文件名称.format("素材1.png"))
+        if not self.wait(项目对象库.文件版本.format("4"), 3):
+            raise AssertionError("设置保留版本数为2，但是倒数第二个版本被清理")
+        if self.wait(项目对象库.文件版本.format("3"), 3):
+            raise AssertionError("设置保留版本数为2，但是倒数第三个版本未被清理")
+
+    def 项目归档(self):
+        self.进入到操作位置.进入项目管理页()
+        self.项目管理页面.删除项目(项目名称="项目归档")
+        self.项目管理页面.创建空白项目(项目名称="项目归档", 生命周期名称='系统默认生命周期')
+        self.项目管理页面.点击进入项目(项目名称="项目归档")
+        self.项目页面.创建文件目录(目录名称="一级目录", 目录父节点名称="项目归档")
+        素材1 = ['TestData', 'FrontData', '项目页', '素材1.png']
+        素材2 = ['TestData', 'FrontData', '项目页', '素材2.jpg']
+        素材3 = ['TestData', 'FrontData', '项目页', '素材3.jpg']
+        self.项目页面.批量上传文件(目录路径=['项目归档', '一级目录'], 文件路径列表=[素材1, 素材2, 素材3])
+        # 当项目下项目文件的生命周期状态不是生命周期模板的最后一个节点时，项目节点不能设置为已归档
+        self.进入到操作位置.进入项目管理页()
+        self.项目管理页面.设置项目节点(项目名称='项目归档',状态='已归档')
+        if not self.wait(公共元素对象库.系统提示信息弹框.format('项目文件尚在处理中,不可归档'),3):
+            raise AssertionError('项目文件的生命周期没有处于生命周期模板的最后一个节点，但是项目却可以设置为已归档')
+        self.项目管理页面.点击进入项目(项目名称="项目归档")
+        self.项目页面.按路径展开目录(目录路径=['项目归档', '一级目录'])
+        self.项目页面.改变文件状态(文件名='素材1.png',状态名称='Release')
+        self.项目页面.改变文件状态(文件名='素材2.jpg', 状态名称='Release')
+        self.项目页面.改变文件状态(文件名='素材3.jpg', 状态名称='Release')
+        #当项目下存在检出文件时，项目节点不能设置为已归档
+        self.项目页面.检出资源(资源名称='素材1.png')
+        self.进入到操作位置.进入项目管理页()
+        self.项目管理页面.设置项目节点(项目名称='项目归档', 状态='已归档')
+        if not self.wait(公共元素对象库.系统提示信息弹框.format('项目文件尚在处理中,不可归档'), 3):
+            raise AssertionError('项目中存在文件处于检出状态，但是项目却可以设置为已归档')
+        #点击项目操作按钮，点击项目节点，可以选择项目状态
+        self.项目管理页面.点击进入项目(项目名称="项目归档")
+        self.项目页面.按路径展开目录(目录路径=['项目归档', '一级目录'])
+        self.项目页面.文件撤销检出(资源名称='素材1.png')
+        self.进入到操作位置.进入项目管理页()
+        self.项目管理页面.设置项目节点(项目名称='项目归档', 状态='已归档')
+        if self.wait(公共元素对象库.系统提示信息弹框.format('项目文件尚在处理中,不可归档'), 3):
+            raise AssertionError('项目进行归档操作失败')
+        #项目归档后，项目详情中的项目状态为已归档
+        self.项目管理页面.查看项目详情(项目名称='项目归档')
+        if not self.wait('//div/span[text()="项目状态:"]/following-sibling::span[text()="已归档"]', 3):
+            raise AssertionError("项目归档后，查看项目详情，没有查看到项目状态为已归档")
+
+
 
 class 项目工作区(page):
 
@@ -1230,7 +1319,6 @@ class 项目工作区(page):
             raise AssertionError("文件未检出，检入文件按钮可用")
         #检入检出时的相同的未修改的文件，提示文件相同不能检入
         self.项目页面.检出资源(目录路径=['文件检入', '一级目录'], 资源名称='检入检出素材.txt')
-        self.driver.refrsh()
         time.sleep(2)
         序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称='检入检出素材.txt')
         self.click(项目对象库.悬浮列行操作.format(序号))
@@ -1263,7 +1351,6 @@ class 项目工作区(page):
             raise AssertionError("对已检出的文件进行检入操作后，列表仍然有文件检出标志")
         #检出文件后，检入空文件，文件不能被检入
         self.项目页面.检出资源(目录路径=['文件检入', '一级目录'], 资源名称='检入检出素材.txt')
-        self.driver.refrsh()
         time.sleep(2)
         序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]',
                                    文件名称='检入检出素材.txt')
@@ -1273,14 +1360,14 @@ class 项目工作区(page):
         self.公共操作.win上传文件(文件路径=['TestData', 'FrontData', '文件上传下载', '检入检出素材.txt'])
         self.wait(项目对象库.待上传文件.format("检入检出素材.txt"), 5)
         self.click(项目对象库.上传文件按钮)
-        if not self.wait(公共元素对象库.系统提示信息弹框.format("请上传合法文件"), 5):
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("不能上传空文件"), 5):
             raise AssertionError("检入空文件，系统未出现提示信息")
 
     def 检出文件(self):
         self.进入到操作位置.进入项目管理页()
         self.项目管理页面.删除项目(项目名称="检出文件")
         self.项目管理页面.创建空白项目(项目名称="检出文件")
-        self.项目管理页面.邀请项目成员(项目名称='检出文件',当前用户手机号='18942178870',成员手机号='18942178871',角色='INDIVIDUAL ADMINISTRATOR')
+        self.项目管理页面.邀请项目成员(项目名称='检出文件',当前用户手机号='18942178870',成员手机号='18942178871',角色='PROJECT MANAGER')
         self.项目管理页面.点击进入项目(项目名称="检出文件")
         self.wait(项目对象库.目录节点.format("检出文件"), 3)
         self.driver.refrsh()
@@ -1295,7 +1382,6 @@ class 项目工作区(page):
         if not self.wait(项目对象库.检出按钮.format('检入检出素材.txt'), 3):
             raise AssertionError("进行检出操作后，文件列表中文件未被标记为检出状态")
         #文件检出后，检出操作按钮不可见
-        self.driver.refrsh()
         time.sleep(2)
         序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称='检入检出素材.txt')
         self.click(项目对象库.悬浮列行操作.format(序号))
@@ -1325,7 +1411,7 @@ class 项目工作区(page):
         self.进入到操作位置.进入项目管理页()
         self.项目管理页面.删除项目(项目名称="检出文件目录")
         self.项目管理页面.创建空白项目(项目名称="检出文件目录")
-        self.项目管理页面.邀请项目成员(项目名称='检出文件目录', 当前用户手机号='18942178870', 成员手机号='18942178871',角色='INDIVIDUAL ADMINISTRATOR')
+        self.项目管理页面.邀请项目成员(项目名称='检出文件目录', 当前用户手机号='18942178870', 成员手机号='18942178871',角色='PROJECT MANAGER')
         self.项目管理页面.点击进入项目(项目名称="检出文件目录")
         self.wait(项目对象库.目录节点.format("检出文件目录"), 3)
         self.driver.refrsh()
@@ -1342,6 +1428,7 @@ class 项目工作区(page):
             raise AssertionError("对空文件目录进行检出操作时，系统没有提示信息")
         #文件目录下没有已检出的文件，点击检出，可以正常检出
         self.click(项目对象库.目录节点.format("检出文件目录"))
+        time.sleep(1)
         序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称='一级目录')
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("检出"))
@@ -1362,18 +1449,21 @@ class 项目工作区(page):
         if not self.wait(公共元素对象库.系统提示信息弹框.format("存在已被检出的文件，不能执行该操作"), 3):
             raise AssertionError("对文件目录进行检出操作后，再次进行检出操作，系统未给出不能检出的提示信息")
         self.click(项目对象库.目录节点.format("一级目录"))
+        time.sleep(1)
         if not self.wait(项目对象库.检出按钮.format('检入检出素材.txt'), 3) or not\
                 self.wait(项目对象库.检出按钮.format('头像2.txt'), 3):
             raise AssertionError("文件目录检出成功后，文件目录下的文件没有被检出")
         #文件目录下含有已检出的文件，点击检出，不能检出成功
         self.项目页面.文件撤销检出(目录路径=['检出文件目录', '一级目录'], 资源名称='检入检出素材.txt')
         self.click(项目对象库.目录节点.format("检出文件目录"))
+        time.sleep(1)
         序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称='一级目录')
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("检出"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("存在已被检出的文件，不能执行该操作"), 3):
             raise AssertionError("文件目录下含有已检出的文件，点击检出，系统未出现不能检出的提示信息")
         self.click(项目对象库.目录节点.format("一级目录"))
+        time.sleep(1)
         if self.wait(项目对象库.检出按钮.format('检入检出素材.txt'), 3) or not\
                 self.wait(项目对象库.检出按钮.format('头像2.txt'), 3):
             raise AssertionError("文件目录检出失败后，文件目录下的文件的检出状态发生变化")
@@ -1382,6 +1472,7 @@ class 项目工作区(page):
         self.click(项目对象库.行操作选项.format("检出"))
         #对文件目录检出操作后，检出人以外的其他项目成员不能对文件目录进行删除和撤销检出操作
         self.登录页面.退出登录()
+        self.driver.refrsh()
         # self.登录页面.短信快捷登录(手机号='18942178871')
         self.登录页面.账号密码登录(账号='18942178871', 密码='user@8871')
         self.进入到操作位置.进入项目管理页()
@@ -1400,6 +1491,7 @@ class 项目工作区(page):
         if not self.wait(公共元素对象库.系统提示信息弹框.format("不能撤销检出他人检出的文件"), 3):
             raise AssertionError("文件目录被检出后，项目其他成员进行撤销检出操作时未出现提示信息")
         self.click(项目对象库.目录节点.format("一级目录"))
+        time.sleep(1)
         if not self.wait(项目对象库.检出按钮.format('头像2.txt'), 3):
             raise AssertionError("文件目录被检出后，项目其他成员进行撤销检出操作时，撤销检出成功")
 
@@ -1417,7 +1509,6 @@ class 项目工作区(page):
         self.项目页面.批量上传文件(目录路径=['检出文件目录', '一级目录'], 文件路径列表=[素材1, 素材2])
         #文件被检出后可以通过撤销检出修改文件检出状态
         self.项目页面.检出资源(目录路径=['撤销检出1', '一级目录'], 资源名称='检入检出素材.txt')
-        self.driver.refrsh()
         序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称='检入检出素材.txt')
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("撤销检出"))
@@ -1426,7 +1517,6 @@ class 项目工作区(page):
         if self.wait(项目对象库.检出按钮.format('检入检出素材.txt'), 3):
             raise AssertionError("对已检出的文件进行撤销检出操作后，文件仍然处于检出状态")
         #文件未被检出时，进行检出操作，提示文件未被检出
-        self.driver.refrsh()
         序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称='检入检出素材.txt')
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("撤销检出"))
@@ -1436,18 +1526,20 @@ class 项目工作区(page):
         序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称='二级目录')
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("撤销检出"))
-        if not self.wait(公共元素对象库.系统提示信息弹框.format("成功"), 3):
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("未选择文件"), 3):
             raise AssertionError("文件目录下没有文件，点击撤销检出，未出现撤销成功提示")
         #文件目录下没有未检出的文件，点击撤销检出，可以撤销成功
         self.项目页面.检出资源(目录路径=['撤销检出1', '一级目录'], 资源名称='检入检出素材.txt')
         self.项目页面.检出资源(目录路径=['撤销检出1', '一级目录'], 资源名称='头像2.txt')
         self.click(项目对象库.目录节点.format("撤销检出1"))
+        time.sleep(1)
         序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称='一级目录')
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("撤销检出"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("成功"), 3):
             raise AssertionError("文件目录下没有未检出的文件，点击撤销检出，未出现撤销成功提示")
         self.click(项目对象库.目录节点.format("一级目录"))
+        time.sleep(1)
         if self.wait(项目对象库.检出按钮.format('检入检出素材.txt'), 3) or\
                 self.wait(项目对象库.检出按钮.format('头像2.txt'), 3):
             raise AssertionError("对文件目录进行撤销检出后，文件目录下的文件仍然处于检出状态")
@@ -1461,6 +1553,7 @@ class 项目工作区(page):
         if not self.wait(公共元素对象库.系统提示信息弹框.format("存在文件未被检出，不能执行该操作"), 3):
             raise AssertionError("文件目录下含有未检出的文件，点击撤销检出，未出现不能执行撤销检出的提示")
         self.click(项目对象库.目录节点.format("一级目录"))
+        time.sleep(1)
         if self.wait(项目对象库.检出按钮.format('检入检出素材.txt'), 3) or not \
                 self.wait(项目对象库.检出按钮.format('头像2.txt'), 3):
             raise AssertionError("对文件目录下含有未检出的文件的文件目录撤销检出，文件目录下的文件的状态发生变化")
@@ -1589,7 +1682,8 @@ class 项目工作区(page):
         self.click(对话框对象库.对话框按钮.format("提示","确定"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("删除成功"),3):
             raise AssertionError("对文件执行删除操作后，未查看到删除成功提示信息")
-        self.driver.refrsh()
+        self.项目页面.刷新列表()
+        self.click(项目对象库.目录节点.format("一级目录"))
         if self.wait(项目对象库.列表文件名称.format('素材1.png'),3):
             raise AssertionError("删除文件成功后，在文件列表中仍然能查看到被删除的文件")
         #文件目录为空，点击删除，目录可以被删除成功
@@ -1603,6 +1697,7 @@ class 项目工作区(page):
             raise AssertionError("删除空文件目录成功后，在文件列表中仍然能查看到被删除的文件目录")
         #文件目录不含有已检出的文件，点击删除，可以删除成功
         self.click(项目对象库.目录节点.format("删除文件或目录"))
+        time.sleep(1)
         序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称='一级目录')
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("删除"))
@@ -1642,6 +1737,7 @@ class 项目工作区(page):
         #目录行操作，点击打包，自动下载打包后的压缩包，压缩包名为被打包的目录的名称，压缩包内容未被打包的目录及目录下的全部资源
         self.公共操作.清空浏览器下载目录()
         self.click(项目对象库.目录节点.format("文件或目录打包"))
+        time.sleep(1)
         序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称='一级目录')
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("打包"))
@@ -1658,7 +1754,6 @@ class 项目工作区(page):
         #文件被检出后也可以打包
         self.公共操作.清空浏览器下载目录()
         self.项目页面.检出资源(目录路径=['文件或目录打包', '一级目录'], 资源名称='素材1.png')
-        self.driver.refrsh()
         序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称='素材1.png')
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("打包"))
@@ -1673,6 +1768,7 @@ class 项目工作区(page):
         #目录下含有被检出的文件时，目录也可以被正常打包，压缩包内容为被打包的目录及目录下的全部资源
         self.公共操作.清空浏览器下载目录()
         self.click(项目对象库.目录节点.format("文件或目录打包"))
+        time.sleep(1)
         序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称='一级目录')
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("打包"))
@@ -1703,7 +1799,6 @@ class 项目工作区(page):
         素材2 = ['TestData', 'FrontData', '项目页', '素材2.jpg']
         self.项目页面.批量上传文件(目录路径=['文件下载', '一级目录'], 文件路径列表=[素材1, 素材2])
         #点击下载，文件可以被正常下载
-        self.driver.refrsh()
         序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称='素材1.png')
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("下载"))
@@ -1715,7 +1810,6 @@ class 项目工作区(page):
         self.公共操作.清空浏览器下载目录()
         #文件检出后也可以下载
         self.项目页面.检出资源(目录路径=['文件下载', '一级目录'], 资源名称='素材1.png')
-        self.driver.refrsh()
         序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称='素材1.png')
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("下载"))
@@ -1763,7 +1857,9 @@ class 项目工作区(page):
         self.click(项目对象库.列表复选框.format('素材1.png'))
         if self.wait(项目对象库.工具栏按钮.format('检出'),3):
             raise AssertionError('勾选单个文件资源时，出现批量操作按钮')
+        self.项目页面.刷新列表()
         #在右侧文件列表中勾选多个资源时，批量操作工具栏出现，工具栏中包括检出、撤销检出、收藏、下载、批量删除和打包按钮
+        self.click(项目对象库.列表复选框.format('素材1.png'))
         self.click(项目对象库.列表复选框.format('素材2.jpg'))
         按钮列表=['检出','撤销检出','收藏','删除','打包']
         for 按钮 in 按钮列表:
@@ -1898,11 +1994,13 @@ class 项目工作区(page):
                 self.wait(项目对象库.检出按钮.format('素材3.jpg'), 3):
             raise AssertionError("进行批量撤销检出操作失败后，文件列表中文件的检出状态发生变化")
         #批量选择文件和目录，点击撤销检出，可以撤销成功
-        self.click(项目对象库.列表复选框.format('素材1.png'))
+        self.项目页面.刷新列表()
+        self.click(项目对象库.列表复选框.format('素材3.jpg'))
         self.click(项目对象库.列表复选框.format('二级目录'))
         self.click(项目对象库.工具栏按钮.format('撤销检出'))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("成功"), 3):
             raise AssertionError("对文件和目录进行批量撤销检出操作，未查看到系统提示信息")
+        self.项目页面.刷新列表()
         if self.wait(项目对象库.检出按钮.format('素材3.jpg'), 3) :
             raise AssertionError("对文件和目录进行批量撤销检出操作后，文件列表中文件未被撤销检出")
         self.click(项目对象库.目录节点.format('二级目录'))
@@ -2059,6 +2157,7 @@ class 项目工作区(page):
         # self.项目页面.检出资源(目录路径=['批量删除', '一级目录3'], 资源名称='头像2.txt')
         #勾选多个文件，点击删除，弹出删除确认对话框
         self.click(项目对象库.目录节点.format('一级目录'))
+        time.sleep(1)
         self.click(项目对象库.列表复选框.format('素材1.png'))
         self.click(项目对象库.列表复选框.format('素材2.jpg'))
         self.click(项目对象库.工具栏按钮.format('删除'))
@@ -2091,6 +2190,7 @@ class 项目工作区(page):
             raise AssertionError("在删除确认对话框中点击确定，列表中被选中的文件未被删除")
         #勾选多个文件，文件中含有检出的文件，点击删除，不能删除成功
         self.click(项目对象库.目录节点.format('一级目录'))
+        time.sleep(1)
         self.click(项目对象库.列表复选框.format('素材4.png'))
         self.click(项目对象库.列表复选框.format('素材3.jpg'))
         self.click(项目对象库.工具栏按钮.format('删除'))
@@ -2099,12 +2199,14 @@ class 项目工作区(page):
         if not self.wait(公共元素对象库.系统提示信息弹框.format("文件夹下存在被锁定的文件"), 3):
             raise AssertionError("勾选多个文件，文件中含有检出的文件，点击删除，未出现不能删除提示")
         self.click(项目对象库.目录节点.format('一级目录'))
+        time.sleep(1)
         if not self.wait(项目对象库.列表文件名称.format("素材4.png"), 3) or not \
                 self.wait(项目对象库.列表文件名称.format("素材3.jpg"), 3):
             raise AssertionError("勾选多个文件，文中含有检出的文件，点击删除，提示删除失败后列表中被选中的文件被删除")
         #勾选多个文件和目录，点击删除，可以删除成功
         self.driver.refrsh()
         self.click(项目对象库.目录节点.format('一级目录'))
+        time.sleep(1)
         self.click(项目对象库.列表复选框.format('素材4.png'))
         self.click(项目对象库.列表复选框.format('二级目录'))
         self.click(项目对象库.工具栏按钮.format('删除'))
@@ -2113,11 +2215,13 @@ class 项目工作区(page):
         if not self.wait(公共元素对象库.系统提示信息弹框.format("删除成功!"), 3):
             raise AssertionError("勾选多个文件和目录，点击删除，未查看到删除提示信息")
         self.click(项目对象库.目录节点.format('一级目录'))
+        time.sleep(1)
         if self.wait(项目对象库.列表文件名称.format("素材4.png"), 3) or \
                 self.wait(项目对象库.列表文件名称.format("二级目录"), 3):
             raise AssertionError("勾选多个文件和目录，点击删除，列表中被选中的文件或目录未被删除")
         #勾选多个目录，目录下含有检出的文件，点击删除，不能删除成功
         self.click(项目对象库.目录节点.format('批量删除'))
+        time.sleep(1)
         self.click(项目对象库.列表复选框.format('一级目录'))
         self.click(项目对象库.列表复选框.format('一级目录2'))
         self.click(项目对象库.工具栏按钮.format('删除'))
@@ -2126,14 +2230,17 @@ class 项目工作区(page):
         if not self.wait(公共元素对象库.系统提示信息弹框.format("文件夹下存在被锁定的文件"), 3):
             raise AssertionError("勾选多个目录，目录下含有检出的文件，点击删除，未出现不能删除提示")
         self.click(项目对象库.目录节点.format('一级目录'))
+        time.sleep(1)
         if not self.wait(项目对象库.列表文件名称.format("素材5.png"), 3) or not \
                 self.wait(项目对象库.列表文件名称.format("素材3.jpg"), 3):
             raise AssertionError("勾选多个目录，目录下含有检出的文件，点击删除,删除失败后，目录下的文件被删除")
         self.click(项目对象库.目录节点.format('一级目录2'))
+        time.sleep(1)
         if not self.wait(项目对象库.列表文件名称.format("检入检出素材.txt"), 3):
             raise AssertionError("勾选多个目录，目录下含有检出的文件，点击删除，删除失败后，目录下的文件被删除")
         #勾选多个目录，目录下不含有检出文件，点击删除，可以删除成功
         self.click(项目对象库.目录节点.format('批量删除'))
+        time.sleep(1)
         self.click(项目对象库.列表复选框.format('一级目录3'))
         self.click(项目对象库.列表复选框.format('一级目录2'))
         self.click(项目对象库.工具栏按钮.format('删除'))
@@ -2426,4 +2533,126 @@ class 项目工作区(page):
             raise AssertionError("取消收藏文件后，文件仍然在收藏页")
         if self.wait(收藏对象库.资源类型.format("二级目录", "收藏资源"), 3):
             raise AssertionError("取消收藏目录后，目录仍然在收藏页")
+
+    def 清理目录下文件版本(self):
+        self.进入到操作位置.进入项目管理页()
+        self.项目管理页面.删除项目(项目名称="清理项目版本")
+        self.项目管理页面.创建空白项目(项目名称="清理项目版本", 生命周期名称='系统默认生命周期')
+        self.项目管理页面.点击进入项目(项目名称="清理项目版本")
+        self.项目页面.创建文件目录(目录名称="一级目录", 目录父节点名称="清理项目版本")
+        素材1 = ['TestData', 'FrontData', '项目页', '素材1.png']
+        素材2 = ['TestData', 'FrontData', '项目页', '素材2.jpg']
+        素材3 = ['TestData', 'FrontData', '项目页', '素材3.jpg']
+        素材4 = ['TestData', 'FrontData', '项目页', '素材4.png']
+        素材5 = ['TestData', 'FrontData', '项目页', '素材5.png']
+
+        self.项目页面.批量上传文件(目录路径=['清理项目版本','一级目录'], 文件路径列表=[素材1, 素材2, 素材3, 素材4, 素材5])
+        for filename in ['素材2.jpg', '素材3.jpg', '素材4.png', '素材5.png']:
+            self.项目页面.附加文件(目录路径=['清理项目版本','一级目录'], 文件名称="素材1.png", 附加文件路径列表=[['清理项目版本', filename]])
+        self.进入到操作位置.进入项目管理页()
+        self.项目管理页面.点击进入项目(项目名称="清理项目版本")
+        self.项目页面.按路径展开目录(目录路径=['清理项目版本'])
+        # 点击更多操作，点击清理版本，弹出清理版本弹窗
+        序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]',
+                                   文件名称='一级目录')
+        self.click(项目对象库.悬浮列行操作.format(序号))
+        self.click(项目对象库.行操作选项.format("清理版本"))
+        self.default_content()
+        if not self.wait(对话框对象库.弹框标题.format("清除项目版本"), 3):
+            raise AssertionError("点击项目的清理项目版本操作按钮，未查看到清理项目版本弹窗")
+        # 设置保留版本数，关闭弹窗，版本没有被清理
+        self.click(对话框对象库.关闭弹框.format("清除项目版本"))
+        self.项目页面.按路径展开目录(目录路径=['清理项目版本', '一级目录'])
+        self.click(项目对象库.列表文件名称.format("素材1.png"))
+        if not self.wait(项目对象库.文件版本.format("4"), 3):
+            raise AssertionError("设置保留版本数为1，关闭清理项目版本弹窗，文件版本还是被清理")
+        self.进入到操作位置.进入项目管理页()
+        self.项目管理页面.点击进入项目(项目名称="清理项目版本")
+        self.项目页面.按路径展开目录(目录路径=['清理项目版本'])
+        # 设置保留版本数，点击提交，符合要求的版本被清理，设置保留版本数为1时，只保留最新版本
+        序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]',
+                                   文件名称='一级目录')
+        self.click(项目对象库.悬浮列行操作.format(序号))
+        self.click(项目对象库.行操作选项.format("清理版本"))
+        self.default_content()
+        self.click(公共元素对象库.增加版本数)
+        self.click(对话框对象库.弹框按钮.format("清除项目版本", "提交"))
+        self.wait(公共元素对象库.系统提示信息弹框.format("成功"))
+        self.项目页面.按路径展开目录(目录路径=['清理项目版本', '一级目录'])
+        self.click(项目对象库.列表文件名称.format("素材1.png"))
+        if not self.wait(项目对象库.文件版本.format("4"), 3):
+            raise AssertionError("设置保留版本数为2，但是倒数第二个版本被清理")
+        if self.wait(项目对象库.文件版本.format("3"), 3):
+            raise AssertionError("设置保留版本数为2，但是倒数第三个版本未被清理")
+
+    def 清理文件版本(self):
+        self.进入到操作位置.进入项目管理页()
+        self.项目管理页面.删除项目(项目名称="清理项目版本")
+        self.项目管理页面.创建空白项目(项目名称="清理项目版本", 生命周期名称='系统默认生命周期')
+        self.项目管理页面.点击进入项目(项目名称="清理项目版本")
+        self.项目页面.创建文件目录(目录名称="一级目录", 目录父节点名称="清理项目版本")
+        素材1 = ['TestData', 'FrontData', '项目页', '素材1.png']
+        素材2 = ['TestData', 'FrontData', '项目页', '素材2.jpg']
+        素材3 = ['TestData', 'FrontData', '项目页', '素材3.jpg']
+        素材4 = ['TestData', 'FrontData', '项目页', '素材4.png']
+        素材5 = ['TestData', 'FrontData', '项目页', '素材5.png']
+        素材6 = ['TestData', 'FrontData', '项目页', '素材6.png']
+        self.项目页面.批量上传文件(目录路径=['清理项目版本', '一级目录'], 文件路径列表=[素材1, 素材2, 素材3, 素材4, 素材5,素材6])
+        #当文件只有一个版本时，点击清理版本，弹出暂无可清理版本
+        序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]',
+                                   文件名称='素材1.png')
+        self.click(项目对象库.悬浮列行操作.format(序号))
+        self.click(项目对象库.行操作选项.format("清理版本"))
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("暂无可清理的版本文件"),3):
+            raise AssertionError("文件只有一个版本时，进行清理版本操作，未出现提示信息")
+        for filename in ['素材2.jpg', '素材3.jpg']:
+            self.项目页面.附加文件(目录路径=['清理项目版本', '一级目录'], 文件名称="素材1.png", 附加文件路径列表=[['清理项目版本', filename]])
+        #点击文件行操作，点击清理版本，弹出清理版本弹窗
+        # 当文件有大于一个版本时，点击清理，清理版本弹窗列出可清理的版本
+        序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]',
+                                   文件名称='素材1.png')
+        self.click(项目对象库.悬浮列行操作.format(序号))
+        self.click(项目对象库.行操作选项.format("清理版本"))
+        if not self.wait(对话框对象库.弹框标题.format("清理版本"), 3):
+            raise AssertionError("存在可清理版本时点击清理版本，未查看到清理版本弹窗")
+        if not self.wait(项目对象库.可清理版本.format("1"),3) or not self.wait(项目对象库.可清理版本.format("2"),3):
+            raise AssertionError("存在可清理版本时点击清理版本,在清理版本弹窗中未查看到全部可清理版本")
+        #勾选可清理版本，点击关闭弹窗，勾选的版本未被清理
+        self.click(项目对象库.可清理版本复选框.format("1"))
+        self.click(对话框对象库.关闭弹框.format("清理版本"))
+        self.click(项目对象库.列表文件名称.format("素材1.png"))
+        if not self.wait(项目对象库.文件版本.format("1"), 3):
+            raise AssertionError("在清理版本弹窗中勾选版本1后点击关闭清理版本弹窗，文件版本1还是被清理")
+        #当有文件版本被其他文件引用时，此版本不能被清理
+        self.项目页面.附加文件(目录路径=['清理项目版本', '一级目录'], 文件名称="素材5.png", 附加文件路径列表=[['清理项目版本', '素材1.png']])
+        self.项目页面.附加文件(目录路径=['清理项目版本', '一级目录'], 文件名称="素材1.png", 附加文件路径列表=[['清理项目版本', '素材4.png']])
+        序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]',
+                                   文件名称='素材1.png')
+        self.click(项目对象库.悬浮列行操作.format(序号))
+        self.click(项目对象库.行操作选项.format("清理版本"))
+        if self.wait(项目对象库.可清理版本.format("3"),3):
+            raise AssertionError("文件版本3被其他文件引用后,在清理版本弹窗中仍然可以查看到版本3")
+        #勾选可清理版本，点击取消，勾选的版本未被清理
+        self.click(项目对象库.可清理版本复选框.format("1"))
+        self.click(对话框对象库.弹框按钮.format("清理版本","取消"))
+        self.click(项目对象库.列表文件名称.format("素材1.png"))
+        if not self.wait(项目对象库.文件版本.format("1"), 3):
+            raise AssertionError("在清理版本弹窗中勾选版本1后点击关闭清理版本弹窗，文件版本1还是被清理")
+        #当有文件版本处于生命周期的升版流程节点时，此版本不能被清理
+        self.项目页面.改变文件状态(文件名='素材1.png',状态名称='Release')
+        self.项目页面.附加文件(目录路径=['清理项目版本', '一级目录'], 文件名称="素材1.png", 附加文件路径列表=[['清理项目版本', '素材5.png']])
+        序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]',
+                                   文件名称='素材1.png')
+        self.click(项目对象库.悬浮列行操作.format(序号))
+        self.click(项目对象库.行操作选项.format("清理版本"))
+        if self.wait(项目对象库.可清理版本.format("4"), 3):
+            raise AssertionError("文件版本4生命周期处于升版流程节点,在清理版本弹窗中仍然可以查看到版本4")
+        #勾选可清理版本，点击提交，勾选的版本被清理
+        self.click(项目对象库.可清理版本复选框.format("1"))
+        self.click(对话框对象库.弹框按钮.format("清理版本", "提交"))
+        self.wait(公共元素对象库.系统提示信息弹框.format("成功"))
+        self.click(项目对象库.列表文件名称.format("素材1.png"))
+        if self.wait(项目对象库.文件版本.format("1"), 3):
+            raise AssertionError("在清理版本弹窗中勾选版本1后点击提交，文件版本1没有被清理")
+
 

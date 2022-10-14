@@ -1,7 +1,7 @@
 class 设置页对象库:
-    生命周期页='//div[contains(@class,"tab_left fz14") and text()="生命周期"]'
-    版次页='//div[contains(@class,"tab_left fz14") and text()="版次"]'
-    属性页='//div[contains(@class,"tab_left fz14") and text()="属性"]'
+    生命周期页='//div[contains(@class,"tab_left fz14") and contains(text(),"生命周期")]'
+    版次页='//div[contains(@class,"tab_left fz14") and contains(text(),"版次")]'
+    属性页='//div[contains(@class,"tab_left fz14") and contains(text(),"属性")]'
 
     class 生命周期管理工作区:
         新增='//div[@class="life_cycle_btns comm_bgc"]//span[text()="新增"]'
@@ -28,6 +28,7 @@ class 设置页对象库:
         节点流程单选启用按钮='//tr/td/div[text()="{}"]/parent::td/following-sibling::td/div[text()="{}"]/parent::td/following-sibling::td//span'
 
         #生命周期列表
+        生命周期列表全选按钮='//table//tr/th[1]//label'
         生命周期名称='//table//tr/td[2]//span[text()="{}"]'
         生命周期列表复选框='//table//tr/td[2]//span[text()="{}"]/ancestor::tr/td[1]//span'
         设置默认单选框='//table//tr/td[2]//span[text()="{}"]/ancestor::tr/td[last()]//span'
@@ -70,7 +71,7 @@ class 设置页对象库:
         置灰_删除按钮='//div[@class="attr_btns comm_bgc"]//button[@disabled="disabled"]/span[text()="删除"]'
 
         #属性列表
-        属性系统全选复选框 = '//div[@class="edition_main_t"]//tr/th//span'
+        属性系统全选复选框 = '//div[@class="attr_main_t"]//tr/th//span'
         属性系统名称='//table//tr/td[2]/div/span[text()="{}"]'
         属性系统复选框='//table//tr/td[2]//span[text()="{}"]/ancestor::tr/td[1]'
         禁用_属性系统复选框='//table//tr/td[2]/div/span[text()="{}"]/ancestor::tr/td[1]//span[contains(@class,"disabled")]'

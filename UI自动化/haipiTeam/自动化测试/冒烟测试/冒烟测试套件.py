@@ -1,8 +1,12 @@
+import time
+
 from HNtest.testcasesec.testcasesec import TestCaseSec
 from HNtest.BeautifulReport.BeautifulReport import add_to_report
 import HNtest.Secselenium.secdriver as secdriver
 from 自动化测试.冒烟测试.冒烟业务实现 import *
 from 自动化测试.基础操作.登录页面 import *
+import openpyxl as op
+import random
 
 class Test_登录页冒烟(TestCaseSec):
     @classmethod
@@ -684,3 +688,51 @@ class Test_设置页冒烟(TestCaseSec):
         @author:彭亮
         '''
         self.设置页冒烟实现.添加属性()
+
+
+class Test_压测数据准备(TestCaseSec):
+    @classmethod
+    def setUp(cls):
+        cls.driver=secdriver.Secdriver()
+        cls.driver.driver.maximize_window()
+        cls.登录页=登录页面(Secdriver=cls.driver)
+
+
+    @classmethod
+    def tearDown(cls):
+        cls.driver.quite()
+
+    def test_00_数据准备(self):
+        ids=[]
+        for i in range(1000):
+            num = random.randint(11111,99999)
+            nummber = '189421' + str(num)
+            # nummber = '18942178870'
+            self.登录页.短信快捷登录(手机号=nummber)
+            # self.登录页.账号密码登录(账号='18942178870', 密码='user@8870')
+            time.sleep(1)
+            self.driver.refrsh()
+            self.driver.driver.execute_script("window.open('');")
+            self.driver.switch_to_new_window()
+            time.sleep(1)
+            # self.driver.get(url='https://hapyteam.com/api/account/userInfo')
+            self.driver.get(url='http://192.168.1.99:8555/account/userInfo')
+            message = self.driver.getelement("//pre").text
+            strid = str(message)
+            index1=strid.find('"id":')
+            index2=strid.find(',"userName":')
+            id = strid[index1+5:index2]
+            ids.append(id)
+            self.driver.close()
+            self.driver.switch_to_window_byTitle(title="HAPYTEAM")
+            self.登录页.退出登录()
+
+        bg = op.load_workbook(r"D:\121.xlsx")
+        sheet = bg["Sheet1"]
+        for i in range(1, len(ids) + 1):
+            sheet.cell(i, 1, ids[i - 1])
+        bg.save("D:\\121.xlsx")
+
+
+
+
