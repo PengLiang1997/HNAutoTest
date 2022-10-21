@@ -1,0 +1,11 @@
+class 首页对象库:
+    项目='//ul[@role="menubar"]/li[@title="项目"]'
+    收藏='//ul[@role="menubar"]/li[@title="收藏"]/i'
+    设置='//ul[@role="menubar"]/li[@title="设置"]/i'
+    全局搜索='//div[@class="foot"]/i[@title="搜索"]'
+    消息='//div[@class="foot"]/i[@title="消息"]'
+    用户='//div[@title="我的"]'
+    用户名='//li//span[@title="{}"]'
+    用户信息='//div[@class="sub_item"]/span[text()="用户信息"]'
+    用户首选项='//div[@class="sub_item"]/span[text()="用户首选项"]'
+    退出='//div[@class="sub_item"]/span[text()="退出"]'

@@ -1472,7 +1472,8 @@ class 项目工作区(page):
         self.click(项目对象库.行操作选项.format("检出"))
         #对文件目录检出操作后，检出人以外的其他项目成员不能对文件目录进行删除和撤销检出操作
         self.登录页面.退出登录()
-        self.driver.refrsh()
+        if self.wait(对话框对象库.对话框按钮.format("确认注销","重新登录"),3):
+            self.click(对话框对象库.对话框按钮.format("确认注销","重新登录"))
         # self.登录页面.短信快捷登录(手机号='18942178871')
         self.登录页面.账号密码登录(账号='18942178871', 密码='user@8871')
         self.进入到操作位置.进入项目管理页()
@@ -2654,5 +2655,79 @@ class 项目工作区(page):
         self.click(项目对象库.列表文件名称.format("素材1.png"))
         if self.wait(项目对象库.文件版本.format("1"), 3):
             raise AssertionError("在清理版本弹窗中勾选版本1后点击提交，文件版本1没有被清理")
+
+    def 文件搜索(self):
+        self.进入到操作位置.进入项目管理页()
+        self.项目管理页面.删除项目(项目名称="文件搜索")
+        self.项目管理页面.创建空白项目(项目名称="文件搜索", 生命周期名称='系统默认生命周期')
+        self.项目管理页面.点击进入项目(项目名称="文件搜索")
+        self.项目页面.创建文件目录(目录名称="一级目录", 目录父节点名称="清理项目版本")
+        self.项目页面.创建文件目录(目录名称="一级目录2", 目录父节点名称="清理项目版本")
+        素材1 = ['TestData', 'FrontData', '项目页', '素材1.png']
+        素材2 = ['TestData', 'FrontData', '项目页', '素材2.jpg']
+        素材3 = ['TestData', 'FrontData', '项目页', '素材3.jpg']
+        素材4 = ['TestData', 'FrontData', '项目页', '素材4.png']
+        素材5 = ['TestData', 'FrontData', '项目页', '素材5.png']
+        素材6 = ['TestData', 'FrontData', '项目页', '素材6.png']
+        self.项目页面.批量上传文件(目录路径=['清理项目版本', '一级目录'], 文件路径列表=[素材1, 素材2, 素材3, 素材4, 素材5, 素材6])
+        self.项目页面.批量上传文件(目录路径=['清理项目版本', '一级目录2'], 文件路径列表=[素材1, 素材2, 素材3, 素材4, 素材5])
+        self.项目页面.按路径展开目录(目录路径=['清理项目版本'])
+        #文件搜索不支持空值搜索
+        self.click(项目对象库.搜索按钮)
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("请输入搜索内容"),3):
+            raise AssertionError("对文件进行空值搜索时，未出现不能空值搜索的提示信息")
+        #文件搜索支持文件名称搜索和文件名称模糊搜索
+        self.项目页面.搜索文件(关键词='素材6.png')
+        if not self.wait(项目对象库.列表文件名称.format("素材6.png"),3):
+            raise AssertionError("项目下进行单个文件搜索，未搜索到指定的文件")
+        self.项目页面.搜索文件(关键词='素材')
+        list=self.driver.getelements('//table//tr/td[2 or 3]//span[contains(text(),"素材")]')
+        if len(list)!=11:
+            raise AssertionError("模糊搜索文件，搜索结果数量不正确")
+        #不同目录下存在同名文件，搜索时，同名文件也可以显示
+        self.项目页面.搜索文件(关键词='素材1.png')
+        list = self.driver.getelements('//table//tr/td[2 or 3]//span[contains(text(),"素材")]')
+        if len(list) != 2:
+            raise AssertionError("不同目录下存在同名文件，搜索时，同名文件没有显示出来")
+        #文件搜索支持文件基本属性搜索，如版本、版次、生命周期节点，检入检出状态等
+        self.项目页面.按路径展开目录(目录路径=['清理项目版本', '一级目录'])
+        self.项目页面.改变文件状态(文件名='素材1.png',状态名称='Release')
+        self.项目页面.按路径展开目录(目录路径=['清理项目版本'])
+        self.项目页面.搜索文件(关键词='Release')
+        list = self.driver.getelements('//table//tr/td[2 or 3]//span[contains(text(),"素材")]')
+        if len(list) != 1:
+            raise AssertionError("使用文件生命周期状态搜索文件，未搜索出符合条件的文件")
+        self.项目页面.按路径展开目录(目录路径=['清理项目版本', '一级目录'])
+        self.项目页面.改变文件状态(文件名='素材1.png', 状态名称='Design')
+        self.项目页面.按路径展开目录(目录路径=['清理项目版本'])
+        self.项目页面.搜索文件(关键词='B')
+        list = self.driver.getelements('//table//tr/td[2 or 3]//span[contains(text(),"素材")]')
+        if len(list) != 1:
+            raise AssertionError("使用文件版次搜索文件，未搜索出符合条件的文件")
+        self.项目页面.按路径展开目录(目录路径=['清理项目版本', '一级目录'])
+        self.项目页面.检出资源(资源名称='素材1.png')
+        self.项目页面.按路径展开目录(目录路径=['清理项目版本'])
+        self.项目页面.搜索文件(关键词='检出')
+        list = self.driver.getelements('//table//tr/td[2 or 3]//span[contains(text(),"素材")]')
+        if len(list) != 1:
+            raise AssertionError("使用文件检出状态搜索文件，未搜索出符合条件的文件")
+        self.项目页面.搜索文件(关键词='PNG')
+        list = self.driver.getelements('//table//tr/td[2 or 3]//span[contains(text(),"素材")]')
+        if len(list) != 7:
+            raise AssertionError("使用文件类型搜索文件，未搜索出符合条件的文件")
+        #文件搜索支持多条件组合搜索
+        self.driver.refrsh()
+        self.项目页面.按路径展开目录(目录路径=['清理项目版本'])
+        self.项目页面.搜索文件(关键词='素材 B 检出')
+        list = self.driver.getelements('//table//tr/td[2 or 3]//span[contains(text(),"素材")]')
+        if len(list) != 1:
+            raise AssertionError("使用文件属性组合搜索文件，未搜索出符合条件的文件")
+
+
+
+
+
+
+
 
 

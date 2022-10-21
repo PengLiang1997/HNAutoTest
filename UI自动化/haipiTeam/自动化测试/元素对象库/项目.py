@@ -32,8 +32,8 @@ class 项目管理对象库:
 
 
 class 项目对象库:
-    搜索框='//div[@class="search_box"]//input[@placeholder="搜索目录或文件"]'
-    搜索按钮='//div[@class="search_box"]/i[contains(@class,"sousuo")]'
+    搜索框='//input[@placeholder="搜索"]'
+    搜索按钮='//div[@class="pBtnGroup"]//i[contains(@class,"el-icon-search")]'
     新建目录 = '//div[@id="pTableHeader"]/div[@class="pBtnGroup"]//span[text()="新建目录"]'
     上传 = '//div[@id="pTableHeader"]/div[@class="pBtnGroup"]//span[text()="上传文件"]'
     目录节点='//div[@role="treeitem"]//span[@title="{}"]'#参数为目录名称

@@ -58,7 +58,7 @@ class 用户信息业务实现(page):
         self.move_to_by_pyautogui(公共元素对象库.输入框.format("用户昵称"))
         self.scroll_by_pyautogui(-30)
         self.click(用户信息对象库.账号信息对象库.保存)
-        if not self.wait(公共元素对象库.系统提示信息弹框.format("保存成功"), 3):
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("成功"), 3):
             raise AssertionError("用户昵称保存成功，系统未出现提示信息")
         #点击下拉列表，点击可以选择对应的国家
         self.click(公共元素对象库.列表框.format("国家"))

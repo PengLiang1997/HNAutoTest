@@ -6,7 +6,7 @@ class 登录页对象库:
     验证码按钮='//button//span[text()="获取验证码 "]'
     开始使用='//button//span[text()="开始使用"]'
     账号密码登录='//a//span[text()="账号密码登录"]'
-    账号输入框='//input[@placeholder="请输入账号或邮箱"]'
+    账号输入框='//input[@placeholder="请输入用户名或邮箱"]'
     密码输入框='//input[@placeholder="请输入密码"]'
     登录按钮='//button/span[text()="登录"]'
     短信快捷登录='//a//span[text()="短信快捷登录"]'

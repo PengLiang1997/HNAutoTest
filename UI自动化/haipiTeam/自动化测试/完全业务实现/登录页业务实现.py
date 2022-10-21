@@ -91,7 +91,7 @@ class 登录页(page):
             raise AssertionError("在短信快捷登录页点击账号密码登录按钮，登录页未切换到账号密码登录页")
         #对账号进行空值、超长、非法值校验
         self.click(登录页对象库.登录按钮)
-        if not self.wait(公共元素对象库.输入框错误信息提示.format("用户名,手机号,邮箱不能为空"),3):
+        if not self.wait(公共元素对象库.输入框错误信息提示.format("用户名或邮箱不能为空"),3):
             raise AssertionError("账号为空时，点击登录，未给出相应的提示")
         self.clear(登录页对象库.账号输入框)
         self.send_keys(登录页对象库.账号输入框, 'user887user8870user8870user8870user8870user8870user8870user8870user8870user8870user8870user8870user8870user88700')

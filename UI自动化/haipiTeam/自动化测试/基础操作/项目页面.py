@@ -249,9 +249,6 @@ class 项目管理页面(page):
             self.click(项目设置页面.移除成员按钮.format(成员名称))
 
 
-
-
-
 class 项目页面(page):
     def __init__(self, Secdriver=None):
         page.__init__(self, secdriver=Secdriver)
@@ -286,11 +283,6 @@ class 项目页面(page):
     def 收起目录(self,目录名称):
         if self.wait(项目对象库.节点收起按钮.format(目录名称),3):
             self.click(项目对象库.节点收起按钮.format(目录名称))
-
-    def 搜索目录或文件(self,目录或文件名称):
-        self.clear(项目对象库.搜索框)
-        self.send_keys(项目对象库.搜索框, 目录或文件名称)
-        self.click(项目对象库.搜索按钮)
 
     def 上传单个文件(self,目录路径,文件路径):
         '''
@@ -445,3 +437,9 @@ class 项目页面(page):
         self.click(项目对象库.工具栏按钮.format('打包'))
         filepath = self.公共操作.检查文件是否下载完成()
         return filepath
+
+    def 搜索文件(self,关键词):
+        self.clear(项目对象库.搜索框)
+        self.send_keys(项目对象库.搜索框,关键词)
+        self.click(项目对象库.搜索按钮)
+        time.sleep(3)
