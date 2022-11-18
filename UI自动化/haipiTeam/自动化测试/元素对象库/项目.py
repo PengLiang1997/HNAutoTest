@@ -18,7 +18,8 @@ class 项目管理对象库:
     项目成员名称='//ul[contains(@id,"dropdown-menu")]//span[text()="{}"]'
     #更多操作
     更多操作按钮='//div[@title="{}"]//following-sibling::div/div[@class="card_b_r"]//i[contains(@class,"more")]'
-    更多操作选项='//ul[contains(@id,"dropdown-menu")]/li//*[text()=" {} "]'#参数为选项名称
+    更多操作选项='//ul[contains(@id,"dropdown-menu")]/li[not(contains(@class,"is-disabled"))]//*[text()=" {} "]'#参数为选项名称
+    置灰_更多操作选项='//li[contains(@class,"is-disabled")]//*[text()=" {} "]'
     更多操作选项2 = '//ul[contains(@id,"dropdown-menu")]/li//*[text()="{}"]'  # 参数为选项名称，标签、项目节点等选项
     展开操作选项='//ul[contains(@id,"dropdown-menu")]/li//*[text()="{}"]/following-sibling::div/i'
     #标签
@@ -34,7 +35,7 @@ class 项目管理对象库:
 class 项目对象库:
     搜索框='//input[@placeholder="搜索"]'
     搜索按钮='//div[@class="pBtnGroup"]//i[contains(@class,"el-icon-search")]'
-    新建目录 = '//div[@id="pTableHeader"]/div[@class="pBtnGroup"]//span[text()="新建目录"]'
+    新建目录 = '//div[@id="pTableHeader"]/div[@class="pBtnGroup"]//span[text()="新增"]'
     上传 = '//div[@id="pTableHeader"]/div[@class="pBtnGroup"]//span[text()="上传文件"]'
     目录节点='//div[@role="treeitem"]//span[@title="{}"]'#参数为目录名称
     节点收起按钮='//div[@role="treeitem"]//span[contains(@title,"{}")]/preceding-sibling::span[contains(@class,"expanded")]'
@@ -65,7 +66,9 @@ class 项目对象库:
 
     #
     列表复选框 = '//table//tr/td[2 or 3]//span[text()="{}"]/ancestor::tr/td[1]//span'
-    检出按钮='//table//tr/td[2 or 3]//span[text()="{}"]/ancestor::tr/td[2]//i[@class="iconfont icon-correct" or @class="el-icon-lock"]'
+    文件目录复选框='//table//tr/td[4]//span[text()="{}"]/ancestor::tr/td[1]//span[contains(@class,"vxe-checkbox")]'
+    检出按钮='//table//tr/td[2 or 3]//span[text()="{}"]/ancestor::tr/td[2]//i[@class="iconfont icon-correct" or @class="iconfont icon-wrong"]'
+    归档按钮='//table//tr/td[2 or 3]//span[text()="{}"]/ancestor::tr/td[2]//i[@title="已归档"]'
     列表文件名称='//table//tr/td[2 or 3]//span[text()="{}"]'#参数为文件名称
     生命周期状态='//div[contains(@class,"pane-one")]//td[2 or 3]//span[text()="{}"]/ancestor::tr/td[11]//span'
     文件状态='//div[contains(@class,"pane-one")]//td[2 or 3]//span[text()="{}"]/ancestor::tr/td[5]//span'

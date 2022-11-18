@@ -100,7 +100,7 @@ class 公共操作(page):
                     except:
                         shutil.rmtree(filedata)
 
-    def 获取文件在列表中的行号(self,列表xpath,文件名称):
+    def 获取文件在列表中的行号(self,文件名称,列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]'):
         文件列表=[]
         元素列表=self.driver.getelements(列表xpath)
         for 文件元素 in 元素列表:

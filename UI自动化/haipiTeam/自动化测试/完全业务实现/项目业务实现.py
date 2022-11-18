@@ -1426,12 +1426,16 @@ class 项目工作区(page):
         self.click(项目对象库.行操作选项.format("检出"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("没有可以检出的项目文件"),3):
             raise AssertionError("对空文件目录进行检出操作时，系统没有提示信息")
+        if self.wait(对话框对象库.对话框标题.format("提示"),3):
+            self.click(对话框对象库.对话框按钮.format("提示","确定"))
         #文件目录下没有已检出的文件，点击检出，可以正常检出
         self.click(项目对象库.目录节点.format("检出文件目录"))
         time.sleep(1)
         序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称='一级目录')
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("检出"))
+        if self.wait(对话框对象库.对话框标题.format("提示"), 3):
+            self.click(对话框对象库.对话框按钮.format("提示", "确定"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("成功"), 3):
             raise AssertionError("文件目录下没有已检出的文件，点击检出，没有检出成功的提示信息")
         #对文件目录检出操作后，不能进行删除操作
@@ -1446,6 +1450,8 @@ class 项目工作区(page):
         序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称='一级目录')
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("检出"))
+        if self.wait(对话框对象库.对话框标题.format("提示"), 3):
+            self.click(对话框对象库.对话框按钮.format("提示", "确定"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("存在已被检出的文件，不能执行该操作"), 3):
             raise AssertionError("对文件目录进行检出操作后，再次进行检出操作，系统未给出不能检出的提示信息")
         self.click(项目对象库.目录节点.format("一级目录"))
@@ -1460,6 +1466,8 @@ class 项目工作区(page):
         序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称='一级目录')
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("检出"))
+        if self.wait(对话框对象库.对话框标题.format("提示"), 3):
+            self.click(对话框对象库.对话框按钮.format("提示", "确定"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("存在已被检出的文件，不能执行该操作"), 3):
             raise AssertionError("文件目录下含有已检出的文件，点击检出，系统未出现不能检出的提示信息")
         self.click(项目对象库.目录节点.format("一级目录"))
@@ -1470,6 +1478,8 @@ class 项目工作区(page):
         序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称='检入检出素材.txt')
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("检出"))
+        if self.wait(对话框对象库.对话框标题.format("提示"),3):
+            self.click(对话框对象库.对话框按钮.format("提示","确定"))
         #对文件目录检出操作后，检出人以外的其他项目成员不能对文件目录进行删除和撤销检出操作
         self.登录页面.退出登录()
         if self.wait(对话框对象库.对话框按钮.format("确认注销","重新登录"),3):
@@ -1727,6 +1737,8 @@ class 项目工作区(page):
         序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称='素材1.png')
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("打包"))
+        if self.wait(对话框对象库.对话框标题.format("提示"), 3):
+            self.click(对话框对象库.对话框按钮.format("提示", "确定"))
         downpath = self.公共操作.检查文件是否下载完成()
         filepath = downpath + '\素材1.png.zip'
         time.sleep(3)
@@ -1742,6 +1754,8 @@ class 项目工作区(page):
         序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称='一级目录')
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("打包"))
+        if self.wait(对话框对象库.对话框标题.format("提示"), 3):
+            self.click(对话框对象库.对话框按钮.format("提示", "确定"))
         downpath = self.公共操作.检查文件是否下载完成()
         filepath = downpath + '\一级目录.zip'
         time.sleep(3)
@@ -1758,6 +1772,8 @@ class 项目工作区(page):
         序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称='素材1.png')
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("打包"))
+        if self.wait(对话框对象库.对话框标题.format("提示"), 3):
+            self.click(对话框对象库.对话框按钮.format("提示", "确定"))
         downpath = self.公共操作.检查文件是否下载完成()
         filepath = downpath + '\素材1.png.zip'
         time.sleep(3)
@@ -1773,6 +1789,8 @@ class 项目工作区(page):
         序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称='一级目录')
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("打包"))
+        if self.wait(对话框对象库.对话框标题.format("提示"), 3):
+            self.click(对话框对象库.对话框按钮.format("提示", "确定"))
         downpath = self.公共操作.检查文件是否下载完成()
         filepath = downpath + '\一级目录.zip'
         time.sleep(3)
@@ -1894,6 +1912,8 @@ class 项目工作区(page):
         self.click(项目对象库.列表复选框.format('素材1.png'))
         self.click(项目对象库.列表复选框.format('素材2.jpg'))
         self.click(项目对象库.工具栏按钮.format('检出'))
+        if self.wait(对话框对象库.对话框标题.format("提示"), 3):
+            self.click(对话框对象库.对话框按钮.format("提示", "确定"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("成功"),3):
             raise AssertionError("对文件进行批量检出操作，未查看到系统提示信息")
         if not self.wait(项目对象库.检出按钮.format('素材1.png'), 3) or not\
@@ -1903,6 +1923,8 @@ class 项目工作区(page):
         self.click(项目对象库.列表复选框.format('素材1.png'))
         self.click(项目对象库.列表复选框.format('素材3.jpg'))
         self.click(项目对象库.工具栏按钮.format('检出'))
+        if self.wait(对话框对象库.对话框标题.format("提示"), 3):
+            self.click(对话框对象库.对话框按钮.format("提示", "确定"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("存在已被检出的文件，不能执行该操作"), 3):
             raise AssertionError("对文件进行批量检出操作，文件中含有已检出的文件，批量检出时未出现提示信息")
         if not self.wait(项目对象库.检出按钮.format('素材1.png'), 3) or \
@@ -1912,6 +1934,8 @@ class 项目工作区(page):
         self.click(项目对象库.列表复选框.format('二级目录'))
         self.click(项目对象库.列表复选框.format('素材1.png'))
         self.click(项目对象库.工具栏按钮.format('检出'))
+        if self.wait(对话框对象库.对话框标题.format("提示"), 3):
+            self.click(对话框对象库.对话框按钮.format("提示", "确定"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("成功"), 3):
             raise AssertionError("对文件和文件目录进行批量检出操作，未查看到系统提示信息")
         if not self.wait(项目对象库.检出按钮.format('素材3.jpg'), 3) :
@@ -1924,6 +1948,8 @@ class 项目工作区(page):
         self.click(项目对象库.列表复选框.format('一级目录3'))
         self.click(项目对象库.列表复选框.format('一级目录2'))
         self.click(项目对象库.工具栏按钮.format('检出'))
+        if self.wait(对话框对象库.对话框标题.format("提示"), 3):
+            self.click(对话框对象库.对话框按钮.format("提示", "确定"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("成功"), 3):
             raise AssertionError("对文件和文件目录进行批量检出操作，未查看到系统提示信息")
         self.click(项目对象库.目录节点.format('一级目录2'))
@@ -1938,6 +1964,8 @@ class 项目工作区(page):
         self.click(项目对象库.列表复选框.format('一级目录3'))
         self.click(项目对象库.列表复选框.format('一级目录2'))
         self.click(项目对象库.工具栏按钮.format('检出'))
+        if self.wait(对话框对象库.对话框标题.format("提示"), 3):
+            self.click(对话框对象库.对话框按钮.format("提示", "确定"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("存在已被检出的文件，不能执行该操作"), 3):
             raise AssertionError("对文件目录进行批量检出操作，目录下含有已检出的文件，未查看到系统提示信息")
         self.click(项目对象库.目录节点.format('一级目录2'))
@@ -2280,6 +2308,8 @@ class 项目工作区(page):
         self.click(项目对象库.列表复选框.format('素材1.png'))
         self.click(项目对象库.列表复选框.format('素材2.jpg'))
         self.click(项目对象库.工具栏按钮.format('打包'))
+        if self.wait(对话框对象库.对话框标题.format("提示"), 3):
+            self.click(对话框对象库.对话框按钮.format("提示", "确定"))
         while (True):
             if not self.wait(项目对象库.正在打包按钮,3):
                 break
@@ -2297,6 +2327,8 @@ class 项目工作区(page):
         self.click(项目对象库.列表复选框.format('素材2.jpg'))
         self.click(项目对象库.列表复选框.format('素材3.jpg'))
         self.click(项目对象库.工具栏按钮.format('打包'))
+        if self.wait(对话框对象库.对话框标题.format("提示"), 3):
+            self.click(对话框对象库.对话框按钮.format("提示", "确定"))
         while(True):
             if not self.wait(项目对象库.正在打包按钮,3):
                 break
@@ -2315,9 +2347,11 @@ class 项目工作区(page):
         self.click(项目对象库.列表复选框.format('素材1.png'))
         self.click(项目对象库.列表复选框.format('二级目录2'))
         self.click(项目对象库.工具栏按钮.format('打包'))
+        if self.wait(对话框对象库.对话框标题.format("提示"), 3):
+            self.click(对话框对象库.对话框按钮.format("提示", "确定"))
         downpath = self.公共操作.检查文件是否下载完成()
         filepath = downpath + '\批量打包.zip'
-        time.sleep(4)
+        time.sleep(30)
         namelist = self.公共操作.查看zip文件(zip文件路径=filepath)
         for name in ['素材1.png', '二级目录2/']:
             if not name in namelist or len(namelist) != 2:
@@ -2329,6 +2363,8 @@ class 项目工作区(page):
         self.click(项目对象库.列表复选框.format('素材1.png'))
         self.click(项目对象库.列表复选框.format('二级目录'))
         self.click(项目对象库.工具栏按钮.format('打包'))
+        if self.wait(对话框对象库.对话框标题.format("提示"), 3):
+            self.click(对话框对象库.对话框按钮.format("提示", "确定"))
         downpath = self.公共操作.检查文件是否下载完成()
         filepath = downpath + '\批量打包.zip'
         time.sleep(4)
@@ -2661,17 +2697,17 @@ class 项目工作区(page):
         self.项目管理页面.删除项目(项目名称="文件搜索")
         self.项目管理页面.创建空白项目(项目名称="文件搜索", 生命周期名称='系统默认生命周期')
         self.项目管理页面.点击进入项目(项目名称="文件搜索")
-        self.项目页面.创建文件目录(目录名称="一级目录", 目录父节点名称="清理项目版本")
-        self.项目页面.创建文件目录(目录名称="一级目录2", 目录父节点名称="清理项目版本")
+        self.项目页面.创建文件目录(目录名称="一级目录", 目录父节点名称="文件搜索")
+        self.项目页面.创建文件目录(目录名称="一级目录2", 目录父节点名称="文件搜索")
         素材1 = ['TestData', 'FrontData', '项目页', '素材1.png']
         素材2 = ['TestData', 'FrontData', '项目页', '素材2.jpg']
         素材3 = ['TestData', 'FrontData', '项目页', '素材3.jpg']
         素材4 = ['TestData', 'FrontData', '项目页', '素材4.png']
         素材5 = ['TestData', 'FrontData', '项目页', '素材5.png']
         素材6 = ['TestData', 'FrontData', '项目页', '素材6.png']
-        self.项目页面.批量上传文件(目录路径=['清理项目版本', '一级目录'], 文件路径列表=[素材1, 素材2, 素材3, 素材4, 素材5, 素材6])
-        self.项目页面.批量上传文件(目录路径=['清理项目版本', '一级目录2'], 文件路径列表=[素材1, 素材2, 素材3, 素材4, 素材5])
-        self.项目页面.按路径展开目录(目录路径=['清理项目版本'])
+        self.项目页面.批量上传文件(目录路径=['文件搜索', '一级目录'], 文件路径列表=[素材1, 素材2, 素材3, 素材4, 素材5, 素材6])
+        self.项目页面.批量上传文件(目录路径=['文件搜索', '一级目录2'], 文件路径列表=[素材1, 素材2, 素材3, 素材4, 素材5])
+        self.项目页面.按路径展开目录(目录路径=['文件搜索'])
         #文件搜索不支持空值搜索
         self.click(项目对象库.搜索按钮)
         if not self.wait(公共元素对象库.系统提示信息弹框.format("请输入搜索内容"),3):
@@ -2690,23 +2726,23 @@ class 项目工作区(page):
         if len(list) != 2:
             raise AssertionError("不同目录下存在同名文件，搜索时，同名文件没有显示出来")
         #文件搜索支持文件基本属性搜索，如版本、版次、生命周期节点，检入检出状态等
-        self.项目页面.按路径展开目录(目录路径=['清理项目版本', '一级目录'])
+        self.项目页面.按路径展开目录(目录路径=['文件搜索', '一级目录'])
         self.项目页面.改变文件状态(文件名='素材1.png',状态名称='Release')
-        self.项目页面.按路径展开目录(目录路径=['清理项目版本'])
+        self.项目页面.按路径展开目录(目录路径=['文件搜索'])
         self.项目页面.搜索文件(关键词='Release')
         list = self.driver.getelements('//table//tr/td[2 or 3]//span[contains(text(),"素材")]')
         if len(list) != 1:
             raise AssertionError("使用文件生命周期状态搜索文件，未搜索出符合条件的文件")
-        self.项目页面.按路径展开目录(目录路径=['清理项目版本', '一级目录'])
+        self.项目页面.按路径展开目录(目录路径=['文件搜索', '一级目录'])
         self.项目页面.改变文件状态(文件名='素材1.png', 状态名称='Design')
-        self.项目页面.按路径展开目录(目录路径=['清理项目版本'])
+        self.项目页面.按路径展开目录(目录路径=['文件搜索'])
         self.项目页面.搜索文件(关键词='B')
         list = self.driver.getelements('//table//tr/td[2 or 3]//span[contains(text(),"素材")]')
         if len(list) != 1:
             raise AssertionError("使用文件版次搜索文件，未搜索出符合条件的文件")
-        self.项目页面.按路径展开目录(目录路径=['清理项目版本', '一级目录'])
+        self.项目页面.按路径展开目录(目录路径=['文件搜索', '一级目录'])
         self.项目页面.检出资源(资源名称='素材1.png')
-        self.项目页面.按路径展开目录(目录路径=['清理项目版本'])
+        self.项目页面.按路径展开目录(目录路径=['文件搜索'])
         self.项目页面.搜索文件(关键词='检出')
         list = self.driver.getelements('//table//tr/td[2 or 3]//span[contains(text(),"素材")]')
         if len(list) != 1:
@@ -2717,14 +2753,315 @@ class 项目工作区(page):
             raise AssertionError("使用文件类型搜索文件，未搜索出符合条件的文件")
         #文件搜索支持多条件组合搜索
         self.driver.refrsh()
-        self.项目页面.按路径展开目录(目录路径=['清理项目版本'])
+        self.项目页面.按路径展开目录(目录路径=['文件搜索'])
         self.项目页面.搜索文件(关键词='素材 B 检出')
         list = self.driver.getelements('//table//tr/td[2 or 3]//span[contains(text(),"素材")]')
         if len(list) != 1:
             raise AssertionError("使用文件属性组合搜索文件，未搜索出符合条件的文件")
 
+    def 文件归档(self):
+        self.进入到操作位置.进入项目管理页()
+        self.项目管理页面.删除项目(项目名称="文件归档")
+        self.项目管理页面.创建空白项目(项目名称="文件归档", 生命周期名称='系统默认生命周期')
+        self.项目管理页面.点击进入项目(项目名称="文件归档")
+        素材1 = ['TestData', 'FrontData', '项目页', '素材1.png']
+        素材2 = ['TestData', 'FrontData', '项目页', '素材2.jpg']
+        self.项目页面.批量上传文件(目录路径=['文件归档'], 文件路径列表=[素材1, 素材2])
+        self.项目页面.检出资源(资源名称='素材2.jpg')
+        #点击文件更多操作按钮，点击文件归档选项，归档成功后文件有归档标志
+        序号 = self.公共操作.获取文件在列表中的行号(文件名称='素材1.png')
+        self.click(项目对象库.悬浮列行操作.format(序号))
+        self.click(项目对象库.行操作选项.format("文件归档"))
+        self.wait(公共元素对象库.系统提示信息弹框.format("操作成功"),3)
+        if not self.wait(项目对象库.归档按钮.format('素材1.png'), 3):
+            raise AssertionError("已归档的文件没有已归档的状态标志")
+        #文件不能重复归档
+        self.click(项目对象库.悬浮列行操作.format(序号))
+        if not self.wait(项目对象库.置灰_行操作选项.format("文件归档"),3):
+            raise AssertionError("已归档的文件操作选项中，文件归档按钮未置灰")
+        #已归档的文件只能进行打包分享下载和撤销归档操作
+        可操作选项=['打包','分享','下载','撤销归档']
+        不可操作选项=['圈阅批注','检入','改变状态','附加文件','删除','清理版本','文件归档']
+        for 可操作 in 可操作选项:
+            if self.wait(项目对象库.置灰_行操作选项.format(可操作选项),3):
+                raise AssertionError(f"在已归档文件中{可操作}操作不可用")
+        for 不可操作 in 不可操作选项:
+            if not self.wait(项目对象库.置灰_行操作选项.format(不可操作),3):
+                raise AssertionError(f"在已归档文件中{不可操作}操作可用")
+        # 状态为已检出的文件不能进行归档操作
+        self.项目页面.刷新列表()
+        序号 = self.公共操作.获取文件在列表中的行号(文件名称='素材2.jpg')
+        self.click(项目对象库.悬浮列行操作.format(序号))
+        if not self.wait(项目对象库.置灰_行操作选项.format("文件归档"),3):
+            raise AssertionError("已检出的文件不能进行归档操作")
 
+    def 文件目录归档(self):
+        self.进入到操作位置.进入项目管理页()
+        self.项目管理页面.删除项目(项目名称="文件目录归档")
+        self.项目管理页面.创建空白项目(项目名称="文件目录归档", 生命周期名称='系统默认生命周期')
+        self.项目管理页面.点击进入项目(项目名称="文件目录归档")
+        self.项目页面.创建文件目录(目录名称="文件归档", 目录父节点名称="文件目录归档")
+        self.项目页面.创建文件目录(目录名称="已检出文件", 目录父节点名称="文件目录归档")
+        self.项目页面.创建文件目录(目录名称="空目录", 目录父节点名称="文件目录归档")
+        素材1 = ['TestData', 'FrontData', '项目页', '素材1.png']
+        素材2 = ['TestData', 'FrontData', '项目页', '素材2.jpg']
+        素材3 = ['TestData', 'FrontData', '项目页', '素材3.jpg']
+        self.项目页面.批量上传文件(目录路径=['文件目录归档', '文件归档'], 文件路径列表=[素材1, 素材2, 素材3])
+        self.项目页面.批量上传文件(目录路径=['文件目录归档', '已检出文件'], 文件路径列表=[素材1, 素材2, 素材3])
+        self.项目页面.检出资源(资源名称='素材3.jpg')
+        self.项目页面.按路径展开目录(目录路径=['文件目录归档'])
+        #点击文件目录更多操作，点击文件归档按钮，文件目录下的所有文件都会归档
+        序号 = self.公共操作.获取文件在列表中的行号(文件名称='文件归档')
+        self.click(项目对象库.悬浮列行操作.format(序号))
+        self.click(项目对象库.行操作选项.format("文件归档"))
+        self.wait(公共元素对象库.系统提示信息弹框.format("操作成功"), 3)
+        self.项目页面.按路径展开目录(目录路径=['文件目录归档','文件归档'])
+        for i in ['素材1.png','素材2.jpg','素材3.jpg']:
+            if not self.wait(项目对象库.归档按钮.format(i), 3):
+                raise AssertionError(f"已归档的文件{i}没有已归档的状态标志")
+        #当文件目录为空时，进行文件归档操作，提示未选择文件
+        self.项目页面.按路径展开目录(目录路径=['文件目录归档'])
+        序号 = self.公共操作.获取文件在列表中的行号(文件名称='空目录')
+        self.click(项目对象库.悬浮列行操作.format(序号))
+        self.click(项目对象库.行操作选项.format("文件归档"))
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("未选择文件"), 3):
+            raise AssertionError("对空目录进行归档操作，未出现提示信息")
+        #当文件目录下存在已检出文件时，进行文件归档操作，不能归档成功
+        序号 = self.公共操作.获取文件在列表中的行号(文件名称='已检出文件')
+        self.click(项目对象库.悬浮列行操作.format(序号))
+        self.click(项目对象库.行操作选项.format("文件归档"))
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("存在已被检出文件，不能执行该操作"), 3):
+            raise AssertionError("对存在已检出文件的文件目录进行归档操作，未出现提示信息")
+        #当文件目录下存在已归档文件时，进行文件归档操作，不能归档成功
+        序号 = self.公共操作.获取文件在列表中的行号(文件名称='文件归档')
+        self.click(项目对象库.悬浮列行操作.format(序号))
+        self.click(项目对象库.行操作选项.format("文件归档"))
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("存在已归档文件，不能执行该操作"), 3):
+            raise AssertionError("对存在已归档文件的文件目录进行归档操作，未出现提示信息")
+        #已归档的文件目录不能进行检出、撤销检出、删除、清理版本、文件归档等操作
+        self.click(项目对象库.悬浮列行操作.format(序号))
+        self.click(项目对象库.行操作选项.format("检出"))
+        if self.wait(对话框对象库.对话框标题.format("提示"), 3):
+            self.click(对话框对象库.对话框按钮.format("提示", "确定"))
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("存在已归档文件，不能执行该操作"), 3):
+            raise AssertionError("对存在已归档文件的文件目录进行检出操作，未出现提示信息")
+        self.click(项目对象库.悬浮列行操作.format(序号))
+        self.click(项目对象库.行操作选项.format("撤销检出"))
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("存在已归档文件，不能执行该操作"), 3):
+            raise AssertionError("对存在已归档文件的文件目录进行撤销检出操作，未出现提示信息")
+        self.click(项目对象库.悬浮列行操作.format(序号))
+        self.click(项目对象库.行操作选项.format("删除"))
+        if self.wait(对话框对象库.对话框标题.format("提示"), 3):
+            self.click(对话框对象库.对话框按钮.format("提示", "确定"))
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("存在已归档文件，不能执行该操作"), 3):
+            raise AssertionError("对存在已归档文件的文件目录进行删除操作，未出现提示信息")
+        self.click(项目对象库.悬浮列行操作.format(序号))
+        self.click(项目对象库.行操作选项.format("清理版本"))
+        self.click(对话框对象库.弹框按钮.format("清除项目版本", "提交"))
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("存在已归档文件，不能执行该操作"), 3):
+            raise AssertionError("对存在已归档文件的文件目录进行清理版本操作，未出现提示信息")
 
+    def 撤销归档(self):
+        self.进入到操作位置.进入项目管理页()
+        self.项目管理页面.删除项目(项目名称="文件归档")
+        self.项目管理页面.创建空白项目(项目名称="文件归档", 生命周期名称='系统默认生命周期')
+        self.项目管理页面.点击进入项目(项目名称="文件归档")
+        素材1 = ['TestData', 'FrontData', '项目页', '素材1.png']
+        素材2 = ['TestData', 'FrontData', '项目页', '素材2.jpg']
+        self.项目页面.批量上传文件(目录路径=['文件归档'], 文件路径列表=[素材1, 素材2])
+        self.项目页面.归档单个文件(文件名称='素材1.png')
+        #点击已归档文件更多操作，点击撤销归档按钮，文件的已归档标志消失
+        #只有已归档的文件才有撤销归档的操作
+        序号 = self.公共操作.获取文件在列表中的行号(文件名称='素材1.png')
+        self.click(项目对象库.悬浮列行操作.format(序号))
+        self.click(项目对象库.行操作选项.format("撤销归档"))
+        self.wait(公共元素对象库.系统提示信息弹框.format("操作成功"), 3)
+        if self.wait(项目对象库.归档按钮.format('素材1.png'), 3):
+            raise AssertionError("已归档的文件撤销归档后已归档的状态标志未消失")
+        #已归档的文件可以进行全部的文件操作
+        self.click(项目对象库.悬浮列行操作.format(序号))
+        操作列表=['圈阅批注','检出','撤销检出','改变状态','附加文件','删除','打包','分享','下载','清理版本','文件归档']
+        for 操作 in 操作列表:
+            if self.wait(项目对象库.置灰_行操作选项.format(操作),3):
+                raise AssertionError(f"文件撤销归档后，文件的{操作}操作不可用")
+
+    def 文件目录撤销归档(self):
+        self.进入到操作位置.进入项目管理页()
+        self.项目管理页面.删除项目(项目名称="文件目录撤销归档")
+        self.项目管理页面.创建空白项目(项目名称="文件目录撤销归档", 生命周期名称='系统默认生命周期')
+        self.项目管理页面.点击进入项目(项目名称="文件目录撤销归档")
+        self.项目页面.创建文件目录(目录名称="文件归档", 目录父节点名称="文件目录撤销归档")
+        self.项目页面.创建文件目录(目录名称="已检出文件", 目录父节点名称="文件目录撤销归档")
+        self.项目页面.创建文件目录(目录名称="空目录", 目录父节点名称="文件目录撤销归档")
+        素材1 = ['TestData', 'FrontData', '项目页', '素材1.png']
+        素材2 = ['TestData', 'FrontData', '项目页', '素材2.jpg']
+        素材3 = ['TestData', 'FrontData', '项目页', '素材3.jpg']
+        self.项目页面.批量上传文件(目录路径=['文件目录撤销归档', '文件归档'], 文件路径列表=[素材1, 素材2, 素材3])
+        self.项目页面.批量上传文件(目录路径=['文件目录撤销归档', '已检出文件'], 文件路径列表=[素材1, 素材2, 素材3])
+        self.项目页面.归档单个文件(文件名称='素材1.png')
+        self.项目页面.归档单个文件(文件名称='素材2.jpg')
+        self.项目页面.检出资源(资源名称='素材3.jpg')
+        self.项目页面.按路径展开目录(目录路径=['文件目录撤销归档'])
+        self.项目页面.归档单个文件(文件名称='文件归档')
+        #击文件目录更多操作按钮，点击撤销归档，文件目录下的全部文件都撤销归档
+        序号 = self.公共操作.获取文件在列表中的行号(文件名称='文件归档')
+        self.click(项目对象库.悬浮列行操作.format(序号))
+        self.click(项目对象库.行操作选项.format("撤销归档"))
+        self.wait(公共元素对象库.系统提示信息弹框.format("操作成功"), 3)
+        self.项目页面.按路径展开目录(目录路径=['文件目录归档', '文件归档'])
+        for i in ['素材1.png', '素材2.jpg', '素材3.jpg']:
+            if self.wait(项目对象库.归档按钮.format(i), 3):
+                raise AssertionError(f"已归档的文件{i}撤销检出后的已归档的状态标志未消失")
+        #当文件目录为空时，进行撤销归档操作，提示未选择文件
+        self.项目页面.按路径展开目录(目录路径=['文件目录撤销归档'])
+        序号 = self.公共操作.获取文件在列表中的行号(文件名称='空目录')
+        self.click(项目对象库.悬浮列行操作.format(序号))
+        self.click(项目对象库.行操作选项.format("撤销归档"))
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("未选择文件"), 3):
+            raise AssertionError("对空目录进行撤销归档操作，未出现提示信息")
+        #当文件目录下存在已检出文件时，进行撤销归档操作，不能操作成功
+        序号 = self.公共操作.获取文件在列表中的行号(文件名称='已检出文件')
+        self.click(项目对象库.悬浮列行操作.format(序号))
+        self.click(项目对象库.行操作选项.format("撤销归档"))
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("存在未归档文件，不能执行该操作"), 3):
+            raise AssertionError("对存在已检出文件的文件目录进行撤销归档操作，未出现提示信息")
+        #当文件目录下存在未归档文件时，进行撤销归档操作，不能操作成功
+        序号 = self.公共操作.获取文件在列表中的行号(文件名称='文件归档')
+        self.click(项目对象库.悬浮列行操作.format(序号))
+        self.click(项目对象库.行操作选项.format("撤销归档"))
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("存在未归档文件，不能执行该操作"), 3):
+            raise AssertionError("对存在未归档文件的文件目录进行撤销归档操作，未出现提示信息")
+
+    def 批量归档(self):
+        self.进入到操作位置.进入项目管理页()
+        self.项目管理页面.删除项目(项目名称="批量归档")
+        self.项目管理页面.创建空白项目(项目名称="批量归档", 生命周期名称='系统默认生命周期')
+        self.项目管理页面.点击进入项目(项目名称="批量归档")
+        self.项目页面.创建文件目录(目录名称="文件归档", 目录父节点名称="批量归档")
+        self.项目页面.创建文件目录(目录名称="文件归档2", 目录父节点名称="批量归档")
+        self.项目页面.创建文件目录(目录名称="已检出文件", 目录父节点名称="批量归档")
+        self.项目页面.创建文件目录(目录名称="空目录", 目录父节点名称="批量归档")
+        self.项目页面.创建文件目录(目录名称="空目录2", 目录父节点名称="批量归档")
+        素材1 = ['TestData', 'FrontData', '项目页', '素材1.png']
+        素材2 = ['TestData', 'FrontData', '项目页', '素材2.jpg']
+        素材3 = ['TestData', 'FrontData', '项目页', '素材3.jpg']
+        self.项目页面.批量上传文件(目录路径=['批量归档'], 文件路径列表=[素材1, 素材2,素材3])
+        self.项目页面.批量上传文件(目录路径=['批量归档','文件归档'], 文件路径列表=[素材1, 素材2])
+        self.项目页面.批量上传文件(目录路径=['批量归档', '文件归档2'], 文件路径列表=[素材1, 素材2])
+        self.项目页面.批量上传文件(目录路径=['批量归档', '已检出文件'], 文件路径列表=[素材1, 素材2, 素材3])
+        self.项目页面.检出资源(资源名称='素材3.jpg')
+        self.项目页面.按路径展开目录(目录路径=['批量归档'])
+        #选择多个未归档文件，点击工具栏文件归档按钮，操作成功后，所选文件全部为已归档状态
+        self.click(项目对象库.列表复选框.format('素材1.png'))
+        self.click(项目对象库.列表复选框.format('素材2.jpg'))
+        self.click(项目对象库.工具栏按钮.format('文件归档'))
+        self.wait(公共元素对象库.系统提示信息弹框.format("成功"),3)
+        if not self.wait(项目对象库.归档按钮.format('素材1.png'), 3) or \
+            not self.wait(项目对象库.归档按钮.format('素材2.jpg'), 3):
+            raise AssertionError("对文件进行批量归档后，未查看到文件的归档状态")
+        #勾选多个文件和文件目录，点击归档按钮，操作成功后，所选文件为已归档状态，所选文件目录下的文件为已归档状态
+        self.项目页面.刷新列表()
+        self.click(项目对象库.文件目录复选框.format('文件归档'))
+        self.click(项目对象库.列表复选框.format('素材3.jpg'))
+        self.click(项目对象库.工具栏按钮.format('文件归档'))
+        self.wait(公共元素对象库.系统提示信息弹框.format("成功"), 3)
+        if not self.wait(项目对象库.归档按钮.format('素材3.jpg'), 3):
+            raise AssertionError("对文件和文件目录进行批量归档后，未查看到文件的归档状态")
+        self.项目页面.按路径展开目录(目录路径=['批量归档','文件归档'])
+        if not self.wait(项目对象库.归档按钮.format('素材1.png'), 3) or \
+            not self.wait(项目对象库.归档按钮.format('素材2.jpg'), 3):
+            raise AssertionError("对文件和文件目录进行批量归档后，未查看到文件的归档状态")
+        #勾选多个文件目录，文件目录下存在已检出的文件，进行文件归档操作，不能归档成功
+        self.项目页面.按路径展开目录(目录路径=['批量归档'])
+        self.项目页面.刷新列表()
+        self.click(项目对象库.文件目录复选框.format('文件归档2'))
+        self.click(项目对象库.文件目录复选框.format('已检出文件'))
+        self.click(项目对象库.工具栏按钮.format('文件归档'))
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("存在已被检出文件，不能执行该操作"),3):
+            raise AssertionError("文件目录下存在已检出文件时，对文件目录进行批量归档，未查看到提示信息")
+        #勾选多个文件目录，文件目录下存在已归档的文件，进行文件归档操作，不能归档成功
+        self.项目页面.按路径展开目录(目录路径=['批量归档'])
+        self.项目页面.刷新列表()
+        self.click(项目对象库.文件目录复选框.format('文件归档2'))
+        self.click(项目对象库.文件目录复选框.format('文件归档'))
+        self.click(项目对象库.工具栏按钮.format('文件归档'))
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("存在已归档文件，不能执行该操作"), 3):
+            raise AssertionError("文件目录下存在已归档文件时，对文件目录进行批量归档，未查看到提示信息")
+        #勾选多个空文件目录，进行归档操作，提示未选择文件
+        self.项目页面.按路径展开目录(目录路径=['批量归档'])
+        self.项目页面.刷新列表()
+        self.click(项目对象库.文件目录复选框.format('空目录'))
+        self.click(项目对象库.文件目录复选框.format('空目录2'))
+        self.click(项目对象库.工具栏按钮.format('文件归档'))
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("未选择文件"), 3):
+            raise AssertionError("文件目录为空时，进行批量归档，未查看到提示信息")
+
+    def 批量撤销归档(self):
+        self.进入到操作位置.进入项目管理页()
+        self.项目管理页面.删除项目(项目名称="批量撤销归档")
+        self.项目管理页面.创建空白项目(项目名称="批量撤销归档", 生命周期名称='系统默认生命周期')
+        self.项目管理页面.点击进入项目(项目名称="批量撤销归档")
+        self.项目页面.创建文件目录(目录名称="批量撤销归档", 目录父节点名称="批量撤销归档")
+        self.项目页面.创建文件目录(目录名称="批量撤销归档2", 目录父节点名称="批量撤销归档")
+        self.项目页面.创建文件目录(目录名称="已检出文件", 目录父节点名称="批量撤销归档")
+        self.项目页面.创建文件目录(目录名称="空目录", 目录父节点名称="批量撤销归档")
+        self.项目页面.创建文件目录(目录名称="空目录2", 目录父节点名称="批量撤销归档")
+        素材1 = ['TestData', 'FrontData', '项目页', '素材1.png']
+        素材2 = ['TestData', 'FrontData', '项目页', '素材2.jpg']
+        素材3 = ['TestData', 'FrontData', '项目页', '素材3.jpg']
+        self.项目页面.批量上传文件(目录路径=['批量撤销归档'], 文件路径列表=[素材1, 素材2,素材3])
+        self.项目页面.批量归档(资源列表=['素材1.png','素材2.jpg','素材3.jpg'])
+        self.项目页面.批量上传文件(目录路径=['批量撤销归档','批量撤销归档2'], 文件路径列表=[素材1, 素材2])
+        self.项目页面.批量归档(资源列表=['素材1.png', '素材2.jpg'])
+        self.项目页面.批量上传文件(目录路径=['批量撤销归档', '批量撤销归档'], 文件路径列表=[素材1, 素材2])
+        self.项目页面.批量上传文件(目录路径=['批量撤销归档', '已检出文件'], 文件路径列表=[素材1, 素材2, 素材3])
+        self.项目页面.检出资源(资源名称='素材3.jpg')
+        self.项目页面.按路径展开目录(目录路径=['批量撤销归档'])
+        #勾选多个已归档文件，点击撤销归档按钮，文件被撤销归档
+        self.项目页面.刷新列表()
+        self.click(项目对象库.列表复选框.format('素材1.png'))
+        self.click(项目对象库.列表复选框.format('素材2.jpg'))
+        self.click(项目对象库.工具栏按钮.format('撤销归档'))
+        self.wait(公共元素对象库.系统提示信息弹框.format("成功"),3)
+        if self.wait(项目对象库.归档按钮.format('素材1.png'), 3) or \
+            self.wait(项目对象库.归档按钮.format('素材2.jpg'), 3):
+            raise AssertionError("对文件进行撤销归档后，仍然查看到文件的归档状态")
+        #勾选多个已归档文件和文件目录，点击撤销归档，文件被撤销归档，文件目录下的所有文件被撤销归档
+        self.项目页面.刷新列表()
+        self.click(项目对象库.文件目录复选框.format('批量撤销归档2'))
+        self.click(项目对象库.列表复选框.format('素材3.jpg'))
+        self.click(项目对象库.工具栏按钮.format('撤销归档'))
+        self.wait(公共元素对象库.系统提示信息弹框.format("成功"), 3)
+        if self.wait(项目对象库.归档按钮.format('素材3.jpg'), 3):
+            raise AssertionError("对文件和文件目录进行批量撤销归档后，仍查看到文件的归档状态")
+        self.项目页面.按路径展开目录(目录路径=['批量撤销归档','批量撤销归档2'])
+        if self.wait(项目对象库.归档按钮.format('素材1.png'), 3) or \
+            self.wait(项目对象库.归档按钮.format('素材2.jpg'), 3):
+            raise AssertionError("对文件和文件目录进行批量撤销归档后，仍查看到文件的归档状态")
+        #勾选多个文件文件目录，文件目录下存在已检出文件，进行撤销归档操作后，不能撤销归档成功
+        self.项目页面.按路径展开目录(目录路径=['批量撤销归档'])
+        self.项目页面.刷新列表()
+        self.click(项目对象库.文件目录复选框.format('批量撤销归档2'))
+        self.click(项目对象库.文件目录复选框.format('已检出文件'))
+        self.click(项目对象库.工具栏按钮.format('撤销归档'))
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("存在未归档文件，不能执行该操作"),3):
+            raise AssertionError("文件目录下存在已检出文件时，对文件目录进行批量撤销归档，未查看到提示信息")
+        #勾选多个文件目录，文件目录下存在未归档的文件，进行文件撤销归档操作，不能归档成功
+        self.项目页面.按路径展开目录(目录路径=['批量撤销归档'])
+        self.项目页面.刷新列表()
+        self.click(项目对象库.文件目录复选框.format('批量撤销归档2'))
+        self.click(项目对象库.文件目录复选框.format('批量撤销归档'))
+        self.click(项目对象库.工具栏按钮.format('撤销归档'))
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("存在未归档文件，不能执行该操作"), 3):
+            raise AssertionError("文件目录下存在未归档文件时，对文件目录进行批量撤销归档，未查看到提示信息")
+        #勾选多个空文件目录，进行归档操作，提示未选择文件
+        self.项目页面.按路径展开目录(目录路径=['批量撤销归档'])
+        self.项目页面.刷新列表()
+        self.click(项目对象库.文件目录复选框.format('空目录'))
+        self.click(项目对象库.文件目录复选框.format('空目录2'))
+        self.click(项目对象库.工具栏按钮.format('撤销归档'))
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("未选择文件"), 3):
+            raise AssertionError("文件目录为空时，进行批量撤销归档，未查看到提示信息")
 
 
 

@@ -111,7 +111,7 @@ class 项目管理页面(page):
                 self.wait(对话框对象库.对话框标题.format("提示"),3)
                 self.click(对话框对象库.对话框按钮.format("提示","确定"))
                 self.wait(公共元素对象库.系统提示信息弹框.format("删除"),3)
-            else:
+            elif self.wait(项目管理对象库.更多操作选项.format("退出项目")) :
                 self.click(项目管理对象库.更多操作选项.format("退出项目"))
                 self.wait(公共元素对象库.系统提示信息弹框.format("成功"),3)
 
@@ -326,6 +326,8 @@ class 项目页面(page):
         序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称=资源名称)
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("检出"))
+        if self.wait(对话框对象库.对话框标题.format("提示"), 3):
+            self.click(对话框对象库.对话框按钮.format("提示", "确定"))
         self.wait(项目对象库.检出按钮.format(资源名称), 3)
 
     def 文件撤销检出(self, 资源名称, 目录路径=None):
@@ -360,8 +362,10 @@ class 项目页面(page):
         self.wait(公共元素对象库.系统提示信息弹框.format("操作成功"))
 
 
-    def 附加文件(self,目录路径,文件名称,附加文件路径列表):
-        self.按路径展开目录(目录路径=目录路径)
+    def 附加文件(self,文件名称,附加文件路径列表,目录路径=None):
+        if 目录路径:
+            self.按路径展开目录(目录路径=目录路径)
+            time.sleep(1)
         序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称=文件名称)
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("附加文件"))
@@ -443,3 +447,15 @@ class 项目页面(page):
         self.send_keys(项目对象库.搜索框,关键词)
         self.click(项目对象库.搜索按钮)
         time.sleep(3)
+
+    def 归档单个文件(self,文件名称):
+        序号 = self.公共操作.获取文件在列表中的行号(文件名称=文件名称)
+        self.click(项目对象库.悬浮列行操作.format(序号))
+        self.click(项目对象库.行操作选项.format("文件归档"))
+        self.wait(公共元素对象库.系统提示信息弹框.format("操作成功"), 3)
+
+    def 批量归档(self,资源列表):
+        for 资源 in 资源列表:
+            self.click(项目对象库.列表复选框.format(资源))
+        self.click(项目对象库.工具栏按钮.format('文件归档'))
+        self.wait(公共元素对象库.系统提示信息弹框.format("操作成功"), 3)
