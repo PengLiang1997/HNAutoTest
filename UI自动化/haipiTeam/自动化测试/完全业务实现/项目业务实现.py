@@ -1738,7 +1738,7 @@ class 项目工作区(page):
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("打包"))
         if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "确定"))
+            self.click(对话框对象库.对话框按钮.format("提示", "是"))
         downpath = self.公共操作.检查文件是否下载完成()
         filepath = downpath + '\素材1.png.zip'
         time.sleep(3)
@@ -1755,7 +1755,7 @@ class 项目工作区(page):
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("打包"))
         if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "确定"))
+            self.click(对话框对象库.对话框按钮.format("提示", "是"))
         downpath = self.公共操作.检查文件是否下载完成()
         filepath = downpath + '\一级目录.zip'
         time.sleep(3)
@@ -1773,7 +1773,7 @@ class 项目工作区(page):
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("打包"))
         if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "确定"))
+            self.click(对话框对象库.对话框按钮.format("提示", "是"))
         downpath = self.公共操作.检查文件是否下载完成()
         filepath = downpath + '\素材1.png.zip'
         time.sleep(3)
@@ -1790,7 +1790,7 @@ class 项目工作区(page):
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("打包"))
         if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "确定"))
+            self.click(对话框对象库.对话框按钮.format("提示", "是"))
         downpath = self.公共操作.检查文件是否下载完成()
         filepath = downpath + '\一级目录.zip'
         time.sleep(3)
@@ -1913,7 +1913,7 @@ class 项目工作区(page):
         self.click(项目对象库.列表复选框.format('素材2.jpg'))
         self.click(项目对象库.工具栏按钮.format('检出'))
         if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "确定"))
+            self.click(对话框对象库.对话框按钮.format("提示", "是"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("成功"),3):
             raise AssertionError("对文件进行批量检出操作，未查看到系统提示信息")
         if not self.wait(项目对象库.检出按钮.format('素材1.png'), 3) or not\
@@ -1924,7 +1924,7 @@ class 项目工作区(page):
         self.click(项目对象库.列表复选框.format('素材3.jpg'))
         self.click(项目对象库.工具栏按钮.format('检出'))
         if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "确定"))
+            self.click(对话框对象库.对话框按钮.format("提示", "是"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("存在已被检出的文件，不能执行该操作"), 3):
             raise AssertionError("对文件进行批量检出操作，文件中含有已检出的文件，批量检出时未出现提示信息")
         if not self.wait(项目对象库.检出按钮.format('素材1.png'), 3) or \
@@ -1935,7 +1935,7 @@ class 项目工作区(page):
         self.click(项目对象库.列表复选框.format('素材1.png'))
         self.click(项目对象库.工具栏按钮.format('检出'))
         if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "确定"))
+            self.click(对话框对象库.对话框按钮.format("提示", "是"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("成功"), 3):
             raise AssertionError("对文件和文件目录进行批量检出操作，未查看到系统提示信息")
         if not self.wait(项目对象库.检出按钮.format('素材3.jpg'), 3) :
@@ -1949,7 +1949,7 @@ class 项目工作区(page):
         self.click(项目对象库.列表复选框.format('一级目录2'))
         self.click(项目对象库.工具栏按钮.format('检出'))
         if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "确定"))
+            self.click(对话框对象库.对话框按钮.format("提示", "是"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("成功"), 3):
             raise AssertionError("对文件和文件目录进行批量检出操作，未查看到系统提示信息")
         self.click(项目对象库.目录节点.format('一级目录2'))
@@ -1965,7 +1965,7 @@ class 项目工作区(page):
         self.click(项目对象库.列表复选框.format('一级目录2'))
         self.click(项目对象库.工具栏按钮.format('检出'))
         if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "确定"))
+            self.click(对话框对象库.对话框按钮.format("提示", "是"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("存在已被检出的文件，不能执行该操作"), 3):
             raise AssertionError("对文件目录进行批量检出操作，目录下含有已检出的文件，未查看到系统提示信息")
         self.click(项目对象库.目录节点.format('一级目录2'))
@@ -2309,7 +2309,7 @@ class 项目工作区(page):
         self.click(项目对象库.列表复选框.format('素材2.jpg'))
         self.click(项目对象库.工具栏按钮.format('打包'))
         if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "确定"))
+            self.click(对话框对象库.对话框按钮.format("提示", "是"))
         while (True):
             if not self.wait(项目对象库.正在打包按钮,3):
                 break
@@ -2328,7 +2328,7 @@ class 项目工作区(page):
         self.click(项目对象库.列表复选框.format('素材3.jpg'))
         self.click(项目对象库.工具栏按钮.format('打包'))
         if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "确定"))
+            self.click(对话框对象库.对话框按钮.format("提示", "是"))
         while(True):
             if not self.wait(项目对象库.正在打包按钮,3):
                 break
@@ -2348,12 +2348,12 @@ class 项目工作区(page):
         self.click(项目对象库.列表复选框.format('二级目录2'))
         self.click(项目对象库.工具栏按钮.format('打包'))
         if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "确定"))
+            self.click(对话框对象库.对话框按钮.format("提示", "是"))
         downpath = self.公共操作.检查文件是否下载完成()
         filepath = downpath + '\批量打包.zip'
         time.sleep(30)
         namelist = self.公共操作.查看zip文件(zip文件路径=filepath)
-        for name in ['素材1.png', '二级目录2/']:
+        for name in ['素材1.png', '二级目录2']:
             if not name in namelist or len(namelist) != 2:
                 raise AssertionError("在打包的文件中未查看到被打包的文件或目录")
         #勾选多个文件和目录，目录下含有被检出的文件，文件和目录可以被正常打包
@@ -2364,7 +2364,7 @@ class 项目工作区(page):
         self.click(项目对象库.列表复选框.format('二级目录'))
         self.click(项目对象库.工具栏按钮.format('打包'))
         if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "确定"))
+            self.click(对话框对象库.对话框按钮.format("提示", "是"))
         downpath = self.公共操作.检查文件是否下载完成()
         filepath = downpath + '\批量打包.zip'
         time.sleep(4)
