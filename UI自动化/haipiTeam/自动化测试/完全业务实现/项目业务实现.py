@@ -69,11 +69,20 @@ class 项目管理工作区(page):
         self.项目页面.检出资源(目录路径=['文件检入', '一级目录'], 资源名称='检入检出素材.txt')
         self.公共操作.修改文件内容(文件路径=['TestData', 'FrontData', '项目页', '检入检出素材.txt'], 内容=str(int(time.time())))
         self.项目页面.文件检入(目录路径=['文件检入', '一级目录'],文件名='检入检出素材.txt',文件路径=['TestData', 'FrontData', '项目页', '检入检出素材.txt'])
+        #
+        self.进入到操作位置.进入项目管理页()
+        self.项目管理页面.创建空白项目(项目名称="模板保存文件")
+        self.项目管理页面.点击进入项目(项目名称="模板保存文件")
+        for i in range(5):
+            文件列表=[]
+            for j in range(10):
+                文件列表=文件列表.append(['TestData', 'FrontData', '存为模板', f'{i*10+j}.jpg'])
+            self.项目页面.批量上传文件(目录路径=['模板保存文件'], 文件路径列表=文件列表)
 
     def 准备项目模板(self):
         self.进入到操作位置.进入项目管理页()
         self.项目管理页面.删除项目模板(模板名称='根据模板创建项目')
-        self.项目管理页面.存为模板(项目名称='查看项目动态',模板名称='根据模板创建项目')
+        self.项目管理页面.存为模板(项目名称='查看项目动态',模板名称='根据模板创建项目',文件路径列表=[['查看项目动态', '一级目录']],目录文件列表=[['素材2.jpg','检入检出素材.txt']])
 
     def 准备项目设置数据(self):
         self.进入到操作位置.进入项目管理页()
@@ -594,6 +603,9 @@ class 项目管理工作区(page):
         self.进入到操作位置.进入项目管理页()
         self.项目管理页面.删除项目(项目名称="切换生命周期")
         self.项目管理页面.创建空白项目(项目名称="切换生命周期",生命周期名称='切换生命周期')
+        self.项目管理页面.点击进入项目(项目名称="切换生命周期")
+        self.项目页面.上传单个文件(目录路径=['切换生命周期'], 文件路径=['TestData', 'FrontData', '项目页', '检入检出素材.txt'])
+        self.进入到操作位置.进入项目管理页()
         #点击生命周期下拉列表，列表显示所有的生命周期模板，选择对应的生命周期设置
         self.click(项目管理对象库.更多操作按钮.format("切换生命周期"))
         self.click(项目管理对象库.更多操作选项.format("项目设置"))
@@ -607,61 +619,18 @@ class 项目管理工作区(page):
         self.click(公共元素对象库.列表框.format("生命周期"))
         if not self.wait('//ul/li[contains(@class,"el-select-dropdown__item selected")]/span[text()="生命周期"]', 3):
             raise AssertionError("空白项目点击切换生命周期没有直接切换")
-        #如果项目中已经存在文件，点击切换生命周期时会弹出修改生命周期预览弹窗
-        self.click(项目设置页面.查看项目目录)
-        self.项目页面.创建文件目录(目录名称="一级目录", 目录父节点名称="切换生命周期")
-        素材2 = ['TestData', 'FrontData', '项目页', '素材2.jpg']
-        素材3 = ['TestData', 'FrontData', '项目页', '素材3.jpg']
-        self.click(项目对象库.目录节点.format("一级目录"))
-        self.项目页面.批量上传文件(目录路径=['查看项目动态', '一级目录'], 文件路径列表=[素材2, 素材3])
         self.进入到操作位置.进入项目管理页()
-        self.click(项目管理对象库.更多操作按钮.format("切换生命周期"))
-        self.click(项目管理对象库.更多操作选项.format("项目设置"))
-        self.click(公共元素对象库.列表框.format("生命周期"))
-        self.公共操作.滚动选择列表框选项(选项名称='切换生命周期')
-        if not self.wait(对话框对象库.弹框标题.format("修改生命周期预览"),3):
-            raise AssertionError("如果项目中已经存在文件，点击切换生命周期时没有弹出修改生命周期预览弹窗")
-        # 不对任何节点进行变更，点击确定，系统给出对应的提示信息
-        self.click(对话框对象库.弹框按钮.format("修改生命周期预览", "确定"))
-        if not self.wait(公共元素对象库.系统提示信息弹框.format("请选择对应变更后的节点名称"), 3):
-            raise AssertionError("不对任何节点进行变更，点击确定，系统未给出对应的提示信息")
-        #修改生命周期预览弹窗中列表显示当前生命周期的全部节点，点击变更后节点名称下拉列表，列表框中显示目标生命周期的全部节点
-        if not self.wait(项目设置页面.当前节点名称.format("11")) or not self.wait(项目设置页面.当前节点名称.format("22")):
-            raise AssertionError("修改生命周期预览弹窗中列表没有显示当前生命周期的全部节点")
-        self.click(项目设置页面.变更节点列表框.format("11"))
-        节点elems=self.driver.getelements('//ul/li[contains(@class,"dropdown__item")]/span')
-        for 节点 in 节点elems:
-            if 节点.text not in ['aa','bb'] or len(节点elems)!=2:
-                raise AssertionError("点击变更后节点名称下拉列表，列表框中没有显示目标生命周期的全部节点")
-        #进行生命周期节点变更操作后，关闭生命周期预览弹窗，查看项目生命周期是否别变更
-        self.click(项目设置页面.变更节点列表框.format("33"))
-        self.click(公共元素对象库.列表框选项.format("aa"))
-        self.click(对话框对象库.关闭弹框.format("修改生命周期预览"))
-        self.click(公共元素对象库.列表框.format("生命周期"))
-        if not self.wait('//ul/li[contains(@class,"el-select-dropdown__item selected")]/span[text()="生命周期"]',3):
-            raise AssertionError("进行生命周期节点变更操作后，关闭生命周期预览弹窗，项目生命周期已经变更")
-        #进行生命周期节点变更操作后，点击取消按钮，查看项目生命周期是否别变更
-        self.公共操作.滚动选择列表框选项(选项名称='切换生命周期')
-        self.wait(对话框对象库.弹框标题.format("修改生命周期预览"), 3)
-        self.click(项目设置页面.变更节点列表框.format("33"))
-        self.click(公共元素对象库.列表框选项.format("aa"))
-        self.click(对话框对象库.弹框按钮.format("修改生命周期预览","取消"))
-        self.click(公共元素对象库.列表框.format("生命周期"))
-        if not self.wait('//ul/li[contains(@class,"el-select-dropdown__item selected")]/span[text()="生命周期"]', 3):
-            raise AssertionError("进行生命周期节点变更操作后，点击取消按钮，项目生命周期已经变更")
-        #进行生命周期节点变更操作后，点击确定按钮，查看项目生命周期是否别变更
-        self.公共操作.滚动选择列表框选项(选项名称='切换生命周期')
-        self.wait(对话框对象库.弹框标题.format("修改生命周期预览"), 3)
-        self.click(项目设置页面.变更节点列表框.format("11"))
-        self.click(公共元素对象库.列表框选项.format("aa"))
-        self.click(项目设置页面.变更节点列表框.format("22"))
-        self.click(公共元素对象库.列表框选项.format("bb"))
-        self.click(项目设置页面.变更节点列表框.format("33"))
-        self.click(公共元素对象库.列表框选项.format("aa"))
-        self.click(对话框对象库.弹框按钮.format("修改生命周期预览", "确定"))
-        self.click(公共元素对象库.列表框.format("生命周期"))
-        if not self.wait('//ul/li[contains(@class,"el-select-dropdown__item selected")]/span[text()="切换生命周期"]', 3):
-            raise AssertionError("进行生命周期节点变更操作后，点击确定按钮，项目生命周期没有变更")
+        self.项目管理页面.点击进入项目(项目名称="切换生命周期")
+        #切换生命周期后，在根目录上传文件，查看生命周期是否被切换
+        self.项目页面.上传单个文件(目录路径=['切换生命周期'], 文件路径=['TestData', 'FrontData', '项目页', '素材2.jpg'])
+        elestat1 = self.driver.getelement(项目对象库.生命周期状态.format('素材2.jpg')).text
+        if elestat1 != "11":
+            raise AssertionError("切换生命周期后，在根目录上传文件，生命周期没有被切换")
+        #对切换生命周期前的根目录文件进行改变状态操作，查看文件是否还在使用切换前的生命周期
+        self.项目页面.改变文件状态(文件名='检入检出素材.txt',状态名称='bb')
+        elestat2 = self.driver.getelement(项目对象库.生命周期状态.format('检入检出素材.txt')).text
+        if elestat2!="bb":
+            raise AssertionError("对切换生命周期前的根目录文件进行改变状态操作，文件没有使用切换前的生命周期")
 
     def 项目切换版次(self):
         self.进入到操作位置.进入设置页()
@@ -967,6 +936,79 @@ class 项目管理工作区(page):
         self.项目管理页面.查看项目详情(项目名称='项目归档')
         if not self.wait('//div/span[text()="项目状态:"]/following-sibling::span[text()="已归档"]', 3):
             raise AssertionError("项目归档后，查看项目详情，没有查看到项目状态为已归档")
+
+    def 存为模板2(self):
+        self.项目管理页面.删除项目模板(模板名称='保存模板3')
+        self.进入到操作位置.进入项目管理页()
+        self.click(项目管理对象库.更多操作按钮.format("模板保存文件"))
+        self.click(项目管理对象库.更多操作选项.format("存为模板"))
+        self.wait(对话框对象库.弹框标题.format("存为模板"), 3)
+        #在存为模板界面点击项目目录节点，右侧文件列表显示该文件目录下的所有文件
+        self.项目管理页面.展开并点击最后一项目录(结构目录=['模板保存文件'])
+        pass
+
+    def 项目生命周期模板设置新增(self):
+        self.进入到操作位置.进入项目管理页()
+        self.项目管理页面.删除项目(项目名称="配置生命周期")
+        self.项目管理页面.创建空白项目(项目名称="配置生命周期", 生命周期名称='系统默认生命周期')
+        self.click(项目管理对象库.更多操作按钮.format("配置生命周期"))
+        self.click(项目管理对象库.更多操作选项.format("项目设置"))
+        self.click(项目设置页面.项目生命周期模板设置)
+        #点击新增按钮，弹出新增项目生命周期模板弹窗
+        self.click(项目设置页面.新增生命周期)
+        if not self.wait(对话框对象库.弹框标题.format("新增项目生命周期模板"),3):
+            raise AssertionError("点击生命周期新增按钮，未查看到新增生命周期弹框")
+        #弹窗中显示未进行新增的生命周期模板
+        if not self.wait(项目设置页面.未配置生命周期名称.format("生命周期"),3):
+            raise AssertionError("项目生命周期模板设置新增生命周期时，未查看到未新增的生命周期")
+        #新增生命周期模板时，勾选生命周期模板，点击保存，提示操作成功后，可以在列表中查看到新增的生命周期
+        self.click(项目设置页面.未配置生命周期复选框.format("生命周期"))
+        self.click(对话框对象库.弹框按钮.format("新增项目生命周期模板","保存"))
+        if not self.wait(项目设置页面.生命周期名称.format("生命周期"),3):
+            raise AssertionError("保存生命周期成功后，未在生命周期列表查看到新增的生命周期")
+        #新增生命周期模板时，勾选生命周期模板，点击取消，查看是否添加成功
+        self.click(项目设置页面.新增生命周期)
+        self.wait(对话框对象库.弹框标题.format("新增项目生命周期模板"), 3)
+        self.click(项目设置页面.未配置生命周期复选框.format("切换生命周期"))
+        self.click(对话框对象库.弹框按钮.format("新增项目生命周期模板", "取消"))
+        if self.wait(项目设置页面.生命周期名称.format("切换生命周期"),3):
+            raise AssertionError("新增生命周期取消后，在生命周期列表查看到取消新增的生命周期")
+        #新增生命周期模板时，勾选生命周期模板，关闭窗口，查看是否添加成功
+        self.click(项目设置页面.新增生命周期)
+        self.wait(对话框对象库.弹框标题.format("新增项目生命周期模板"), 3)
+        self.click(项目设置页面.未配置生命周期复选框.format("切换生命周期"))
+        self.click(对话框对象库.关闭弹框.format("新增项目生命周期模板"))
+        if self.wait(项目设置页面.生命周期名称.format("切换生命周期"), 3):
+            raise AssertionError("新增生命周期取消后，在生命周期列表查看到取消新增的生命周期")
+
+    def 项目生命周期模板设置删除(self):
+        self.进入到操作位置.进入项目管理页()
+        self.项目管理页面.删除项目(项目名称="配置生命周期")
+        self.项目管理页面.创建空白项目(项目名称="配置生命周期", 生命周期名称='系统默认生命周期')
+        self.click(项目管理对象库.更多操作按钮.format("配置生命周期"))
+        self.click(项目管理对象库.更多操作选项.format("项目设置"))
+        self.click(项目设置页面.项目生命周期模板设置)
+        self.click(项目设置页面.新增生命周期)
+        self.wait(对话框对象库.弹框标题.format("新增项目生命周期模板"), 3)
+        self.click(项目设置页面.未配置生命周期复选框.format("切换生命周期"))
+        self.click(项目设置页面.未配置生命周期复选框.format("生命周期"))
+        self.click(对话框对象库.弹框按钮.format("新增项目生命周期模板", "取消"))
+        #勾选生命周期，点击删除，等待提示信息，查看被删除的生命周期模板是够存在
+        self.click(项目设置页面.生命周期复选框.format("切换生命周期"))
+        self.click(项目设置页面.删除生命周期)
+        self.wait(公共元素对象库.系统提示信息弹框.format("成功"),3)
+        if self.wait(项目设置页面.生命周期名称.format("切换生命周期"),3):
+            raise AssertionError("删除生命周期后，被删除的生命周期仍然可以被查看到")
+        #不勾选生命周期，点击删除，查看是否出现提示信息
+        self.click(项目设置页面.删除生命周期)
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("请选择需要删除的数据"),3):
+            raise AssertionError("不选择任何生命周期，点击删除，未出现提示信息")
+        #勾选被使用的生命周期，点击删除，查看是否出现提示信息
+        self.click(项目设置页面.生命周期复选框.format("系统默认生命周期"))
+        self.click(项目设置页面.删除生命周期)
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("不能删除根目录使用的生命周期模板"), 3):
+            raise AssertionError("删除已经被使用的生命周期，未出现提示信息")
+
 
 
 

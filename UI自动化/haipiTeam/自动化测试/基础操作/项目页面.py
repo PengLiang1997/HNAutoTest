@@ -18,6 +18,12 @@ class 项目管理页面(page):
         self.公共操作 = 公共操作(Secdriver=Secdriver)
         self.登录页面 = 登录页面(Secdriver=Secdriver)
 
+    def 展开并点击最后一项目录(self, 结构目录):
+        for i in 结构目录[0:-1]:
+            if self.wait(项目设置页面.节点展开按钮.format(i), 3):
+                self.click(项目设置页面.节点展开按钮.format(i))
+        self.click(项目设置页面.节点名称.format(结构目录[-1]))
+
     def 显示设置(self,value):
         self.click(项目管理对象库.显示设置按钮)
         self.click(项目管理对象库.显示设置选项.format(value))
@@ -130,7 +136,8 @@ class 项目管理页面(page):
         self.click(项目管理对象库.更多操作选项.format("项目动态"))
         self.wait(项目管理对象库.项目动态页.项目动态页标题, 3)
 
-    def 存为模板(self,项目名称,模板名称,保留团队成员=None,保留项目文件=None):
+    def 存为模板(self,项目名称,模板名称,保留团队成员=None,保留项目文件=None,文件路径列表=None,目录文件列表=None):
+        i=0
         self.click(项目管理对象库.更多操作按钮.format(项目名称))
         self.click(项目管理对象库.更多操作选项.format("存为模板"))
         self.wait(对话框对象库.弹框标题.format("存为模板"),3)
@@ -139,6 +146,13 @@ class 项目管理页面(page):
             self.click(公共元素对象库.单选按钮.format("保留团队成员"))
         if 保留项目文件:
             self.click(公共元素对象库.单选按钮.format("保留项目文件"))
+        if 文件路径列表:
+            for 文件路径 in 文件路径列表:
+                self.展开并点击最后一项目录(结构目录=文件路径)
+                目录文件=目录文件列表[i]
+                for 文件 in 目录文件:
+                    self.click(项目管理对象库.目录文件复选框.format(文件))
+                i+=1
         self.click(对话框对象库.对话框按钮.format("存为模板","确定"))
         self.wait(公共元素对象库.系统提示信息弹框.format("成功"),3)
 

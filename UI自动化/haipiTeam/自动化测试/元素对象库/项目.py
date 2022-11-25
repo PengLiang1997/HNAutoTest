@@ -25,6 +25,9 @@ class 项目管理对象库:
     #标签
     标签='//ul[contains(@id,"dropdown-menu")]/li[{}]/div[@class="tip_bgc" and contains(@style,"background-color")]'#参数为标签序号
 
+    #存为模板
+    目录文件复选框 = '//tr/td[3]/div[text()="{}"]/ancestor::tr/td[1]'
+
     class 项目动态页:
         项目动态页标题='//div[@class="project_dyn "]//h4[text()="项目动态"]'
         用户名称='//li//span[contains(text(),"{}")]'
@@ -139,7 +142,7 @@ class 项目设置页面:
     删除项目='//div[text()="项目名称"]/following-sibling::div/div/i'
 
     项目成员tab页='//div[@id="tab-projectMember"]'
-    生命周期控制tab页='//div[@id="tab-cyclePlanning"]'
+    项目生命周期模板设置='//div[@id="tab-projectCyclePlan"]'
     项目成员名称='//div[text()="{}"]/ancestor::tr/td[3]/div[text()="{}"]'#参数1为成员名称，参数2为角色名称
     权限编辑按钮='//div[text()="{}"]/ancestor::tr/td[last()]//i[@title="编辑权限"]'
 
@@ -167,6 +170,18 @@ class 项目设置页面:
     未选_所有人提交后可进入下一节点按钮 = '//div[contains(text()," 所有人提交后可进入下一节点 ")]/div[not(contains(@class,"checked"))]//span'
     节点下成员='//tr/td/div[text()="{}"]'
     移除成员按钮='//tr/td/div[text()="{}"]/ancestor::tr/td[last()]//i'
+
+    #目生命周期模板设置
+    新增生命周期='//div[@id="pane-projectCyclePlan"]//span[text()="新增"]'
+    删除生命周期='//div[@id="pane-projectCyclePlan"]//span[text()="删除"]'
+    生命周期名称='//div[@id="pane-projectCyclePlan"]//tr/td[2]/div[text()="{}"]'
+    生命周期复选框='//tr/td[2]/div[text()="{}"]/ancestor::tr/td[1]'
+    查看生命周期='//tr/td[2]/div[text()="{}"]/ancestor::tr/td[3]'
+
+    未配置生命周期名称='//div[@aria-label="新增项目生命周期模板"]//tr/td[2]/div[text()="{}"]'
+    未配置生命周期复选框='//div[@aria-label="新增项目生命周期模板"]//tr/td[2]/div[text()="{}"]/ancestor::tr/td[1]'
+
+
     #项目成员列表
     已选_成员复选框 = '//div[text()="{}"]/ancestor::tr/td[1]//span[contains(@class,"checked")]'
     未选_成员复选框 = '//div[text()="{}"]/ancestor::tr/td[1]//span[not(contains(@class,"checked"))]'
