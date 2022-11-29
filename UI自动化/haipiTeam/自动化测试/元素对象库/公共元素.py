@@ -3,6 +3,7 @@ class 公共元素对象库:
     手机号地区列表框选项='//li[contains(@class,"dropdown__item")]/span[contains(text(),"{}")]'
     列表框='//*[text()="{}"]/following-sibling::div//i'
     列表框选项='//ul/li[contains(@class,"dropdown__item")]/span[text()="{}"]'
+    列表框选项列表='//ul/li[contains(@class,"dropdown__item")]/span'
     输入框='//*[text()="{}"]/following-sibling::div//input'
     禁用_输入框='//*[text()="{}"]/following-sibling::div//input[@disabled="disabled"]'
     文本框='//*[text()="{}"]/following-sibling::div//textarea'

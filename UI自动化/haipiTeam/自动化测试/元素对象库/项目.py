@@ -115,6 +115,32 @@ class 项目对象库:
         #被引用tab页文件列表
         被引用文件名称='//div[@id="pane-quoted"]//table[@class="el-table__body"]//tr/td[1]/div[text()="{}"]'
 
+    class 目录设置:
+        目录设置tab页='//div[@role="tablist"]/div[text()="{}"]'
+        生命周期列表框='//div[@id="pane-cyclePlanning"]//input[@placeholder="请选择"]'
+        生命周期节点 = '//tr/td/div[text()="{}"]'
+        添加人员按钮 = '//button/span[text()="添加人员"]'
+        所有人提交后可进入下一节点按钮 = '//div[contains(text(),"所有人提交后可进入下一节点")]//span'
+        已选_所有人提交后可进入下一节点按钮 = '//div[contains(text()," 所有人提交后可进入下一节点 ")]/div[contains(@class,"checked")]//span'
+        未选_所有人提交后可进入下一节点按钮 = '//div[contains(text()," 所有人提交后可进入下一节点 ")]/div[not(contains(@class,"checked"))]//span'
+        节点下成员 = '//tr/td/div[text()="{}"]'
+        移除成员按钮 = '//tr/td/div[text()="{}"]/ancestor::tr/td[last()]//i'
+        已选_成员复选框 = '//div[text()="{}"]/ancestor::tr/td[1]//span[contains(@class,"checked")]'
+        未选_成员复选框 = '//div[text()="{}"]/ancestor::tr/td[1]//span[not(contains(@class,"checked"))]'
+        权限复选框 = '//div[text()="{}"]/ancestor::tr/td[1]//spans'
+        禁用_成员复选框 = '//div[text()="{}"]/ancestor::tr/td[1]//span[contains(@class,"disabled")]'
+
+        #会签设置
+        是否会签='//div[text()=" 是否会签 "]//span'
+        新增会签='//div[@class="container_btns"]//span[text()=" 新增"]'
+        批量删除会签='//div[@class="container_btns"]//span[text()="删除"]'
+        置灰_批量删除会签='//div[@class="container_btns"]//button[contains(@class,"is-disable")]/span[text()="删除"]'
+        编辑会签='//div[text()="{}"]/ancestor::tr/td[3]/div[text()="{}"]/ancestor::tr/td[last()]//i[1]'#参数1为专业，参数2为人员
+        删除单个会签='//div[text()="{}"]/ancestor::tr/td[3]/div[text()="{}"]/ancestor::tr/td[last()]//i[2]'#参数1为专业，参数2为人员
+        会签行='//div[text()="{}"]/ancestor::tr/td[3]/div[text()="{}"]'#参数1为专业，参数2为人员
+        会签行复选框='//div[text()="{}"]/ancestor::tr/td[3]/div[text()="{}"]/ancestor::tr/td[1]'
+
+
 
 class 创建项目页面:
     #创建项目
@@ -146,6 +172,7 @@ class 项目设置页面:
     项目成员名称='//div[text()="{}"]/ancestor::tr/td[3]/div[text()="{}"]'#参数1为成员名称，参数2为角色名称
     权限编辑按钮='//div[text()="{}"]/ancestor::tr/td[last()]//i[@title="编辑权限"]'
 
+
     #切换生命周期弹框
     当前节点名称='//div[@aria-label="修改生命周期预览"]//table//tr/td/div[text()="{}"]'
     变更节点列表框='//div[@aria-label="修改生命周期预览"]//table//tr/td/div[text()="{}"]/ancestor::tr/td[3]//i'
@@ -162,21 +189,13 @@ class 项目设置页面:
     权限复选框='//div[text()="{}"]/ancestor::tr/td[1]//spans'
     禁用_权限复选框='//div[text()="{}"]/ancestor::tr/td[1]//span[contains(@class,"disabled")]'
 
-    #生命周期tab页
-    生命周期节点='//tr/td/div[text()="{}"]'
-    添加人员按钮='//button/span[text()="添加人员"]'
-    所有人提交后可进入下一节点按钮='//div[contains(text(),"所有人提交后可进入下一节点")]//span'
-    已选_所有人提交后可进入下一节点按钮 = '//div[contains(text()," 所有人提交后可进入下一节点 ")]/div[contains(@class,"checked")]//span'
-    未选_所有人提交后可进入下一节点按钮 = '//div[contains(text()," 所有人提交后可进入下一节点 ")]/div[not(contains(@class,"checked"))]//span'
-    节点下成员='//tr/td/div[text()="{}"]'
-    移除成员按钮='//tr/td/div[text()="{}"]/ancestor::tr/td[last()]//i'
-
     #目生命周期模板设置
     新增生命周期='//div[@id="pane-projectCyclePlan"]//span[text()="新增"]'
     删除生命周期='//div[@id="pane-projectCyclePlan"]//span[text()="删除"]'
     生命周期名称='//div[@id="pane-projectCyclePlan"]//tr/td[2]/div[text()="{}"]'
     生命周期复选框='//tr/td[2]/div[text()="{}"]/ancestor::tr/td[1]'
     查看生命周期='//tr/td[2]/div[text()="{}"]/ancestor::tr/td[3]'
+    已配置生命周期列表='//div[@id="pane-projectCyclePlan"]//tr/td[2]/div'
 
     未配置生命周期名称='//div[@aria-label="新增项目生命周期模板"]//tr/td[2]/div[text()="{}"]'
     未配置生命周期复选框='//div[@aria-label="新增项目生命周期模板"]//tr/td[2]/div[text()="{}"]/ancestor::tr/td[1]'

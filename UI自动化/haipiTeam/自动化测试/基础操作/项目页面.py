@@ -186,14 +186,14 @@ class 项目管理页面(page):
             self.wait(公共元素对象库.系统提示信息弹框.format("删除成功"),3)
         self.进入到操作位置.进入项目管理页()
 
-    def 进入点击项目设置(self,项目名称,项目成员tab页=None,生命周期控制tab页=None):
+    def 进入点击项目设置(self,项目名称,项目成员tab页=None,项目生命周期模板设置=None):
         self.进入到操作位置.进入项目管理页()
         self.click(项目管理对象库.更多操作按钮.format(项目名称))
         self.click(项目管理对象库.更多操作选项.format("项目设置"))
         if 项目成员tab页:
             self.click(项目设置页面.项目成员tab页)
-        if 生命周期控制tab页:
-            self.click(项目设置页面.生命周期控制tab页)
+        if 项目生命周期模板设置:
+            self.click(项目设置页面.项目生命周期模板设置)
 
     class 项目设置页面(page):
 
@@ -243,24 +243,6 @@ class 项目管理页面(page):
                     self.click(项目设置页面.未选_权限复选框.format(qx))
             self.click(对话框对象库.弹框按钮.format("编辑权限", "保存"))
             self.click(对话框对象库.关闭弹框.format("编辑权限"))
-
-        def 添加节点人员(self,节点名称,成员名称=None,所有人提交后可进入下一节点=True):
-            self.click(项目设置页面.节点下成员.format(节点名称))
-            if 成员名称:
-                self.click(项目设置页面.添加人员按钮)
-                self.wait(对话框对象库.弹框标题.format("选择人员"), 3)
-                self.click(项目设置页面.未选_成员复选框.format(成员名称))
-                self.click(对话框对象库.弹框按钮.format("选择人员", "确定"))
-            if 所有人提交后可进入下一节点==True:
-                if self.wait(项目设置页面.未选_所有人提交后可进入下一节点按钮,3):
-                    self.click(项目设置页面.未选_所有人提交后可进入下一节点按钮)
-            if 所有人提交后可进入下一节点==False:
-                if self.wait(项目设置页面.已选_所有人提交后可进入下一节点按钮,3):
-                    self.click(项目设置页面.已选_所有人提交后可进入下一节点按钮)
-
-        def 移除节点人员(self,节点名称,成员名称):
-            self.click(项目设置页面.节点下成员.format(节点名称))
-            self.click(项目设置页面.移除成员按钮.format(成员名称))
 
 
 class 项目页面(page):
@@ -329,7 +311,7 @@ class 项目页面(page):
 
     def 收藏资源(self,目录路径,资源名称):
         self.按路径展开目录(目录路径=目录路径)
-        序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称=资源名称)
+        序号 = self.公共操作.获取文件在列表中的行号(文件名称=资源名称)
         self.click(项目对象库.悬浮列收藏.format(序号))
         self.wait(公共元素对象库.系统提示信息弹框.format("收藏成功"))
 
@@ -337,7 +319,7 @@ class 项目页面(page):
         if 目录路径:
             self.按路径展开目录(目录路径=目录路径)
         time.sleep(1)
-        序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称=资源名称)
+        序号 = self.公共操作.获取文件在列表中的行号(文件名称=资源名称)
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("检出"))
         if self.wait(对话框对象库.对话框标题.format("提示"), 3):
@@ -348,7 +330,7 @@ class 项目页面(page):
         if 目录路径:
             self.按路径展开目录(目录路径=目录路径)
         time.sleep(1)
-        序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称=资源名称)
+        序号 = self.公共操作.获取文件在列表中的行号(文件名称=资源名称)
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("撤销检出"))
         self.wait(项目对象库.检出按钮.format(资源名称), 3)
@@ -356,7 +338,7 @@ class 项目页面(page):
     def 文件检入(self,目录路径,文件名,文件路径):
         self.按路径展开目录(目录路径=目录路径)
         time.sleep(1)
-        序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称=文件名)
+        序号 = self.公共操作.获取文件在列表中的行号(文件名称=文件名)
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("检入"))
         self.click(项目对象库.点击上传按钮)
@@ -369,7 +351,7 @@ class 项目页面(page):
         if 目录路径:
             self.按路径展开目录(目录路径=目录路径)
             time.sleep(1)
-        序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称=文件名)
+        序号 = self.公共操作.获取文件在列表中的行号(文件名称=文件名)
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("改变状态"))
         self.click(项目对象库.行操作选项.format(状态名称))
@@ -380,7 +362,7 @@ class 项目页面(page):
         if 目录路径:
             self.按路径展开目录(目录路径=目录路径)
             time.sleep(1)
-        序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称=文件名称)
+        序号 = self.公共操作.获取文件在列表中的行号(文件名称=文件名称)
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("附加文件"))
         self.wait(对话框对象库.弹框标题.format("附加文件"),3)
@@ -402,7 +384,7 @@ class 项目页面(page):
     def 删除资源(self,目录路径,资源名称):
         self.按路径展开目录(目录路径=目录路径)
         if self.wait(项目对象库.列表行操作.format(资源名称)):
-            序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称=资源名称)
+            序号 = self.公共操作.获取文件在列表中的行号(文件名称=资源名称)
             self.click(项目对象库.悬浮列行操作.format(序号))
             self.click(项目对象库.行操作选项.format("删除"))
             if self.wait(对话框对象库.对话框标题.format("提示"),3):
@@ -411,7 +393,7 @@ class 项目页面(page):
 
     def 资源打包(self,目录路径,资源名称):
         self.按路径展开目录(目录路径=目录路径)
-        序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称=资源名称)
+        序号 = self.公共操作.获取文件在列表中的行号(文件名称=资源名称)
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("打包"))
         filepath=self.公共操作.检查文件是否下载完成()
@@ -419,7 +401,7 @@ class 项目页面(page):
 
     def 下载文件(self,目录路径,资源名称):
         self.按路径展开目录(目录路径=目录路径)
-        序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称=资源名称)
+        序号 = self.公共操作.获取文件在列表中的行号(文件名称=资源名称)
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("下载"))
         filepath = self.公共操作.检查文件是否下载完成()
@@ -473,3 +455,44 @@ class 项目页面(page):
             self.click(项目对象库.列表复选框.format(资源))
         self.click(项目对象库.工具栏按钮.format('文件归档'))
         self.wait(公共元素对象库.系统提示信息弹框.format("操作成功"), 3)
+
+    def 进入目录设置(self, 目录名称):
+        序号 = self.公共操作.获取文件在列表中的行号(文件名称=目录名称)
+        self.click(项目对象库.悬浮列行操作.format(序号))
+        self.click(项目对象库.行操作选项.format("设置"))
+        self.wait(对话框对象库.弹框标题.format("设置"), 3)
+
+    def 目录设置生命周期(self, 目录名称,生命周期名称):
+        序号 = self.公共操作.获取文件在列表中的行号(文件名称=目录名称)
+        self.click(项目对象库.悬浮列行操作.format(序号))
+        self.click(项目对象库.行操作选项.format("设置"))
+        self.wait(对话框对象库.弹框标题.format("设置"), 3)
+        self.click(项目对象库.目录设置.生命周期列表框)
+        self.click(公共元素对象库.列表框选项.format(生命周期名称))
+        self.click(对话框对象库.关闭弹框.format("设置"))
+
+    def 添加节点人员(self, 节点名称, 成员名称=None, 所有人提交后可进入下一节点=True):
+        self.click(项目对象库.目录设置.节点下成员.format(节点名称))
+        if 成员名称:
+            self.click(项目对象库.目录设置.添加人员按钮)
+            self.wait(对话框对象库.弹框标题.format("选择人员"), 3)
+            self.click(项目对象库.目录设置.未选_成员复选框.format(成员名称))
+            self.click(对话框对象库.弹框按钮.format("选择人员", "确定"))
+        if 所有人提交后可进入下一节点 == True:
+            if self.wait(项目对象库.目录设置.未选_所有人提交后可进入下一节点按钮, 3):
+                self.click(项目对象库.目录设置.未选_所有人提交后可进入下一节点按钮)
+        if 所有人提交后可进入下一节点 == False:
+            if self.wait(项目对象库.目录设置.已选_所有人提交后可进入下一节点按钮, 3):
+                self.click(项目对象库.目录设置.已选_所有人提交后可进入下一节点按钮)
+
+    def 移除节点人员(self, 节点名称, 成员名称):
+        self.click(项目对象库.目录设置.节点下成员.format(节点名称))
+        self.click(项目对象库.目录设置.移除成员按钮.format(成员名称))
+
+    def 新增会签(self,专业,人员):
+        self.click(项目对象库.目录设置.新增会签)
+        self.wait(对话框对象库.弹框标题.format("新增"), 3)
+        self.send_keys(公共元素对象库.输入框.format("专业"), 专业)
+        self.click(公共元素对象库.列表框.format("人员"))
+        self.click(公共元素对象库.列表框选项.format(人员))
+        self.click(对话框对象库.弹框按钮.format("新增", "确定"))
