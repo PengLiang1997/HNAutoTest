@@ -14,6 +14,7 @@ from ..元素对象库.用户信息 import *
 from ..元素对象库.公共元素 import *
 from .进入到操作位置 import *
 from ..基础操作.滑块验证 import *
+from ..元素对象库.项目 import *
 
 
 class 公共操作(page):
@@ -125,3 +126,13 @@ class 公共操作(page):
             time2=time.time()
             if time2-time1>300:
                 raise RuntimeError("操作超时")
+
+    def 项目下按路径展开目录(self,目录路径):
+        '''
+        :param 目录路径: 路径列表 ['根节点名称','','']
+        '''
+        for path in 目录路径:
+            if self.wait(项目对象库.节点展开按钮.format(path),1):
+                self.click(项目对象库.节点展开按钮.format(path))
+        self.click(项目对象库.目录节点.format(目录路径[-1]))
+        time.sleep(2)

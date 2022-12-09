@@ -38,7 +38,7 @@ class 项目管理对象库:
 class 项目对象库:
     搜索框='//input[@placeholder="搜索"]'
     搜索按钮='//div[@class="pBtnGroup"]//i[contains(@class,"el-icon-search")]'
-    新建目录 = '//div[@id="pTableHeader"]/div[@class="pBtnGroup"]//span[text()="新增"]'
+    新建目录 = '//div[@id="pTableHeader"]/div[@class="pBtnGroup"]//span[text()="新建目录"]'
     上传 = '//div[@id="pTableHeader"]/div[@class="pBtnGroup"]//span[text()="上传文件"]'
     目录节点='//div[@role="treeitem"]//span[@title="{}"]'#参数为目录名称
     节点收起按钮='//div[@role="treeitem"]//span[contains(@title,"{}")]/preceding-sibling::span[contains(@class,"expanded")]'
@@ -110,6 +110,10 @@ class 项目对象库:
         被引用tab页='//div[@id="tab-quoted"]'
         升级记录tab页='//div[@id="tab-upgradeRecord"]'
 
+        #版本tab页
+        版本更多操作='//tr/td[4]//span[text()="{}"]/ancestor::tr/td[last()]//i[@title="更多操作"]'#参数为版本号
+        版本更多操作选项='//ul[contains(@id,"dropdown-menu") and @x-placement="top-end"]//li[text()="{}"]'
+
         #引用tab页文件列表
         引用文件名称='//div[@id="pane-quote"]//table[@class="el-table__body"]//tr/td[1]/div[text()="{}"]'
         #被引用tab页文件列表
@@ -151,7 +155,7 @@ class 创建项目页面:
     预览='//div[@class="fz_l_gray revit_project_t" and @title="{}"]/following-sibling::div//span[text()="预览"]'
     使用='//div[@class="fz_l_gray revit_project_t" and @title="{}"]/following-sibling::div//span[text()="使用"]'
     删除='//div[@class="fz_l_gray revit_project_t" and @title="{}"]/following-sibling::i'
-    节点展开按钮 = '//div[@role="treeitem"]//span[text()="{}"]/preceding-sibling::span[not( contains(@class,"expanded"))]'
+    节点展开按钮 = '//div[@role="treeitem"]//span[text()="{}"]/ancestor::span/preceding-sibling::span[not( contains(@class,"expanded"))]'
     节点名称='//div[@role="treeitem"]//span[text()="{}"]'
 
     模板tab页='//div[@role="tablist"]/div[text()="{}"]'
@@ -169,7 +173,8 @@ class 项目设置页面:
 
     项目成员tab页='//div[@id="tab-projectMember"]'
     项目生命周期模板设置='//div[@id="tab-projectCyclePlan"]'
-    项目成员名称='//div[text()="{}"]/ancestor::tr/td[3]/div[text()="{}"]'#参数1为成员名称，参数2为角色名称
+    项目成员名称='//div[text()="{}"]/ancestor::tr/td[5]/div[text()="{}"]'#参数1为成员名称，参数2为角色名称
+    角色编辑按钮='//div[text()="{}"]/ancestor::tr/td[last()]//i[@title="编辑角色"]'
     权限编辑按钮='//div[text()="{}"]/ancestor::tr/td[last()]//i[@title="编辑权限"]'
 
 

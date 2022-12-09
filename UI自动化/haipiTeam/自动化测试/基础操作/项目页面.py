@@ -49,6 +49,17 @@ class 项目管理页面(page):
             self.公共操作.滚动选择列表框选项(选项名称=属性名称)
         self.进入到操作位置.进入项目管理页()
 
+    def 根据模板创建项目(self,模板名称,项目名称):
+        self.click(项目管理对象库.创建新项目)
+        self.wait(创建项目页面.页面名称, 3)
+        self.click(创建项目页面.使用.format(模板名称))
+        self.wait(对话框对象库.弹框标题.format("项目名称"), 3)
+        self.clear(公共元素对象库.输入框.format("项目名称"))
+        self.send_keys(公共元素对象库.输入框.format("项目名称"), 项目名称)
+        self.click(创建项目页面.提交按钮)
+        self.default_content()
+        self.wait(公共元素对象库.系统提示信息弹框.format("成功"),300)
+
     def 查看项目详情(self,项目名称):
         self.click(项目管理对象库.项目详情按钮.format(项目名称))
 
@@ -244,6 +255,22 @@ class 项目管理页面(page):
             self.click(对话框对象库.弹框按钮.format("编辑权限", "保存"))
             self.click(对话框对象库.关闭弹框.format("编辑权限"))
 
+        def 切换用户角色(self,成员名称,角色名称):
+            self.click(项目设置页面.角色编辑按钮.format(成员名称))
+            self.wait(对话框对象库.弹框标题.format("编辑角色"), 3)
+            self.click(公共元素对象库.列表框.format("选择角色"))
+            self.click(公共元素对象库.列表框选项.format(角色名称))
+            self.click(对话框对象库.弹框按钮.format("编辑角色", "提交"))
+            self.wait(公共元素对象库.系统提示信息弹框.format("成功"),3)
+
+
+        def 批量删除生命周期(self,生命周期列表):
+            self.click(项目设置页面.项目生命周期模板设置)
+            for 生命周期 in 生命周期列表:
+                self.click(项目设置页面.生命周期复选框.format(生命周期))
+            self.click(项目设置页面.删除生命周期)
+            self.wait(公共元素对象库.系统提示信息弹框.format("成功"), 3)
+
 
 class 项目页面(page):
     def __init__(self, Secdriver=None):
@@ -308,6 +335,7 @@ class 项目页面(page):
             self.wait(项目对象库.待上传文件.format(文件路径[-1]), 5)
         self.click(项目对象库.上传文件按钮)
         self.wait(公共元素对象库.系统提示信息弹框.format("成功"), 300)
+        time.sleep(10)
 
     def 收藏资源(self,目录路径,资源名称):
         self.按路径展开目录(目录路径=目录路径)
@@ -381,8 +409,9 @@ class 项目页面(page):
             if self.wait(项目对象库.附加文件.节点展开按钮.format(code),1):
                 self.click(项目对象库.附加文件.节点展开按钮.format(code))
 
-    def 删除资源(self,目录路径,资源名称):
-        self.按路径展开目录(目录路径=目录路径)
+    def 删除资源(self,资源名称,目录路径=None):
+        if 目录路径:
+            self.按路径展开目录(目录路径=目录路径)
         if self.wait(项目对象库.列表行操作.format(资源名称)):
             序号 = self.公共操作.获取文件在列表中的行号(文件名称=资源名称)
             self.click(项目对象库.悬浮列行操作.format(序号))
@@ -396,6 +425,8 @@ class 项目页面(page):
         序号 = self.公共操作.获取文件在列表中的行号(文件名称=资源名称)
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("打包"))
+        if self.wait(对话框对象库.对话框标题.format("提示"), 3):
+            self.click(对话框对象库.对话框按钮.format("提示", "是"))
         filepath=self.公共操作.检查文件是否下载完成()
         return filepath
 
@@ -492,7 +523,7 @@ class 项目页面(page):
     def 新增会签(self,专业,人员):
         self.click(项目对象库.目录设置.新增会签)
         self.wait(对话框对象库.弹框标题.format("新增"), 3)
-        self.send_keys(公共元素对象库.输入框.format("专业"), 专业)
-        self.click(公共元素对象库.列表框.format("人员"))
+        self.send_keys(公共元素对象库.输入框.format("专业："), 专业)
+        self.click(公共元素对象库.列表框.format("人员："))
         self.click(公共元素对象库.列表框选项.format(人员))
         self.click(对话框对象库.弹框按钮.format("新增", "确定"))

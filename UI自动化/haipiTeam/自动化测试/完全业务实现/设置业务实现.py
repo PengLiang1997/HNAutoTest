@@ -666,9 +666,6 @@ class 生命周期管理工作区(page):
             raise AssertionError("当生命周期节点名称为空时，点击保存可以保存生命周期节点成功！")
         self.send_keys(设置页对象库.生命周期管理工作区.生命周期节点名称输入框, "11")
         self.click(设置页对象库.生命周期管理工作区.生命周期节点保存按钮)
-        self.click(设置页对象库.生命周期管理工作区.添加生命周期节点)
-        self.send_keys(设置页对象库.生命周期管理工作区.生命周期节点名称输入框, "11")
-        self.click(设置页对象库.生命周期管理工作区.生命周期节点保存按钮)
         if not self.wait(公共元素对象库.系统提示信息弹框.format("节点名称不能重复"), 3):
             raise AssertionError("当生命周期节点名称重复时，点击保存未出现生命周期节点名称不能为空的提示！")
         # self.send_keys(设置页对象库.生命周期管理工作区.生命周期节点名称输入框,
@@ -1725,9 +1722,9 @@ class 属性管理工作区(page):
             raise AssertionError("点击添加属性按钮，属性列表未新增一行属性")
         #对属性类别，属性名称进行空值校验
         self.click(设置页对象库.属性管理工作区.行保存按钮.format("1"))
-        if not self.wait('//div[@class="el-card__body"]//table[@class="el-table__body"]//tr[1]/td[2]//input[@placeholder="请输入属性类别"]',3):
+        if not self.wait('//div[@class="el-card__body"]//table[@class="el-table__body"]//tr[1]/td[3]//input[@placeholder="请输入属性类别"]',3):
             raise AssertionError("属性类别为空时，点击保存属性，没有给出对应的提示信息")
-        if not self.wait('//div[@class="el-card__body"]//table[@class="el-table__body"]//tr[1]/td[3]//input[@placeholder="请输入属性名称"]',3):
+        if not self.wait('//div[@class="el-card__body"]//table[@class="el-table__body"]//tr[1]/td[4]//input[@placeholder="请输入属性名称"]',3):
             raise AssertionError("属性名称为空时，点击保存属性，没有给出对应的提示信息")
 
     def 导入属性模板(self):
@@ -1738,7 +1735,7 @@ class 属性管理工作区(page):
         # 点击下载模板，属性模板可以正常下载
         self.click(设置页对象库.属性管理工作区.下载模板)
         downpath = self.公共操作.检查文件是否下载完成()
-        filepath = downpath + '\项目属性模板表.xlsx'
+        filepath = downpath + '\property_template.xlsx'
         time.sleep(4)
         print(filepath)
         if not os.path.exists(filepath):
