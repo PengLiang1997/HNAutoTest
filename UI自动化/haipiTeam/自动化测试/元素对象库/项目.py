@@ -144,6 +144,12 @@ class 项目对象库:
         会签行='//div[text()="{}"]/ancestor::tr/td[3]/div[text()="{}"]'#参数1为专业，参数2为人员
         会签行复选框='//div[text()="{}"]/ancestor::tr/td[3]/div[text()="{}"]/ancestor::tr/td[1]'
 
+        #权限设置
+        成员名称='//div[contains(@class,"el-table__body-wrapper")]//tr/td[1]/div[text()="{}"]'
+        已授权复选框='//div[contains(@class,"el-table__body-wrapper")]//tr/td[1]/div[text()="{}"]/ancestor::tr/td[{}]//label[contains(@class,"checked")]'
+        未授权复选框='//div[contains(@class,"el-table__body-wrapper")]//tr/td[1]/div[text()="{}"]/ancestor::tr/td[{}]//label[not(contains(@class,"checked"))]'
+        禁用复选框='//div[contains(@class,"el-table__body-wrapper")]//tr/td[1]/div[text()="{}"]/ancestor::tr/td[{}]//label[contains(@class,"disabled")]'
+
 
 
 class 创建项目页面:
