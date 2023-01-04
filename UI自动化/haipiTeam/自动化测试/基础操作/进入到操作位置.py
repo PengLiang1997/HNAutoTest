@@ -39,7 +39,7 @@ class 进入到操作位置(page):
 
     def 进入搜索页(self):
         self.default_content()
-        self.click(首页对象库.搜索)
+        self.click(首页对象库.全局搜索)
 
     def 进入消息页(self):
         self.default_content()
