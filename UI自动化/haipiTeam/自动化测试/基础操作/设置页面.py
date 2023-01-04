@@ -152,9 +152,10 @@ class 属性管理页面(page):
             self.click(对话框对象库.弹框按钮.format("提示", "确定"))
             self.wait(公共元素对象库.系统提示信息弹框.format("删除成功"), 3)
 
-    def 添加属性(self,属性类型,属性名称,描述=None):
+    def 添加属性(self,服务类别,属性类型,属性名称,描述=None):
         self.click(设置页对象库.属性管理工作区.添加属性)
         self.wait(设置页对象库.属性管理工作区.属性类别输入框.format("last()"), 3)
+        self.send_keys(设置页对象库.属性管理工作区.属性类别输入框.format("last()"), 服务类别)
         self.send_keys(设置页对象库.属性管理工作区.属性类别输入框.format("last()"), 属性类型)
         self.send_keys(设置页对象库.属性管理工作区.属性名称输入框.format("last()"), 属性名称)
         if 描述:

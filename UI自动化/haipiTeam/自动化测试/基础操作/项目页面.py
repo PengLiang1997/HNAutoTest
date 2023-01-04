@@ -523,7 +523,7 @@ class 项目页面(page):
     def 新增会签(self,专业,人员):
         self.click(项目对象库.目录设置.新增会签)
         self.wait(对话框对象库.弹框标题.format("新增"), 3)
-        self.send_keys(公共元素对象库.输入框.format("专业："), 专业)
-        self.click(公共元素对象库.列表框.format("人员："))
+        self.send_keys(公共元素对象库.输入框.format("专业:"), 专业)
+        self.click(公共元素对象库.列表框.format("人员:"))
         self.click(公共元素对象库.列表框选项.format(人员))
         self.click(对话框对象库.弹框按钮.format("新增", "确定"))

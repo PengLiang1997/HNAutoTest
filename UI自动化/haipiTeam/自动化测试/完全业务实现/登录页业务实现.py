@@ -129,7 +129,7 @@ class 登录页(page):
         self.click(登录页对象库.登录按钮)
         self.default_content()
         self.滑块验证.滑块验证操作()
-        if not self.wait(公共元素对象库.系统提示信息弹框.format("请重新输入")):
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("用户名或密码错误,请重新输入")):
             raise AssertionError("账号密码登录，登录密码错误，为出现提示信息")
 
     def 重置密码手机号验证码校验(self):

@@ -263,6 +263,8 @@ class 项目管理工作区(page):
             raise AssertionError("保存模板时存在同名模板，点击保存，没有出现存在同名模板提示信息")
         self.clear(公共元素对象库.输入框.format("模板名称"))
         self.send_keys(公共元素对象库.输入框.format("模板名称"), "保存模板1")
+        self.clear(项目管理对象库.保留层级)
+        self.send_keys(项目管理对象库.保留层级,"2")
         self.click(对话框对象库.对话框按钮.format("存为模板", "确定"))
         self.wait(公共元素对象库.系统提示信息弹框.format("成功"), 3)
         self.click(项目管理对象库.创建新项目)
@@ -670,7 +672,7 @@ class 项目管理工作区(page):
         #修改版次预览弹窗中点击关闭修改版次预览，查看版次时候变更
         self.click(对话框对象库.关闭弹框.format("修改版次预览"))
         self.click(公共元素对象库.列表框.format("版次"))
-        if not self.wait('//ul/li[contains(@class,"el-select-dropdown__item selected")]/span[text()="版次"]', 3):
+        if self.wait('//ul/li[contains(@class,"el-select-dropdown__item selected")]/span[text()="版次"]', 3):
             raise AssertionError("修改版次预览弹窗中点击关闭修改版次预览，版次发生变更")
         #修改版次预览弹窗中点击取消，查看版次是否变更
         self.公共操作.滚动选择列表框选项(选项名称='切换版次')
@@ -968,6 +970,9 @@ class 项目工作区(page):
         #准备项目数据
         self.进入到操作位置.进入项目管理页()
         self.项目管理页面.删除所有项目()
+        self.进入到操作位置.进入生命周期工作区()
+        self.生命周期管理页面.删除所有生命周期()
+        self.进入到操作位置.进入项目管理页()
         self.项目管理页面.创建空白项目(项目名称="资源树展示")
         self.项目管理页面.点击进入项目(项目名称="资源树展示")
         self.wait(项目对象库.目录节点.format("资源树展示"), 3)
@@ -3288,8 +3293,8 @@ class 项目工作区(page):
             not self.wait(公共元素对象库.输入框错误信息提示.format("请选择人员"),3):
             raise AssertionError("对专业和人员进行空值校验，为弹出正确的提示信息")
         #点击人员，显示项目成员
-        self.send_keys(公共元素对象库.输入框.format("专业："), "金融")
-        self.click(公共元素对象库.列表框.format("人员："))
+        self.send_keys(公共元素对象库.输入框.format("专业:"), "金融")
+        self.click(公共元素对象库.列表框.format("人员:"))
         if not self.wait(公共元素对象库.列表框选项.format("18942178870"),3) or \
             not self.wait(公共元素对象库.列表框选项.format("18942178871"),3):
             raise AssertionError("人员列表中显示的成员不完整")
@@ -3301,8 +3306,8 @@ class 项目工作区(page):
         #不同人员不同专业可以保存成功
         self.click(项目对象库.目录设置.新增会签)
         self.wait(对话框对象库.弹框标题.format("新增"), 3)
-        self.send_keys(公共元素对象库.输入框.format("专业："), "矿业")
-        self.click(公共元素对象库.列表框.format("人员："))
+        self.send_keys(公共元素对象库.输入框.format("专业:"), "矿业")
+        self.click(公共元素对象库.列表框.format("人员:"))
         self.click(公共元素对象库.列表框选项.format("18942178871"))
         self.click(对话框对象库.弹框按钮.format("新增", "确定"))
         if not self.wait(项目对象库.目录设置.会签行.format("金融", "18942178871"), 3):
@@ -3310,8 +3315,8 @@ class 项目工作区(page):
         # 同一专业不同人员可以保存成功
         self.click(项目对象库.目录设置.新增会签)
         self.wait(对话框对象库.弹框标题.format("新增"), 3)
-        self.send_keys(公共元素对象库.输入框.format("专业："), "金融")
-        self.click(公共元素对象库.列表框.format("人员："))
+        self.send_keys(公共元素对象库.输入框.format("专业:"), "金融")
+        self.click(公共元素对象库.列表框.format("人员:"))
         self.click(公共元素对象库.列表框选项.format("18942178871"))
         self.click(对话框对象库.弹框按钮.format("新增", "确定"))
         if not self.wait(项目对象库.目录设置.会签行.format("金融","18942178871"),3):
@@ -3319,8 +3324,8 @@ class 项目工作区(page):
         #同一人员不同专业可以保存成功
         self.click(项目对象库.目录设置.新增会签)
         self.wait(对话框对象库.弹框标题.format("新增"), 3)
-        self.send_keys(公共元素对象库.输入框.format("专业："), "能源")
-        self.click(公共元素对象库.列表框.format("人员："))
+        self.send_keys(公共元素对象库.输入框.format("专业:"), "能源")
+        self.click(公共元素对象库.列表框.format("人员:"))
         self.click(公共元素对象库.列表框选项.format("18942178871"))
         self.click(对话框对象库.弹框按钮.format("新增", "确定"))
         if not self.wait(项目对象库.目录设置.会签行.format("能源", "18942178871"), 3):
@@ -3328,8 +3333,8 @@ class 项目工作区(page):
         #专业&人员重名校验
         self.click(项目对象库.目录设置.新增会签)
         self.wait(对话框对象库.弹框标题.format("新增"), 3)
-        self.send_keys(公共元素对象库.输入框.format("专业："),"金融")
-        self.click(公共元素对象库.列表框.format("人员："))
+        self.send_keys(公共元素对象库.输入框.format("专业:"),"金融")
+        self.click(公共元素对象库.列表框.format("人员:"))
         self.click(公共元素对象库.列表框选项.format("18942178870"))
         self.click(对话框对象库.弹框按钮.format("新增", "确定"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("同专业会签人员重复"),3):
@@ -3337,8 +3342,8 @@ class 项目工作区(page):
         #填写专业和人员后，关闭新增窗口，会签列表中没有出现新增的会签行
         self.click(项目对象库.目录设置.新增会签)
         self.wait(对话框对象库.弹框标题.format("新增"), 3)
-        self.send_keys(公共元素对象库.输入框.format("专业"), "车辆")
-        self.click(公共元素对象库.列表框.format("人员："))
+        self.send_keys(公共元素对象库.输入框.format("专业:"), "车辆")
+        self.click(公共元素对象库.列表框.format("人员:"))
         self.click(公共元素对象库.列表框选项.format("18942178870"))
         self.click(对话框对象库.弹框按钮.format("新增", "取消"))
         if self.wait(项目对象库.目录设置.会签行.format("车辆", "18942178870"), 3):
@@ -3364,46 +3369,46 @@ class 项目工作区(page):
             raise AssertionError("点击编辑会签，未弹出编辑会签弹窗")
         #对专业和人员进行空值
         self.click(项目对象库.目录设置.编辑会签.format("金融", "18942178870"))
-        self.clear(公共元素对象库.输入框.format("专业："))
+        self.clear(公共元素对象库.输入框.format("专业:"))
         self.click(对话框对象库.弹框按钮.format("编辑", "确定"))
         if not self.wait(公共元素对象库.输入框错误信息提示.format("专业不能为空"),3):
             raise AssertionError("编辑会签行时，专业为空点击保存，未出现提示信息")
         #重名校验
-        self.send_keys(公共元素对象库.输入框.format("专业："),"地产")
+        self.send_keys(公共元素对象库.输入框.format("专业:"),"地产")
         self.click(对话框对象库.弹框按钮.format("编辑", "确定"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("同专业会签人员重复"),3):
             raise AssertionError("编辑相同专业，保存会签，未出现提示信息")
         self.click(对话框对象库.弹框按钮.format("编辑", "取消"))
         self.click(项目对象库.目录设置.编辑会签.format("金融", "18942178870"))
-        self.click(公共元素对象库.列表框.format("人员："))
+        self.click(公共元素对象库.列表框.format("人员:"))
         self.click(公共元素对象库.列表框选项.format("18942178870"))
         self.click(对话框对象库.弹框按钮.format("编辑", "确定"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("同专业会签人员重复"), 3):
             raise AssertionError("编辑相同人员，保存会签，未出现提示信息")
         #点击人员，显示项目成员
         self.click(项目对象库.目录设置.编辑会签.format("地产", "18942178871"))
-        self.click(公共元素对象库.列表框.format("人员："))
+        self.click(公共元素对象库.列表框.format("人员:"))
         if not self.wait(公共元素对象库.列表框选项.format("18942178870"),3) or \
             not self.wait(公共元素对象库.列表框选项.format("18942178871"),3):
             raise AssertionError("编辑会签，点击人员列表框，未查看到项目下成员")
         #编辑专业和人员后，点击确定，提示操作成功，会签列表中出现编辑后的会签行
         self.click(公共元素对象库.列表框选项.format("18942178870"))
-        self.clear(公共元素对象库.输入框.format("专业："))
-        self.send_keys(公共元素对象库.输入框.format("专业："), "能源")
+        self.clear(公共元素对象库.输入框.format("专业:"))
+        self.send_keys(公共元素对象库.输入框.format("专业:"), "能源")
         self.click(对话框对象库.弹框按钮.format("编辑", "确定"))
         if not self.wait(项目对象库.目录设置.编辑会签.format("能源", "18942178870"),3):
             raise AssertionError("编辑专业和人员后，点击保存，未查看到编辑后的会签行")
         #编辑专业和人员后，点击取消，会签列表中没有出现编辑后的会签行
         self.click(项目对象库.目录设置.编辑会签.format("地产", "18942178871"))
-        self.clear(公共元素对象库.输入框.format("专业："))
-        self.send_keys(公共元素对象库.输入框.format("专业："), "能源")
+        self.clear(公共元素对象库.输入框.format("专业:"))
+        self.send_keys(公共元素对象库.输入框.format("专业:"), "能源")
         self.click(对话框对象库.弹框按钮.format("编辑", "取消"))
         if not self.wait(项目对象库.目录设置.编辑会签.format("地产", "18942178871"),3):
             raise AssertionError("编辑专业和人员后，点击取消，未查看到取消编辑的会签行")
         #填写专业和人员后，关闭新增窗口，会签列表中没有出现编辑后的会签行
         self.click(项目对象库.目录设置.编辑会签.format("地产", "18942178871"))
-        self.clear(公共元素对象库.输入框.format("专业："))
-        self.send_keys(公共元素对象库.输入框.format("专业"), "能源")
+        self.clear(公共元素对象库.输入框.format("专业:"))
+        self.send_keys(公共元素对象库.输入框.format("专业:"), "能源")
         self.click(对话框对象库.关闭弹框.format("编辑"))
         if not self.wait(项目对象库.目录设置.编辑会签.format("地产", "18942178871"), 3):
             raise AssertionError("编辑专业和人员后，点击关闭，未查看到取消编辑的会签行")

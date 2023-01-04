@@ -27,6 +27,7 @@ class 项目管理对象库:
 
     #存为模板
     目录文件复选框 = '//tr/td[3]/div[text()="{}"]/ancestor::tr/td[1]'
+    保留层级='//span[text()="保留的层级 "]//input'
 
     class 项目动态页:
         项目动态页标题='//div[@class="project_dyn "]//h4[text()="项目动态"]'
