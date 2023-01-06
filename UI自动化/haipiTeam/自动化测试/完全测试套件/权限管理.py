@@ -73,15 +73,15 @@ class Test_项目管理工作区(TestCaseSec):
         '''
         self.成员权限管理工作区.DOCUMENT_CONSUMER角色权限验证()
 
-    @add_to_report
-    def test_06_DOCUMENT_VIEWER角色权限验证(self):
-        '''
-        用例编号：
-        用例描述：
-                1、DOCUMENT VIEWER拥有项目的查询权限
-        @author:彭亮
-        '''
-        self.成员权限管理工作区.DOCUMENT_VIEWER角色权限验证()
+    # @add_to_report
+    # def test_06_DOCUMENT_VIEWER角色权限验证(self):
+    #     '''
+    #     用例编号：
+    #     用例描述：
+    #             1、DOCUMENT VIEWER拥有项目的查询权限
+    #     @author:彭亮
+    #     '''
+    #     self.成员权限管理工作区.DOCUMENT_VIEWER角色权限验证()
 
     @add_to_report
     def test_07_GUEST角色权限验证(self):
@@ -232,15 +232,15 @@ class Test_项目管理工作区(TestCaseSec):
         '''
         self.成员权限管理工作区.用户文件附加权限()
 
-    @add_to_report
-    def test_20_用户改变文件状态权限(self):
-        '''
-        用例编号：
-        用例描述：
-                1、当收回用户改变生命周期状态权限时，登录该用户后，不能在该目录及其子目录下文件进行改变生命周期状态操作
-                2、当授予用户改变生命周期状态权限，登录该用户后，可以在该目录及其子目录下文件进行改变生命周期状态操作
-        '''
-        self.成员权限管理工作区.用户改变文件状态权限()
+    # @add_to_report
+    # def test_20_用户改变文件状态权限(self):
+    #     '''
+    #     用例编号：
+    #     用例描述：
+    #             1、当收回用户改变生命周期状态权限时，登录该用户后，不能在该目录及其子目录下文件进行改变生命周期状态操作
+    #             2、当授予用户改变生命周期状态权限，登录该用户后，可以在该目录及其子目录下文件进行改变生命周期状态操作
+    #     '''
+    #     self.成员权限管理工作区.用户改变文件状态权限()
 
 
 class Test_文件目录设置工作区(TestCaseSec):

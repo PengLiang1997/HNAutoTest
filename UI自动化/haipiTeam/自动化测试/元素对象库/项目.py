@@ -42,8 +42,10 @@ class 项目对象库:
     新建目录 = '//div[@id="pTableHeader"]/div[@class="pBtnGroup"]//span[text()="新建目录"]'
     上传 = '//div[@id="pTableHeader"]/div[@class="pBtnGroup"]//span[text()="上传文件"]'
     目录节点='//div[@role="treeitem"]//span[@title="{}"]'#参数为目录名称
+    目录节点2 = '//div[@role="treeitem"]//span[text()="{}"]'  # 参数为目录名称
     节点收起按钮='//div[@role="treeitem"]//span[contains(@title,"{}")]/preceding-sibling::span[contains(@class,"expanded")]'
     节点展开按钮='//div[@role="treeitem"]//span[contains(@title,"{}")]/preceding-sibling::span[not( contains(@class,"expanded"))]'
+    节点展开按钮2='//div[@role="treeitem"]//span[contains(text(),"{}")]/preceding-sibling::span[not( contains(@class,"expanded"))]'
     子节点='//span[contains(@title,"{}")]/parent::div/following-sibling::div//span[contains(@title,"{}")]'#参数1为父节点，参数2为子节点
 
 
@@ -113,7 +115,7 @@ class 项目对象库:
 
         #版本tab页
         版本更多操作='//tr/td[4]//span[text()="{}"]/ancestor::tr/td[last()]//i[@title="更多操作"]'#参数为版本号
-        版本更多操作选项='//ul[contains(@id,"dropdown-menu") and @x-placement="top-end"]//li[text()="{}"]'
+        版本更多操作选项='//ul[contains(@id,"dropdown-menu") and contains(@x-placement,"-end")]//li[text()="{}"]'
 
         #引用tab页文件列表
         引用文件名称='//div[@id="pane-quote"]//table[@class="el-table__body"]//tr/td[1]/div[text()="{}"]'

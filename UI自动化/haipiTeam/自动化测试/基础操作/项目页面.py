@@ -37,7 +37,7 @@ class 项目管理页面(page):
         self.send_keys(公共元素对象库.输入框.format("项目名称"),项目名称)
         self.click(创建项目页面.提交按钮)
         self.default_content()
-        self.wait(项目设置页面.项目成员tab页, 3)
+        self.wait(项目设置页面.项目成员tab页, 30)
         if 生命周期名称:
             self.click(公共元素对象库.列表框.format("生命周期"))
             self.公共操作.滚动选择列表框选项(选项名称=生命周期名称)
@@ -148,7 +148,7 @@ class 项目管理页面(page):
         self.click(项目管理对象库.更多操作选项.format("项目动态"))
         self.wait(项目管理对象库.项目动态页.项目动态页标题, 3)
 
-    def 存为模板(self,项目名称,模板名称,保留团队成员=None,保留项目文件=None,文件路径列表=None,目录文件列表=None):
+    def 存为模板(self,项目名称,模板名称,保留团队成员=None,保留项目文件=None,文件路径列表=None,目录文件列表=None,保留层级=None):
         i=0
         self.click(项目管理对象库.更多操作按钮.format(项目名称))
         self.click(项目管理对象库.更多操作选项.format("存为模板"))
@@ -160,11 +160,18 @@ class 项目管理页面(page):
             self.click(公共元素对象库.单选按钮.format("保留项目文件"))
         if 文件路径列表:
             for 文件路径 in 文件路径列表:
-                self.展开并点击最后一项目录(结构目录=文件路径)
+                for path in 文件路径:
+                    if self.wait(项目对象库.节点展开按钮2.format(path), 1):
+                        self.click(项目对象库.节点展开按钮2.format(path))
+                self.click(项目对象库.目录节点2.format(文件路径[-1]))
+                time.sleep(2)
                 目录文件=目录文件列表[i]
                 for 文件 in 目录文件:
                     self.click(项目管理对象库.目录文件复选框.format(文件))
                 i+=1
+        if 保留层级:
+            self.clear(项目管理对象库.保留层级)
+            self.send_keys(项目管理对象库.保留层级, 保留层级)
         self.click(对话框对象库.对话框按钮.format("存为模板","确定"))
         self.wait(公共元素对象库.系统提示信息弹框.format("成功"),3)
 
@@ -252,7 +259,7 @@ class 项目管理页面(page):
             self.展开并点击最后一项目录(结构目录=目录列表)
             for qx in 权限列表:
                 if self.wait(项目设置页面.已选_权限复选框.format(qx), 3):
-                    self.click(项目设置页面.未选_权限复选框.format(qx))
+                    self.click(项目设置页面.已选_权限复选框.format(qx))
             self.click(对话框对象库.弹框按钮.format("编辑权限", "保存"))
             self.click(对话框对象库.关闭弹框.format("编辑权限"))
 
@@ -263,6 +270,8 @@ class 项目管理页面(page):
             self.click(公共元素对象库.列表框选项.format(角色名称))
             self.click(对话框对象库.弹框按钮.format("编辑角色", "提交"))
             self.wait(公共元素对象库.系统提示信息弹框.format("成功"),3)
+            if self.wait(对话框对象库.弹框标题.format("编辑角色"),3):
+                self.click(对话框对象库.关闭弹框.format("编辑角色"))
 
 
         def 批量删除生命周期(self,生命周期列表):
@@ -532,7 +541,7 @@ class 项目页面(page):
     def 设置用户权限(self,用户名称,权限列表):
         权限=['全选','目录查询','目录新增','目录删除','目录修改','目录检入检出','目录打包','目录下载','目录上传','文件附加','版本回退','文件改变生命周期状态']
         for i in 权限列表:
-            序号 = 权限.index(i)+1
+            序号 = 权限.index(i)+2
             if self.wait(项目对象库.目录设置.未授权复选框.format(用户名称,序号),3):
                 self.click(项目对象库.目录设置.未授权复选框.format(用户名称,序号))
         self.click(对话框对象库.弹框按钮.format("设置","保存"))
@@ -541,7 +550,7 @@ class 项目页面(page):
     def 撤回用户权限(self,用户名称,权限列表):
         权限=['全选','目录查询','目录新增','目录删除','目录修改','目录检入检出','目录打包','目录下载','目录上传','文件附加','版本回退','文件改变生命周期状态']
         for i in 权限列表:
-            序号 = 权限.index(i)+1
+            序号 = 权限.index(i)+2
             if self.wait(项目对象库.目录设置.已授权复选框.format(用户名称,序号),3):
                 self.click(项目对象库.目录设置.已授权复选框.format(用户名称,序号))
         self.click(对话框对象库.弹框按钮.format("设置", "保存"))
