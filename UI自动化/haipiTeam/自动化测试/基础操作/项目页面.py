@@ -1,7 +1,7 @@
 import time
 
 import pyautogui
-
+from HNtest import Pltest
 from HNtest.testcasesec.testcasesec import page
 from HNtest.Secselenium.secdriver import Secdriver
 from ..元素对象库.公共元素 import *
@@ -83,6 +83,11 @@ class 项目管理页面(page):
         self.click(对话框对象库.弹框按钮.format("项目协作", "复制链接"))
         self.click(对话框对象库.关闭弹框.format("项目协作"))
         链接 = self.公共操作.获取剪切板内容()
+
+        链接1=Pltest.testurl
+        链接2=链接[16:]
+        if 链接[7:16]=="localhost":
+            链接=链接1[:20]+链接2
         self.登录页面.退出登录()
         #新开标签页
         self.driver.driver.execute_script("window.open('');")
@@ -99,6 +104,9 @@ class 项目管理页面(page):
         if 是否返回项目创建账户:
             self.登录页面.退出登录()
             # self.登录页面.短信快捷登录(手机号=当前用户手机号)
+            self.driver.refrsh()
+            if self.wait(对话框对象库.对话框按钮.format("确认注销", "重新登录"), 3):
+                self.click(对话框对象库.对话框按钮.format("确认注销", "重新登录"))
             self.登录页面.账号密码登录(账号=当前用户手机号, 密码='user@' + 当前用户手机号[7:])
             self.进入到操作位置.进入项目管理页()
 
@@ -191,6 +199,7 @@ class 项目管理页面(page):
         self.wait(公共元素对象库.系统提示信息弹框.format("修改成功"),3)
 
     def 点击进入项目(self,项目名称):
+        self.进入到操作位置.进入项目管理页()
         self.wait(项目管理对象库.项目卡片.format(项目名称), 3)
         time.sleep(3)
         self.click(项目管理对象库.项目卡片.format(项目名称))

@@ -26,7 +26,7 @@ class 项目管理对象库:
     标签='//ul[contains(@id,"dropdown-menu")]/li[{}]/div[@class="tip_bgc" and contains(@style,"background-color")]'#参数为标签序号
 
     #存为模板
-    目录文件复选框 = '//tr/td[3]/div[text()="{}"]/ancestor::tr/td[1]'
+    目录文件复选框 = '//tr/td[2]/div[text()="{}"]/ancestor::tr/td[1]'
     保留层级='//span[text()="保留的层级 "]//input'
 
     class 项目动态页:
@@ -104,8 +104,8 @@ class 项目对象库:
         节点收起按钮='//div[@aria-label="附加文件"]//div[@role="treeitem"]//span[contains(text(),"{}")]/preceding-sibling::span[contains(@class,"expanded")]'
         节点展开按钮='//div[@aria-label="附加文件"]//div[@role="treeitem"]//span[contains(text(),"{}")]/preceding-sibling::span[not(contains(@class,"expanded"))]'
         列表单选按钮='//table//tr/td[2]//div[contains(text(),"{}")]/ancestor::tr/td[1]//span'
-        附加按钮='//div[@aria-label="附加文件"]/div[@class="el-dialog__body"]//button/span[text()="附加"]'
-        取消按钮='//div[@aria-label="附加文件"]/div[@class="el-dialog__body"]//button/span[text()="取消"]'
+        附加按钮='//div[@aria-label="附加文件"]/div[@class="el-dialog__footer"]//button/span[text()="附加"]'
+        取消按钮='//div[@aria-label="附加文件"]/div[@class="el-dialog__footer"]//button/span[text()="取消"]'
 
     class 文件信息:
         版本tab页='//div[@id="tab-edition"]'

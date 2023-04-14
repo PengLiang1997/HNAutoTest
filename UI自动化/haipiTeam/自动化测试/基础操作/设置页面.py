@@ -155,7 +155,7 @@ class 属性管理页面(page):
     def 添加属性(self,服务类别,属性类型,属性名称,描述=None):
         self.click(设置页对象库.属性管理工作区.添加属性)
         self.wait(设置页对象库.属性管理工作区.属性类别输入框.format("last()"), 3)
-        self.send_keys(设置页对象库.属性管理工作区.属性类别输入框.format("last()"), 服务类别)
+        self.send_keys(设置页对象库.属性管理工作区.服务类别输入框.format("last()"), 服务类别)
         self.send_keys(设置页对象库.属性管理工作区.属性类别输入框.format("last()"), 属性类型)
         self.send_keys(设置页对象库.属性管理工作区.属性名称输入框.format("last()"), 属性名称)
         if 描述:

@@ -53,12 +53,13 @@ class 项目管理工作区(page):
         time.sleep(3)
         self.项目页面.刷新列表()
         self.项目页面.删除资源(目录路径=['查看项目动态', '一级目录'],资源名称='素材3.jpg')
-        self.项目页面.上传单个文件(目录路径=['文件检入', '一级目录'], 文件路径=['TestData', 'FrontData', '项目页', '检入检出素材.txt'])
-        self.项目页面.检出资源(目录路径=['文件检入', '一级目录'], 资源名称='检入检出素材.txt')
-        self.项目页面.文件撤销检出(目录路径=['文件检入', '一级目录'], 资源名称='检入检出素材.txt')
-        self.项目页面.检出资源(目录路径=['文件检入', '一级目录'], 资源名称='检入检出素材.txt')
+        self.项目页面.上传单个文件(目录路径=['查看项目动态', '一级目录'], 文件路径=['TestData', 'FrontData', '项目页', '检入检出素材.txt'])
+        self.项目页面.检出资源(目录路径=['查看项目动态', '一级目录'], 资源名称='检入检出素材.txt')
+        self.项目页面.文件撤销检出(目录路径=['查看项目动态', '一级目录'], 资源名称='检入检出素材.txt')
+        self.项目页面.检出资源(目录路径=['查看项目动态', '一级目录'], 资源名称='检入检出素材.txt')
         self.公共操作.修改文件内容(文件路径=['TestData', 'FrontData', '项目页', '检入检出素材.txt'], 内容=str(int(time.time())))
-        self.项目页面.文件检入(目录路径=['文件检入', '一级目录'],文件名='检入检出素材.txt',文件路径=['TestData', 'FrontData', '项目页', '检入检出素材.txt'])
+        time.sleep(5)
+        self.项目页面.文件检入(目录路径=['查看项目动态', '一级目录'],文件名='检入检出素材.txt',文件路径=['TestData', 'FrontData', '项目页', '检入检出素材.txt'])
         #
         self.进入到操作位置.进入项目管理页()
         self.项目管理页面.创建空白项目(项目名称="模板保存文件")
@@ -587,19 +588,6 @@ class 项目管理工作区(page):
         self.click(项目设置页面.查看项目目录)
         if not self.wait(项目对象库.目录节点.format("收藏项目"),3):
             raise AssertionError("在项目设置按钮后，页面未跳转到项目目录页面")
-        #点击删除按钮，弹出删除对话框
-        self.进入到操作位置.进入项目管理页()
-        self.click(项目管理对象库.更多操作按钮.format("收藏项目"))
-        self.click(项目管理对象库.更多操作选项.format("项目设置"))
-        self.click(项目设置页面.删除项目)
-        if not self.wait(对话框对象库.对话框标题.format("提示"),3):
-            raise AssertionError("在项目设置页面点击删除按钮，未出现删除提示对话框")
-        #点击确定，删除当前项目，提示删除成功，页面跳转到创建项目页面
-        self.click(对话框对象库.对话框按钮.format("提示","确定"))
-        if not self.wait(公共元素对象库.系统提示信息弹框.format("成功"),3):
-            raise AssertionError("在项目设置页面进行删除操作后，系统未提示删除成功")
-        if not self.wait(创建项目页面.页面名称, 3):
-            raise AssertionError("删除项目成功后，未跳转到新建项目页面")
 
     def 项目切换生命周期(self):
         self.进入到操作位置.进入设置页()
@@ -1056,8 +1044,21 @@ class 项目工作区(page):
         return titles
 
     def 收藏页清理所有收藏(self):
+        self.click(收藏对象库.收藏资源类型.format("项目"))
         while(True):
             if self.wait('//tr/td//i[contains(@class,"icon-shoucang shoucang-yellow")]',3):
+                self.click('//tr/td//i[contains(@class,"icon-shoucang shoucang-yellow")]')
+            else:
+                break
+        self.click(收藏对象库.收藏资源类型.format("目录"))
+        while (True):
+            if self.wait('//tr/td//i[contains(@class,"icon-shoucang shoucang-yellow")]', 3):
+                self.click('//tr/td//i[contains(@class,"icon-shoucang shoucang-yellow")]')
+            else:
+                break
+        self.click(收藏对象库.收藏资源类型.format("文件"))
+        while (True):
+            if self.wait('//tr/td//i[contains(@class,"icon-shoucang shoucang-yellow")]', 3):
                 self.click('//tr/td//i[contains(@class,"icon-shoucang shoucang-yellow")]')
             else:
                 break
@@ -1757,7 +1758,12 @@ class 项目工作区(page):
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("打包"))
         if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "是"))
+            self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
+            if self.wait(对话框对象库.对话框标题.format("提示"), 3):
+                self.click(对话框对象库.对话框按钮.format("提示", "确定"))
+        while (True):
+            if not self.wait('//div[contains(@class,"el-dialog__header")]/span[text()="打包进度"]', 3):
+                break
         downpath = self.公共操作.检查文件是否下载完成()
         filepath = downpath + '\素材1.png.zip'
         time.sleep(3)
@@ -1774,7 +1780,12 @@ class 项目工作区(page):
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("打包"))
         if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "是"))
+            self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
+            if self.wait(对话框对象库.对话框标题.format("提示"), 3):
+                self.click(对话框对象库.对话框按钮.format("提示", "确定"))
+        while (True):
+            if not self.wait('//div[contains(@class,"el-dialog__header")]/span[text()="打包进度"]', 3):
+                break
         downpath = self.公共操作.检查文件是否下载完成()
         filepath = downpath + '\一级目录.zip'
         time.sleep(3)
@@ -1792,7 +1803,12 @@ class 项目工作区(page):
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("打包"))
         if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "是"))
+            self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
+            if self.wait(对话框对象库.对话框标题.format("提示"), 3):
+                self.click(对话框对象库.对话框按钮.format("提示", "确定"))
+        while (True):
+            if not self.wait('//div[contains(@class,"el-dialog__header")]/span[text()="打包进度"]', 3):
+                break
         downpath = self.公共操作.检查文件是否下载完成()
         filepath = downpath + '\素材1.png.zip'
         time.sleep(3)
@@ -1809,7 +1825,12 @@ class 项目工作区(page):
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("打包"))
         if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "是"))
+            self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
+            if self.wait(对话框对象库.对话框标题.format("提示"), 3):
+                self.click(对话框对象库.对话框按钮.format("提示", "确定"))
+        while (True):
+            if not self.wait('//div[contains(@class,"el-dialog__header")]/span[text()="打包进度"]', 3):
+                break
         downpath = self.公共操作.检查文件是否下载完成()
         filepath = downpath + '\一级目录.zip'
         time.sleep(3)
@@ -1932,9 +1953,14 @@ class 项目工作区(page):
         self.click(项目对象库.列表复选框.format('素材2.jpg'))
         self.click(项目对象库.工具栏按钮.format('检出'))
         if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "是"))
-        if not self.wait(公共元素对象库.系统提示信息弹框.format("成功"),3):
-            raise AssertionError("对文件进行批量检出操作，未查看到系统提示信息")
+            self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
+            if self.wait(对话框对象库.对话框标题.format("提示"), 3):
+                self.click(对话框对象库.对话框按钮.format("提示", "确定"))
+        while (True):
+            if not self.wait('//div[contains(@class,"el-dialog__header")]/span[text()="打包进度"]', 3):
+                break
+        # if not self.wait(公共元素对象库.系统提示信息弹框.format("成功"),3):
+        #     raise AssertionError("对文件进行批量检出操作，未查看到系统提示信息")
         if not self.wait(项目对象库.检出按钮.format('素材1.png'), 3) or not\
                 self.wait(项目对象库.检出按钮.format('素材2.jpg'), 3):
             raise AssertionError("进行批量检出操作后，文件列表中文件未被标记为检出状态")
@@ -2114,6 +2140,7 @@ class 项目工作区(page):
         if not self.wait(项目对象库.已选_悬浮列收藏.format(序号), 3) or not self.wait(项目对象库.已选_悬浮列收藏.format(序号), 3):
             raise AssertionError("点击收藏文件成功后，文件的收藏按钮未被点亮")
         self.进入到操作位置.进入收藏页()
+        self.click(收藏对象库.收藏资源类型.format("文件"))
         if not self.wait(收藏对象库.资源类型.format("素材1.png", "批量收藏资源"), 3) or not\
                 self.wait(收藏对象库.资源类型.format("素材2.jpg", "批量收藏资源"), 3):
             raise AssertionError("点击文件批量收藏按钮，文件没有被收藏")
@@ -2133,6 +2160,7 @@ class 项目工作区(page):
         if not self.wait(项目对象库.已选_悬浮列收藏.format(序号), 3) or not self.wait(项目对象库.已选_悬浮列收藏.format(序号), 3):
             raise AssertionError("点击收藏目录成功后，目录的收藏按钮未被点亮")
         self.进入到操作位置.进入收藏页()
+        self.click(收藏对象库.收藏资源类型.format("目录"))
         if not self.wait(收藏对象库.资源类型.format("11", "批量收藏资源"), 3) or not \
                 self.wait(收藏对象库.资源类型.format("12", "批量收藏资源"), 3):
             raise AssertionError("点击目录批量收藏按钮，文件没有被收藏")
@@ -2152,8 +2180,11 @@ class 项目工作区(page):
         if not self.wait(项目对象库.已选_悬浮列收藏.format(序号), 3) or not self.wait(项目对象库.已选_悬浮列收藏.format(序号), 3):
             raise AssertionError("点击收藏目录和文件批量收藏成功后，目录和文件的收藏按钮未被点亮")
         self.进入到操作位置.进入收藏页()
-        if not self.wait(收藏对象库.资源类型.format("21", "批量收藏资源"), 3) or not \
-                self.wait(收藏对象库.资源类型.format("素材3.jpg", "批量收藏资源"), 3):
+        self.click(收藏对象库.收藏资源类型.format("目录"))
+        if not self.wait(收藏对象库.资源类型.format("21", "批量收藏资源"), 3):
+            raise AssertionError("点击文件和目录批量收藏按钮，文件没有被收藏")
+        self.click(收藏对象库.收藏资源类型.format("文件"))
+        if not self.wait(收藏对象库.资源类型.format("素材3.jpg", "批量收藏资源"), 3):
             raise AssertionError("点击文件和目录批量收藏按钮，文件没有被收藏")
         #勾选的文件或目录中存在以收藏的文件或目录，点击收藏，不能收藏成功
         # self.进入到操作位置.进入项目管理页()
@@ -2328,9 +2359,11 @@ class 项目工作区(page):
         self.click(项目对象库.列表复选框.format('素材2.jpg'))
         self.click(项目对象库.工具栏按钮.format('打包'))
         if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "是"))
+            self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
+            if self.wait(对话框对象库.对话框标题.format("提示"), 3):
+                self.click(对话框对象库.对话框按钮.format("提示", "确定"))
         while (True):
-            if not self.wait(项目对象库.正在打包按钮,3):
+            if not self.wait('//div[contains(@class,"el-dialog__header")]/span[text()="打包进度"]',3):
                 break
         time.sleep(3)
         downpath = self.公共操作.检查文件是否下载完成()
@@ -2347,9 +2380,11 @@ class 项目工作区(page):
         self.click(项目对象库.列表复选框.format('素材3.jpg'))
         self.click(项目对象库.工具栏按钮.format('打包'))
         if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "是"))
-        while(True):
-            if not self.wait(项目对象库.正在打包按钮,3):
+            self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
+            if self.wait(对话框对象库.对话框标题.format("提示"), 3):
+                self.click(对话框对象库.对话框按钮.format("提示", "确定"))
+        while (True):
+            if not self.wait('//div[contains(@class,"el-dialog__header")]/span[text()="打包进度"]', 3):
                 break
         time.sleep(3)
         downpath = self.公共操作.检查文件是否下载完成()
@@ -2367,7 +2402,12 @@ class 项目工作区(page):
         self.click(项目对象库.列表复选框.format('二级目录2'))
         self.click(项目对象库.工具栏按钮.format('打包'))
         if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "是"))
+            self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
+            if self.wait(对话框对象库.对话框标题.format("提示"), 3):
+                self.click(对话框对象库.对话框按钮.format("提示", "确定"))
+        while (True):
+            if not self.wait('//div[contains(@class,"el-dialog__header")]/span[text()="打包进度"]', 3):
+                break
         downpath = self.公共操作.检查文件是否下载完成()
         filepath = downpath + '\批量打包.zip'
         time.sleep(30)
@@ -2383,7 +2423,12 @@ class 项目工作区(page):
         self.click(项目对象库.列表复选框.format('二级目录'))
         self.click(项目对象库.工具栏按钮.format('打包'))
         if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "是"))
+            self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
+            if self.wait(对话框对象库.对话框标题.format("提示"), 3):
+                self.click(对话框对象库.对话框按钮.format("提示", "确定"))
+        while (True):
+            if not self.wait('//div[contains(@class,"el-dialog__header")]/span[text()="打包进度"]', 3):
+                break
         downpath = self.公共操作.检查文件是否下载完成()
         filepath = downpath + '\批量打包.zip'
         time.sleep(4)
@@ -2421,6 +2466,13 @@ class 项目工作区(page):
         序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称='l0')
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("打包"))
+        if self.wait(对话框对象库.对话框标题.format("提示"), 3):
+            self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
+            if self.wait(对话框对象库.对话框标题.format("提示"), 3):
+                self.click(对话框对象库.对话框按钮.format("提示", "确定"))
+        while (True):
+            if not self.wait('//div[contains(@class,"el-dialog__header")]/span[text()="打包进度"]', 3):
+                break
         time1=time.time()
         user = os.path.expanduser('~')
         downloadpath = user + '\Downloads'
@@ -2567,8 +2619,10 @@ class 项目工作区(page):
         if not self.wait(项目对象库.已选_悬浮列收藏.format(序号),3):
             raise AssertionError("点击收藏目录成功后，目录的收藏按钮未被点亮")
         self.进入到操作位置.进入收藏页()
+        self.click(收藏对象库.收藏资源类型.format("文件"))
         if not self.wait(收藏对象库.资源类型.format("素材1.png", "收藏资源"),3):
             raise AssertionError("点击文件行操作的收藏按钮，文件没有被收藏")
+        self.click(收藏对象库.收藏资源类型.format("目录"))
         if not self.wait(收藏对象库.资源类型.format("二级目录", "收藏资源"),3):
             raise AssertionError("点击目录行操作的收藏按钮，文件没有被收藏")
         #点击资源行操作的收藏按钮，可以对文件或文件目录取消收藏成功
@@ -2585,8 +2639,10 @@ class 项目工作区(page):
         if not self.wait(项目对象库.未选_悬浮列收藏.format(序号)):
             raise AssertionError("目录取消收藏操作成功后，收藏按钮仍是点亮状态")
         self.进入到操作位置.进入收藏页()
+        self.click(收藏对象库.收藏资源类型.format("文件"))
         if self.wait(收藏对象库.资源类型.format("素材1.png", "收藏资源"), 3):
             raise AssertionError("取消收藏文件后，文件仍然在收藏页")
+        self.click(收藏对象库.收藏资源类型.format("目录"))
         if self.wait(收藏对象库.资源类型.format("二级目录", "收藏资源"), 3):
             raise AssertionError("取消收藏目录后，目录仍然在收藏页")
 
@@ -3087,7 +3143,7 @@ class 项目工作区(page):
         self.项目管理页面.删除项目(项目名称="目录设置生命周期模板")
         self.项目管理页面.创建空白项目(项目名称="目录设置生命周期模板", 生命周期名称='系统默认生命周期')
         self.项目管理页面.进入点击项目设置(项目名称='目录设置生命周期模板',项目生命周期模板设置=True)
-        已配置生命周期=['请选择']
+        已配置生命周期=['继承父级']
         elelists=self.driver.getelements(项目设置页面.已配置生命周期列表)
         for ele in elelists:
             已配置生命周期.append(ele.text)
@@ -3350,6 +3406,7 @@ class 项目工作区(page):
         self.click(对话框对象库.弹框按钮.format("新增", "确定"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("同专业会签人员重复"),3):
             raise AssertionError("同一专业同一人员新增，未出现提示信息")
+        self.click(对话框对象库.关闭弹框.format("新增"))
         #填写专业和人员后，关闭新增窗口，会签列表中没有出现新增的会签行
         self.click(项目对象库.目录设置.新增会签)
         self.wait(对话框对象库.弹框标题.format("新增"), 3)

@@ -5,3 +5,4 @@ class 收藏对象库:
     资源类型='//table//tr/td/div[text()="{}"]/parent::td/following-sibling::td[1]/div[text()="{}"]'
     取消收藏按钮='//table//tr/td/div[text()="{}"]/parent::td/following-sibling::td[last()]//i[1]'
     查看收藏按钮='//table//tr/td/div[text()="{}"]/parent::td/following-sibling::td[last()]//i[2]'
+    收藏资源类型='//div[@role="tablist"]//div[contains(text(),"{}")]/I[1]'

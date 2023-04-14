@@ -32,7 +32,7 @@ class 成员权限管理工作区(page):
         #项目动态数据准备
         self.项目管理页面.删除所有项目()
         self.进入到操作位置.进入项目管理页()
-        self.项目管理页面.创建空白项目(项目名称="项目权限")
+        self.项目管理页面.创建空白项目(项目名称="项目权限",生命周期名称='系统默认生命周期')
         self.项目管理页面.邀请项目成员(项目名称='项目权限', 当前用户手机号='18942178870', 成员手机号='18942178871',角色='PROJECT MANAGER')
         self.项目管理页面.点击进入项目(项目名称="项目权限")
         self.wait(项目对象库.目录节点.format("项目权限"), 3)
@@ -99,7 +99,7 @@ class 成员权限管理工作区(page):
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("打包"))
         if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "是"))
+            self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
         if self.wait(公共元素对象库.系统提示信息弹框.format("没有相关权限"), 3):
             raise AssertionError("PROJECT_MANAGER角色没有配置目录打包的权限")
         #目录下载
@@ -212,7 +212,7 @@ class 成员权限管理工作区(page):
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("打包"))
         if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "是"))
+            self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
         if self.wait(公共元素对象库.系统提示信息弹框.format("没有相关权限"), 3):
             raise AssertionError("DOCUMENT_MANAGER角色没有配置目录打包的权限")
         # 目录下载
@@ -315,7 +315,7 @@ class 成员权限管理工作区(page):
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("打包"))
         if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "是"))
+            self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
         if self.wait(公共元素对象库.系统提示信息弹框.format("没有相关权限"), 3):
             raise AssertionError("DOCUMENT_EDITOR角色没有配置目录打包的权限")
         # 目录下载
@@ -408,7 +408,7 @@ class 成员权限管理工作区(page):
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("打包"))
         if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "是"))
+            self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
         if self.wait(公共元素对象库.系统提示信息弹框.format("没有相关权限"), 3):
             raise AssertionError("DOCUMENT_CONSUMER角色没有配置目录打包的权限")
         # 目录下载
@@ -430,6 +430,7 @@ class 成员权限管理工作区(page):
         self.click(项目对象库.上传文件按钮)
         if not self.wait(公共元素对象库.系统提示信息弹框.format("没有相关权限"), 3):
             raise AssertionError("DOCUMENT_CONSUMER角色配置了上传文件的权限")
+        self.click(对话框对象库.关闭弹框.format("上传文件"))
         # 文件附加
         序号 = self.公共操作.获取文件在列表中的行号(文件名称='素材2.jpg')
         self.click(项目对象库.悬浮列行操作.format(序号))
@@ -518,7 +519,7 @@ class 成员权限管理工作区(page):
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("打包"))
         if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "是"))
+            self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("没有相关权限"), 3):
             raise AssertionError("DOCUMENT_VIEWER角色配置了目录打包的权限")
         # 目录下载
@@ -628,7 +629,7 @@ class 成员权限管理工作区(page):
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("打包"))
         if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "是"))
+            self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("没有相关权限"), 3):
             raise AssertionError("GUEST角色配置了目录打包的权限")
         # 目录下载
@@ -650,6 +651,7 @@ class 成员权限管理工作区(page):
         self.click(项目对象库.上传文件按钮)
         if not self.wait(公共元素对象库.系统提示信息弹框.format("没有相关权限"), 3):
             raise AssertionError("GUEST角色配置了上传文件的权限")
+        self.click(对话框对象库.关闭弹框.format("上传文件"))
         # 文件附加
         序号 = self.公共操作.获取文件在列表中的行号(文件名称='素材2.jpg')
         self.click(项目对象库.悬浮列行操作.format(序号))
@@ -692,7 +694,7 @@ class 成员权限管理工作区(page):
             raise AssertionError("撤回用户目录查询权限，登录用户后还是能看到该目录")
 
     def 授予用户目录查询权限(self):
-        self.项目管理页面.删除项目(项目名称='角色权限验证')
+        self.项目管理页面.删除项目(项目名称='项目权限设置')
         self.项目管理页面.根据模板创建项目(模板名称="权限设置模板", 项目名称='项目权限设置')
         self.项目管理页面.点击进入项目(项目名称='项目权限设置')
         素材2 = ['TestData', 'FrontData', '项目页', '素材2.jpg']
@@ -710,7 +712,7 @@ class 成员权限管理工作区(page):
         if not self.wait(项目对象库.列表文件名称.format("一级目录"), 3):
             raise AssertionError("授予用户目录查询权限，登录用户后不能看到该目录")
         self.click(项目对象库.列表文件名称.format("一级目录"))
-        if not self.wait(项目对象库.列表文件名称.format("一级目录"), 3):
+        if not self.wait(项目对象库.列表文件名称.format("二级目录"), 3):
             raise AssertionError("授予用户目录查询权限，登录用户后不能查看到该目录下的子目录")
         if not self.wait(项目对象库.列表文件名称.format("检入检出素材.txt"), 3):
             raise AssertionError("授予用户目录查询权限，登录用户后不能查看到该目录下的文件")
@@ -871,7 +873,7 @@ class 成员权限管理工作区(page):
         self.click(项目对象库.列表复选框.format("一级目录3"))
         self.click(项目对象库.工具栏按钮.format('检出'))
         self.wait(对话框对象库.对话框标题.format("提示"), 3)
-        self.click(对话框对象库.对话框按钮.format("提示", "是"))
+        self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("没有相关权限"), 3):
             raise AssertionError("对用户收目录的检入检出权限，登录用户后该目录还是可以被批量检出")
         #对用户收回目录检出检出权限，登录该用户后，该目录及其子目录下的任意文件不能进行检入检出操作
@@ -889,7 +891,7 @@ class 成员权限管理工作区(page):
         self.click(项目对象库.列表复选框.format("素材3.jpg"))
         self.click(项目对象库.工具栏按钮.format('检出'))
         self.wait(对话框对象库.对话框标题.format("提示"), 3)
-        self.click(对话框对象库.对话框按钮.format("提示", "是"))
+        self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("没有相关权限"), 3):
             raise AssertionError("对用户收目录的检入检出权限，登录用户后该目录下子目录的资源还是可以被批量检出")
 
@@ -924,7 +926,7 @@ class 成员权限管理工作区(page):
         self.click(项目对象库.列表复选框.format("一级目录3"))
         self.click(项目对象库.工具栏按钮.format('检出'))
         self.wait(对话框对象库.对话框标题.format("提示"), 3)
-        self.click(对话框对象库.对话框按钮.format("提示", "是"))
+        self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
         if self.wait(公共元素对象库.系统提示信息弹框.format("没有相关权限"), 3):
             raise AssertionError("对用户收目录的检入检出权限，登录用户后该目录还是可以被批量检出")
         #对用户授予目录检出检出权限，登录该用户后，该目录及其子目录下的任意文件可以进行检入检出操作
@@ -954,7 +956,7 @@ class 成员权限管理工作区(page):
         self.click(项目对象库.列表复选框.format("素材3.jpg"))
         self.click(项目对象库.工具栏按钮.format('检出'))
         self.wait(对话框对象库.对话框标题.format("提示"), 3)
-        self.click(对话框对象库.对话框按钮.format("提示", "是"))
+        self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
         if self.wait(公共元素对象库.系统提示信息弹框.format("没有相关权限"), 3):
             raise AssertionError("对用户收授予目录的检入检出权限，登录用户后该目录下子目录的资源还是不能被批量检出")
 
@@ -980,7 +982,7 @@ class 成员权限管理工作区(page):
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("打包"))
         if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "是"))
+            self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("没有相关权限"), 3):
             raise AssertionError("对用户收目录的打包权限，登录用户后该目录还是可以打包")
         # 当收回用户的目录打包权限时，登录该用户后，不能对该目录进行批量打包操作
@@ -988,7 +990,7 @@ class 成员权限管理工作区(page):
         self.click(项目对象库.列表复选框.format("一级目录3"))
         self.click(项目对象库.工具栏按钮.format('打包'))
         self.wait(对话框对象库.对话框标题.format("提示"), 3)
-        self.click(对话框对象库.对话框按钮.format("提示", "是"))
+        self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("没有相关权限"), 3):
             raise AssertionError("对用户收回目录的打包权限，登录用户后该目录还是可以被批量打包")
         # 当收回用户的目录打包权限时，登录该用户后，不能对该目录下的任意资源进行批量打包操作
@@ -997,7 +999,7 @@ class 成员权限管理工作区(page):
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("打包"))
         if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "是"))
+            self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("没有相关权限"), 3):
             raise AssertionError("对用户收回目录的打包权限，登录用户后该目录的子目录还是可以被打包")
         #
@@ -1006,7 +1008,7 @@ class 成员权限管理工作区(page):
         self.click(项目对象库.列表复选框.format("素材3.jpg"))
         self.click(项目对象库.工具栏按钮.format('打包'))
         self.wait(对话框对象库.对话框标题.format("提示"), 3)
-        self.click(对话框对象库.对话框按钮.format("提示", "是"))
+        self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("没有相关权限"), 3):
             raise AssertionError("对用户收回目录的打包权限，登录用户后该目录下子目录的资源还是可以被批量打包")
 
@@ -1033,7 +1035,7 @@ class 成员权限管理工作区(page):
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("打包"))
         if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "是"))
+            self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
         if self.wait(公共元素对象库.系统提示信息弹框.format("没有相关权限"), 3):
             raise AssertionError("对用户授予目录的打包权限，登录用户后该目录还是不能打包")
         # 当授予用户目录打包权限，登录该用户后，可以对该目录进行批量打包操作
@@ -1041,7 +1043,7 @@ class 成员权限管理工作区(page):
         self.click(项目对象库.列表复选框.format("一级目录3"))
         self.click(项目对象库.工具栏按钮.format('打包'))
         self.wait(对话框对象库.对话框标题.format("提示"), 3)
-        self.click(对话框对象库.对话框按钮.format("提示", "是"))
+        self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
         if self.wait(公共元素对象库.系统提示信息弹框.format("没有相关权限"), 3):
             raise AssertionError("对用户授予目录的打包权限，登录用户后该目录还是不能被批量打包")
         # 当授予用户目录打包权限，登录该用户后，可以对该目录下的任意资源进行打包操作
@@ -1050,7 +1052,7 @@ class 成员权限管理工作区(page):
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("打包"))
         if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "是"))
+            self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
         if self.wait(公共元素对象库.系统提示信息弹框.format("没有相关权限"), 3):
             raise AssertionError("对用户授予目录的打包权限，登录用户后该目录的子目录还是不能被打包")
         #当授予用户目录打包权限，登录该用户后，可以对该目录下的任意资源进行批量打包操作
@@ -1059,7 +1061,7 @@ class 成员权限管理工作区(page):
         self.click(项目对象库.列表复选框.format("素材3.jpg"))
         self.click(项目对象库.工具栏按钮.format('打包'))
         self.wait(对话框对象库.对话框标题.format("提示"), 3)
-        self.click(对话框对象库.对话框按钮.format("提示", "是"))
+        self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
         if self.wait(公共元素对象库.系统提示信息弹框.format("没有相关权限"), 3):
             raise AssertionError("对用户授予目录的打包权限，登录用户后该目录下子目录的资源还是不能被批量打包")
 
@@ -1267,7 +1269,7 @@ class 目录权限管理工作区(page):
         #项目动态数据准备
         self.项目管理页面.删除所有项目()
         self.进入到操作位置.进入项目管理页()
-        self.项目管理页面.创建空白项目(项目名称="项目权限")
+        self.项目管理页面.创建空白项目(项目名称="项目权限",生命周期名称='系统默认生命周期')
         self.项目管理页面.邀请项目成员(项目名称='项目权限', 当前用户手机号='18942178870', 成员手机号='18942178871',角色='PROJECT MANAGER')
         self.项目管理页面.点击进入项目(项目名称="项目权限")
         self.wait(项目对象库.目录节点.format("项目权限"), 3)
@@ -1489,7 +1491,7 @@ class 目录权限管理工作区(page):
         self.click(项目对象库.列表复选框.format("一级目录3"))
         self.click(项目对象库.工具栏按钮.format('检出'))
         self.wait(对话框对象库.对话框标题.format("提示"), 3)
-        self.click(对话框对象库.对话框按钮.format("提示", "是"))
+        self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("没有相关权限"), 3):
             raise AssertionError("对用户收目录的检入检出权限，登录用户后该目录还是可以被批量检出")
         # 对用户收回目录检出检出权限，登录该用户后，该目录及其子目录下的任意文件不能进行检入检出操作
@@ -1507,7 +1509,7 @@ class 目录权限管理工作区(page):
         self.click(项目对象库.列表复选框.format("素材3.jpg"))
         self.click(项目对象库.工具栏按钮.format('检出'))
         self.wait(对话框对象库.对话框标题.format("提示"), 3)
-        self.click(对话框对象库.对话框按钮.format("提示", "是"))
+        self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("没有相关权限"), 3):
             raise AssertionError("对用户收目录的检入检出权限，登录用户后该目录下子目录的资源还是可以被批量检出")
 
@@ -1547,7 +1549,7 @@ class 目录权限管理工作区(page):
         self.click(项目对象库.列表复选框.format("一级目录3"))
         self.click(项目对象库.工具栏按钮.format('检出'))
         self.wait(对话框对象库.对话框标题.format("提示"), 3)
-        self.click(对话框对象库.对话框按钮.format("提示", "是"))
+        self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
         if self.wait(公共元素对象库.系统提示信息弹框.format("没有相关权限"), 3):
             raise AssertionError("对用户收目录的检入检出权限，登录用户后该目录还是可以被批量检出")
         # 对用户授予目录检出检出权限，登录该用户后，该目录及其子目录下的任意文件可以进行检入检出操作
@@ -1577,7 +1579,7 @@ class 目录权限管理工作区(page):
         self.click(项目对象库.列表复选框.format("素材3.jpg"))
         self.click(项目对象库.工具栏按钮.format('检出'))
         self.wait(对话框对象库.对话框标题.format("提示"), 3)
-        self.click(对话框对象库.对话框按钮.format("提示", "是"))
+        self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
         if self.wait(公共元素对象库.系统提示信息弹框.format("没有相关权限"), 3):
             raise AssertionError("对用户收授予目录的检入检出权限，登录用户后该目录下子目录的资源还是不能被批量检出")
 
@@ -1606,7 +1608,7 @@ class 目录权限管理工作区(page):
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("打包"))
         if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "是"))
+            self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("没有相关权限"), 3):
             raise AssertionError("对用户收目录的打包权限，登录用户后该目录还是可以打包")
         # 当收回用户的目录打包权限时，登录该用户后，不能对该目录进行批量打包操作
@@ -1614,7 +1616,7 @@ class 目录权限管理工作区(page):
         self.click(项目对象库.列表复选框.format("一级目录3"))
         self.click(项目对象库.工具栏按钮.format('打包'))
         self.wait(对话框对象库.对话框标题.format("提示"), 3)
-        self.click(对话框对象库.对话框按钮.format("提示", "是"))
+        self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("没有相关权限"), 3):
             raise AssertionError("对用户收回目录的打包权限，登录用户后该目录还是可以被批量打包")
         # 当收回用户的目录打包权限时，登录该用户后，不能对该目录下的任意资源进行批量打包操作
@@ -1623,7 +1625,7 @@ class 目录权限管理工作区(page):
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("打包"))
         if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "是"))
+            self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("没有相关权限"), 3):
             raise AssertionError("对用户收回目录的打包权限，登录用户后该目录的子目录还是可以被打包")
         #
@@ -1632,7 +1634,7 @@ class 目录权限管理工作区(page):
         self.click(项目对象库.列表复选框.format("素材3.jpg"))
         self.click(项目对象库.工具栏按钮.format('打包'))
         self.wait(对话框对象库.对话框标题.format("提示"), 3)
-        self.click(对话框对象库.对话框按钮.format("提示", "是"))
+        self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("没有相关权限"), 3):
             raise AssertionError("对用户收回目录的打包权限，登录用户后该目录下子目录的资源还是可以被批量打包")
 
@@ -1664,7 +1666,7 @@ class 目录权限管理工作区(page):
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("打包"))
         if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "是"))
+            self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
         if self.wait(公共元素对象库.系统提示信息弹框.format("没有相关权限"), 3):
             raise AssertionError("对用户授予目录的打包权限，登录用户后该目录还是不能打包")
         # 当授予用户目录打包权限，登录该用户后，可以对该目录进行批量打包操作
@@ -1672,7 +1674,7 @@ class 目录权限管理工作区(page):
         self.click(项目对象库.列表复选框.format("一级目录3"))
         self.click(项目对象库.工具栏按钮.format('打包'))
         self.wait(对话框对象库.对话框标题.format("提示"), 3)
-        self.click(对话框对象库.对话框按钮.format("提示", "是"))
+        self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
         if self.wait(公共元素对象库.系统提示信息弹框.format("没有相关权限"), 3):
             raise AssertionError("对用户授予目录的打包权限，登录用户后该目录还是不能被批量打包")
         # 当授予用户目录打包权限，登录该用户后，可以对该目录下的任意资源进行打包操作
@@ -1681,7 +1683,7 @@ class 目录权限管理工作区(page):
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("打包"))
         if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "是"))
+            self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
         if self.wait(公共元素对象库.系统提示信息弹框.format("没有相关权限"), 3):
             raise AssertionError("对用户授予目录的打包权限，登录用户后该目录的子目录还是不能被打包")
         # 当授予用户目录打包权限，登录该用户后，可以对该目录下的任意资源进行批量打包操作
@@ -1690,7 +1692,7 @@ class 目录权限管理工作区(page):
         self.click(项目对象库.列表复选框.format("素材3.jpg"))
         self.click(项目对象库.工具栏按钮.format('打包'))
         self.wait(对话框对象库.对话框标题.format("提示"), 3)
-        self.click(对话框对象库.对话框按钮.format("提示", "是"))
+        self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
         if self.wait(公共元素对象库.系统提示信息弹框.format("没有相关权限"), 3):
             raise AssertionError("对用户授予目录的打包权限，登录用户后该目录下子目录的资源还是不能被批量打包")
 

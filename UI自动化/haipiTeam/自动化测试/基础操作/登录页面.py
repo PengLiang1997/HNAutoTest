@@ -26,8 +26,11 @@ class 登录页面(page):
         self.default_content()
 
     def 账号密码登录(self,账号,密码):
+        self.driver.refrsh()
         self.default_content()
-        self.click(登录页对象库.账号密码登录)
+        if self.wait(对话框对象库.对话框标题.format("确认注销"),3):
+            self.click(对话框对象库.对话框按钮.format("确认注销","重新登录"))
+        # self.click(登录页对象库.账号密码登录)
         self.click(登录页对象库.账号输入框)
         self.clear(登录页对象库.账号输入框)
         self.send_keys(登录页对象库.账号输入框,账号)
