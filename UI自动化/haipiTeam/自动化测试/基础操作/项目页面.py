@@ -370,7 +370,9 @@ class 项目页面(page):
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("检出"))
         if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "确定"))
+            self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
+            if self.wait(对话框对象库.对话框标题.format("提示"), 3):
+                self.click(对话框对象库.对话框按钮.format("提示", "确定"))
         self.wait(项目对象库.检出按钮.format(资源名称), 3)
 
     def 文件撤销检出(self, 资源名称, 目录路径=None):
