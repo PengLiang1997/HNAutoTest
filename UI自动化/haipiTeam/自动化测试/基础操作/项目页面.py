@@ -100,7 +100,13 @@ class 项目管理页面(page):
         self.登录页面.账号密码登录(账号=成员手机号, 密码='user@'+成员手机号[7:])
         time.sleep(3)
         self.click(对话框对象库.对话框按钮2.format(f"邀请你参加“{项目名称}”", "加入"))
-        self.wait(项目对象库.目录节点.format(项目名称), 3)
+        if 角色=="PROJECT ASSISTANT" or 角色==None:
+            self.driver.driver.execute_script("window.open('');")
+            self.driver.close()
+            self.switch_to_new_window()
+            self.driver.driver.get(链接1[:20]+'project')
+        else:
+            self.wait(项目对象库.目录节点.format(项目名称), 3)
         if 是否返回项目创建账户:
             self.登录页面.退出登录()
             # self.登录页面.短信快捷登录(手机号=当前用户手机号)
@@ -544,7 +550,8 @@ class 项目页面(page):
     def 新增会签(self,专业,人员):
         self.click(项目对象库.目录设置.新增会签)
         self.wait(对话框对象库.弹框标题.format("新增"), 3)
-        self.send_keys(公共元素对象库.输入框.format("专业:"), 专业)
+        self.click(公共元素对象库.列表框.format("专业:"))
+        self.click(公共元素对象库.列表框选项.format(专业))
         self.click(公共元素对象库.列表框.format("人员:"))
         self.click(公共元素对象库.列表框选项.format(人员))
         self.click(对话框对象库.弹框按钮.format("新增", "确定"))

@@ -57,6 +57,16 @@ class 生命周期管理页面(page):
         self.click(设置页对象库.生命周期管理工作区.生命周期节点名称.format(节点名称))
         self.click(设置页对象库.生命周期管理工作区.节点流程单选启用按钮.format(开始节点,结束节点))
 
+    def 复制生命周期(self,目标生命周期名称,新生命周期名称):
+        self.click(设置页对象库.生命周期管理工作区.生命周期名称.format(目标生命周期名称))
+        self.click(设置页对象库.生命周期管理工作区.复制)
+        self.wait(对话框对象库.弹框标题.format("复制生命周期"))
+        self.clear(公共元素对象库.输入框.format("名称"))
+        self.send_keys(公共元素对象库.输入框.format("名称"), 新生命周期名称)
+        if self.wait('//span[text()="Release"]/ancestor::tr/td[last()]//span[contains(@class,"is-checked")]',3):
+            self.click('//span[text()="Release"]/ancestor::tr/td[last()]//span[contains(@class,"is-checked")]')
+        self.click(对话框对象库.对话框按钮.format("复制生命周期","确定"))
+        self.wait(公共元素对象库.系统提示信息弹框.format("添加成功"), 3)
 
 class 版次管理页面(page):
     def __init__(self, Secdriver=None):
