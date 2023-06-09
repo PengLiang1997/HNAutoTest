@@ -92,8 +92,8 @@ class 项目对象库:
     置灰_行操作选项='//ul[contains(@id,"dropdown-menu") and @x-placement="bottom-end"]/li[contains(@class,"is-disabled")]/span[text()="{}"]'
 
     #版本列表
-    文件版本='//div[@id="pane-edition"]//tr/td[4]//span[text()="{}"]'
-
+    文件版本='//div[@id="pane-edition"]//tr/td[4]//span[text()="{}"]'#参数为版本号
+    版本标签标志='//div[@id="pane-edition"]//tr/td[4]//span[text()="{}"]//ancestor::tr/td[14]//i[@title="标签"]'
     #可清理版本列表
     可清理版本='//div[@aria-label="清理版本"]//tr/td[5]/div[text()="{}"]'
     可清理版本复选框='//div[@aria-label="清理版本"]//tr/td[5]/div[text()="{}"]/ancestor::tr/td[1]'
@@ -220,3 +220,40 @@ class 项目设置页面:
     未选_成员复选框 = '//div[text()="{}"]/ancestor::tr/td[1]//span[not(contains(@class,"checked"))]'
     权限复选框 = '//div[text()="{}"]/ancestor::tr/td[1]//spans'
     禁用_成员复选框 = '//div[text()="{}"]/ancestor::tr/td[1]//span[contains(@class,"disabled")]'
+
+class 标签管理对象库:
+    页面名称='//span[text()="标签管理"]'
+    新增标签按钮='//div[@class="clearfix"]//span[text()=" 新增标签 "]'
+    批量操作按钮='//span[text()=" 标签列表"]//following-sibling::button//span[text()=" 批量操作 "]'
+    批量删除按钮='//div[@class="clearfix"]//span[text()=" 批量删除 "]'
+    取消按钮='//div[@class="clearfix"]//span[text()=" 取消 "]'
+
+
+    标签复选框='//table//tr/td[2]//div[text()="{}"]//ancestor::tr/td[1]//span'
+    标签名='//table//tr/td[1]//div[text()="{}"]'
+    标签创建人='//table//tr/td[2]//div[text()="{}"]'
+    标签创建时间='//table//tr/td[3]//div[text()="{}"]'
+    编辑单个标签='//div[text()="{}"]//ancestor::tr/td[last()]//a[@title="编辑标签"]'
+    删除单个标签 = '//div[text()="{}"]//ancestor::tr/td[last()]//a[@title="删除"]'
+
+
+    新增文件按钮='//div[@class="clearfix"]//span[text()="新增文件"]'
+    文件批量操作按钮='//span[text()="文件列表"]//following-sibling::button//span[text()=" 批量操作 "]'
+    批量删除标签文件 = '//span[text()="文件列表"]//following-sibling::button//span[text()="批量删除"]'
+    批量打包标签文件='//span[text()="文件列表"]//following-sibling::button//span[text()="批量打包"]'
+
+
+    标签文件名称='//table//tr/td[2]/div[text()="{}"]'
+    标签文件复选框='//table//tr/td[3]/div[text()="{}"]//ancestor::tr/td[1]//span'
+    标签文件版本='//table//tr/td[2]/div[text()="{}"]//ancestor::tr/td[3]/div[text()="{}"]'#文件名和版本
+
+    移除标签文件='//table//tr/td[2]/div[text()="{}"]//ancestor::tr/td[last()]//a[@title="删除"]'
+    跳转查看文件='//table//tr/td[2]/div[text()="{}"]//ancestor::tr/td[last()]//a[@title="跳转到文件"]'
+
+    class 新增标签文件:
+        树资源节点 = '//div[@aria-label="选择文件"]//div[@role="treeitem"]//span[contains(text(),"{}")]'
+        节点收起按钮 = '//div[@aria-label="选择文件"]//div[@role="treeitem"]//span[contains(text(),"{}")]/preceding-sibling::span[contains(@class,"expanded")]'
+        节点展开按钮 = '//div[@aria-label="选择文件"]//div[@role="treeitem"]//span[contains(text(),"{}")]/preceding-sibling::span[not(contains(@class,"expanded"))]'
+        列表单选按钮 = '//table//tr/td[2]//div[contains(text(),"{}")]/ancestor::tr/td[1]//span'
+        保存按钮 = '//div[@aria-label="选择文件"]/div[@class="el-dialog__footer"]//button/span[text()="保存"]'
+        取消按钮 = '//div[@aria-label="选择文件"]/div[@class="el-dialog__footer"]//button/span[text()="取消"]'

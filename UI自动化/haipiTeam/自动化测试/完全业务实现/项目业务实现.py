@@ -26,6 +26,7 @@ class 项目管理工作区(page):
         self.生命周期管理页面 = 生命周期管理页面(Secdriver=Secdriver)
         self.版次管理页面 = 版次管理页面(Secdriver=Secdriver)
         self.项目设置页面=项目管理页面.项目设置页面(Secdriver=Secdriver)
+        self.标签管理页面=项目管理页面.标签管理页面(Secdriver=Secdriver)
 
     def 数据准备(self):
         #项目动态数据准备
@@ -376,7 +377,7 @@ class 项目管理工作区(page):
         #点击项目成员按钮，悬浮显示项目成员用户名列表，默认显示项目创建者
         self.click(项目管理对象库.项目成员按钮.format("邀请成员项目"))
         self.default_content()
-        if not self.wait(项目管理对象库.移除项目成员.format("18942178870"), 3):
+        if not self.wait(项目管理对象库.项目成员名称.format("18942178870"), 3):
             raise AssertionError("点击查看项目成员，未查看到默认的项目创建者")
         # 点击项目成员按钮，在悬浮页点击添加成员按钮，弹出项目协作弹窗
         self.click(项目管理对象库.添加项目成员)
@@ -551,7 +552,7 @@ class 项目管理工作区(page):
         #使用保留了项目成员的模板创建项目，查看项目成员列表中成员是否存在
         self.进入到操作位置.进入项目管理页()
         self.click(项目管理对象库.项目成员按钮.format("查看模板信息是否保存"))
-        if not self.wait(项目管理对象库.移除项目成员.format("18942178870"), 3) or not\
+        if not self.wait(项目管理对象库.项目成员名称.format("18942178870"), 3) or not\
             self.wait(项目管理对象库.移除项目成员.format("17789371421"), 3):
             raise AssertionError("使用保存项目文件的项目模板创建项目后，源项目中的项目成员在新项目中不存在")
 
@@ -945,6 +946,311 @@ class 项目管理工作区(page):
         if not self.wait(公共元素对象库.系统提示信息弹框.format("不能删除根目录使用的生命周期模板"), 3):
             raise AssertionError("删除已经被使用的生命周期，未出现提示信息")
 
+    def 添加项目标签(self):
+        self.进入到操作位置.进入项目管理页()
+        self.项目管理页面.删除项目(项目名称="添加项目标签")
+        self.项目管理页面.创建空白项目(项目名称="添加项目标签")
+        self.项目管理页面.点击进入标签管理(项目名称="添加项目标签")
+        #点击项目操作按钮，点击标签管理选项，进入标签管理页面
+        if not self.wait(标签管理对象库.页面名称,3):
+            raise AssertionError("点击项目标签管理按钮，页面未跳转到标签管理也页面")
+        #点击新增标签按钮，弹出新增标签弹窗
+        self.click(标签管理对象库.新增标签按钮)
+        if not self.wait(对话框对象库.弹框标题.format("新增标签"),3):
+            raise AssertionError("标签管理页面点击新增标签按钮，没有弹出新增标签弹框")
+        #不输入任何字符，点击确定，提示标签名称不能为空
+        self.click(对话框对象库.弹框按钮.format("新增标签","确定"))
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("标签内容不能为空"),3):
+            raise AssertionError("对新增标签进行空值校验，没有弹出提示信息")
+        #输入标签名，点击确定，提示添加成功，然后可以在标签列表查看到新增的标签
+        self.send_keys(公共元素对象库.输入框.format("标签名"),"新增标签1")
+        self.click(对话框对象库.弹框按钮.format("新增标签","确定"))
+        self.wait(公共元素对象库.系统提示信息弹框.format("成功"),3)
+        if not self.wait(标签管理对象库.标签名.format("新增标签1"),3):
+            raise AssertionError("在标签列表中未查看到新增的标签")
+        #输入已经存在的标签名称，点击确定，提示存在同名标签
+        self.click(标签管理对象库.新增标签按钮)
+        self.wait(对话框对象库.弹框标题.format("新增标签"), 3)
+        self.send_keys(公共元素对象库.输入框.format("标签名"), "新增标签1")
+        self.click(对话框对象库.弹框按钮.format("新增标签", "确定"))
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("存在同名标签"),3):
+            raise AssertionError("对标签进行重名校验，未查看到对应的提示信息")
+        #输入标签名称，点击取消或关闭新增标签弹窗，标签没有被添加
+        self.click(标签管理对象库.新增标签按钮)
+        self.wait(对话框对象库.弹框标题.format("新增标签"), 3)
+        self.send_keys(公共元素对象库.输入框.format("标签名"), "新增标签2")
+        self.click(对话框对象库.弹框按钮.format("新增标签", "取消"))
+        if self.wait(标签管理对象库.标签名.format("新增标签2"),3):
+            raise AssertionError("在标签列表中查看到已经取消新增的标签")
+        #项目中如果存在标签的话，进入标签页面后，标签列表会显示当前项目下所有的标签
+        self.进入到操作位置.进入项目管理页()
+        self.项目管理页面.点击进入标签管理(项目名称="添加项目标签")
+        if not self.wait(标签管理对象库.标签名.format("新增标签1"), 3):
+            raise AssertionError("在标签列表中未查看到项目下的标签")
+
+    def 编辑项目标签(self):
+        self.进入到操作位置.进入项目管理页()
+        self.项目管理页面.删除项目(项目名称="编辑项目标签")
+        self.项目管理页面.创建空白项目(项目名称="编辑项目标签")
+        self.项目管理页面.点击进入标签管理(项目名称="编辑项目标签")
+        self.标签管理页面.新增标签(标签名称="标签1")
+        self.标签管理页面.新增标签(标签名称="标签2")
+        #点击标签的编辑按钮，弹出编辑标签弹窗
+        self.click(标签管理对象库.编辑单个标签.format("标签1"))
+        if not self.wait(对话框对象库.弹框标题.format("编辑标签"), 3):
+            raise AssertionError("点击编辑标签，未弹出编辑标签弹框")
+        #不输入任何字符，点击确定，提示标签名称不能为空
+        self.clear(公共元素对象库.输入框.format("标签名"))
+        self.click(对话框对象库.弹框按钮.format("编辑标签", "确定"))
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("标签内容不能为空"), 3):
+            raise AssertionError("对编辑标签名进行空值校验，没有弹出提示信息")
+        #输入已经存在的标签名称，点击确定，提示存在同名标签
+        self.clear(公共元素对象库.输入框.format("标签名"))
+        self.send_keys(公共元素对象库.输入框.format("标签名"), "标签2")
+        self.click(对话框对象库.弹框按钮.format("编辑标签", "确定"))
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("存在同名标签"), 3):
+            raise AssertionError("对编辑的标签名进行重名校验，未查看到对应的提示信息")
+        #输入标签名，点击确定，提示添加成功，然后可以在标签列表查看到编辑的标签
+        self.clear(公共元素对象库.输入框.format("标签名"))
+        self.send_keys(公共元素对象库.输入框.format("标签名"), "被编辑的标签1")
+        self.click(对话框对象库.弹框按钮.format("编辑标签", "确定"))
+        self.wait(公共元素对象库.系统提示信息弹框.format("成功"), 3)
+        if not self.wait(标签管理对象库.标签名.format("被编辑的标签1"), 3):
+            raise AssertionError("在标签列表中未查看到被编辑成功的标签")
+        #输入标签名称，点击取消或关闭新增标签弹窗，标签没有被编辑
+        self.click(标签管理对象库.编辑单个标签.format("标签2"))
+        self.wait(对话框对象库.弹框标题.format("编辑标签"), 3)
+        self.clear(公共元素对象库.输入框.format("标签名"))
+        self.send_keys(公共元素对象库.输入框.format("标签名"), "被编辑的标签2")
+        self.click(对话框对象库.弹框按钮.format("编辑标签", "取消"))
+        if self.wait(标签管理对象库.标签名.format("被编辑的标签2"), 3):
+            raise AssertionError("在标签列表中查看到被取消编辑的标签")
+
+    def 删除项目标签(self):
+        self.进入到操作位置.进入项目管理页()
+        self.项目管理页面.删除项目(项目名称="删除项目标签")
+        self.项目管理页面.创建空白项目(项目名称="删除项目标签")
+        self.项目管理页面.点击进入标签管理(项目名称="删除项目标签")
+        self.标签管理页面.新增标签(标签名称="删除标签1")
+        self.标签管理页面.新增标签(标签名称="删除标签2")
+        self.标签管理页面.新增标签(标签名称="删除标签3")
+        self.标签管理页面.新增标签(标签名称="删除标签4")
+
+        self.项目管理页面.点击进入项目(项目名称="删除项目标签")
+        self.wait(项目对象库.目录节点.format("删除项目标签"), 3)
+        self.driver.refrsh()
+        素材2 = ['TestData', 'FrontData', '项目页', '素材2.jpg']
+        素材3 = ['TestData', 'FrontData', '项目页', '素材3.jpg']
+        self.click(项目对象库.目录节点.format("删除项目标签"))
+        self.项目页面.批量上传文件(目录路径=['删除项目标签'], 文件路径列表=[素材2, 素材3])
+        self.项目页面.单个添加标签(文件名称="素材2.jpg",标签名="删除标签3")
+        self.项目页面.单个添加标签(文件名称="素材3.jpg", 标签名="删除标签4")
+        self.项目页面.附加文件(目录路径=['删除项目标签'], 文件名称="素材3.jpg", 附加文件路径列表=[['删除项目标签',"素材2.jpg"]])
+
+        self.进入到操作位置.进入项目管理页()
+        self.项目管理页面.点击进入标签管理(项目名称="删除项目标签")
+        #点击删除标签按钮，弹出提示信息，点击确定，标签被删除，在标签列表中查看不到被删除的标签
+        self.click(标签管理对象库.删除单个标签.format("删除标签1"))
+        if not self.wait(对话框对象库.对话框标题.format("提示"),3):
+            raise AssertionError("点击删除单个标签，未弹删除确认出对话框")
+        self.click(对话框对象库.对话框按钮.format("提示","确定"))
+        self.wait(公共元素对象库.系统提示信息弹框.format("成功"),3)
+        if self.wait(标签管理对象库.标签名.format("删除标签1"), 3):
+            raise AssertionError("在标签列表中查看到被删除的标签")
+        #点击删除标签按钮，弹出提示信息，点击取消，标签未被删除，在标签列表中可以查看到被删除的标签
+        self.click(标签管理对象库.删除单个标签.format("删除标签2"))
+        self.wait(对话框对象库.对话框标题.format("提示"), 3)
+        self.click(对话框对象库.对话框按钮.format("提示", "取消"))
+        if not self.wait(标签管理对象库.标签名.format("删除标签2"), 3):
+            raise AssertionError("在标签列表中未查看到被取消删除的标签")
+        #点击批量操作，勾选多个标签，删除标签按钮，弹出提示信息，点击确定，标签被删除，在标签列表中查看不到被删除的标签
+        self.click(标签管理对象库.批量操作按钮)
+        self.click(标签管理对象库.标签复选框.format("删除标签2"))
+        self.click(标签管理对象库.批量删除按钮)
+        if not self.wait(对话框对象库.对话框标题.format("提示"), 3):
+            raise AssertionError("点击删除标签，未弹删除确认出对话框")
+        self.click(对话框对象库.对话框按钮.format("提示", "确定"))
+        self.wait(公共元素对象库.系统提示信息弹框.format("成功"), 3)
+        if self.wait(标签管理对象库.标签名.format("删除标签2"), 3):
+            raise AssertionError("在标签列表中查看到被删除的标签")
+        #点击批量操作，勾选多个标签，删除标签按钮，弹出提示信息，点击取消，标签未被删除，在标签列表中可以查看到被删除的标签
+        self.click(标签管理对象库.标签复选框.format("删除标签3"))
+        self.click(标签管理对象库.批量删除按钮)
+        if not self.wait(对话框对象库.对话框标题.format("提示"), 3):
+            raise AssertionError("点击删除标签，未弹删除确认出对话框")
+        self.click(对话框对象库.对话框按钮.format("提示", "取消"))
+        self.wait(公共元素对象库.系统提示信息弹框.format("成功"), 3)
+        if not self.wait(标签管理对象库.标签名.format("删除标签3"), 3):
+            raise AssertionError("在标签列表中未查看到被取消删除的标签")
+        #标签被删除后，标签内文件的版本列表中的标签标识不再显示
+        self.项目管理页面.点击进入项目(项目名称="删除项目标签")
+        self.click(项目对象库.目录节点.format("删除项目标签"))
+        self.click(项目对象库.列表文件名称.format("素材3.jpg"))
+        if not self.wait(项目对象库.版本标签标志.format(1),3):
+            raise AssertionError("项目添加标签后，未在添加的版本下查看到标签标志")
+        序号 = self.公共操作.获取文件在列表中的行号(文件名称="素材3.jpg")
+        self.click(项目对象库.悬浮列行操作.format(序号))
+        self.click(项目对象库.行操作选项.format("清理版本"))
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("暂无可清理的版本文件"),3):
+            raise AssertionError("添加了文件标签的版本被清除掉")
+        #标签被删除后，右侧标签文件列表会刷新不再显示标签文件
+        self.进入到操作位置.进入项目管理页()
+        self.项目管理页面.点击进入标签管理(项目名称="删除项目标签")
+        self.click(标签管理对象库.标签名.format("删除标签4"))
+        self.标签管理页面.删除单个标签(标签名称="删除标签4")
+        if self.wait(标签管理对象库.标签文件名称.format("素材3.jpg"),3):
+            raise AssertionError("标签被删除后，右侧标签文件列表咩有刷新")
+        #标签被删除后，标签文件的版本可以被清理
+        self.项目管理页面.点击进入项目(项目名称="删除项目标签")
+        self.click(项目对象库.目录节点.format("删除项目标签"))
+        self.click(项目对象库.列表文件名称.format("素材3.jpg"))
+        if self.wait(项目对象库.版本标签标志.format(1), 3):
+            raise AssertionError("版本添加的标签被删除后，在该版本下还是查看到标签标志")
+        序号 = self.公共操作.获取文件在列表中的行号(文件名称="素材3.jpg")
+        self.click(项目对象库.悬浮列行操作.format(序号))
+        self.click(项目对象库.行操作选项.format("清理版本"))
+        if self.wait(公共元素对象库.系统提示信息弹框.format("暂无可清理的版本文件"), 3):
+            raise AssertionError("版本添加的标签被删除后，该版本还是不能清理")
+
+    def 添加标签文件(self):
+        self.进入到操作位置.进入项目管理页()
+        self.项目管理页面.删除项目(项目名称="添加标签文件")
+        self.项目管理页面.创建空白项目(项目名称="添加标签文件")
+        self.项目管理页面.点击进入标签管理(项目名称="添加标签文件")
+        self.标签管理页面.新增标签(标签名称="标签1")
+
+        self.项目管理页面.点击进入项目(项目名称="添加标签文件")
+        self.wait(项目对象库.目录节点.format("添加标签文件"), 3)
+        self.driver.refrsh()
+        素材2 = ['TestData', 'FrontData', '项目页', '素材2.jpg']
+        素材3 = ['TestData', 'FrontData', '项目页', '素材3.jpg']
+        self.click(项目对象库.目录节点.format("添加标签文件"))
+        self.项目页面.批量上传文件(目录路径=['添加标签文件'], 文件路径列表=[素材2, 素材3])
+
+        #不选择标签直接点击添加文件按钮，提示未选择标签
+        self.driver.refrsh()
+        self.click(标签管理对象库.新增文件按钮)
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("请选择标签添加文件"),3):
+            raise AssertionError("不选择标签直接点击添加文件按钮，没有弹出提示信息")
+        #选择标签后，点击添加文件按钮，弹出选择文件弹窗
+        self.click(标签管理对象库.标签名.format("标签1"))
+        self.click(标签管理对象库.新增文件按钮)
+        if not self.wait(对话框对象库.弹框标题.format("选择文件"),3):
+            raise AssertionError("选择标签后，点击添加文件按钮，未弹出选择文件弹窗")
+        #选择文件弹窗左侧显示当前项目的结构树，点击对应结构树节点，右侧列表显示该节点下的所有文件
+        self.click(标签管理对象库.新增标签文件.树资源节点.format("添加标签文件"))
+        if not self.wait(标签管理对象库.新增标签文件.列表单选按钮.format("素材2.jpg"),3):
+            raise AssertionError("在选择文件弹窗中点击左侧树节点，右侧列表未显示该节点下的文件")
+        #勾选文件，点击保存，提示保存成功，可以在标签文件列表中查看到新增的文件
+        self.click(标签管理对象库.新增标签文件.列表单选按钮.format("素材2.jpg"))
+        self.click(标签管理对象库.新增标签文件.保存按钮)
+        self.wait(公共元素对象库.系统提示信息弹框.format("成功"))
+        if not self.wait(标签管理对象库.标签文件名称.format("素材2.jpg"),3):
+            raise AssertionError("添加标签文件成功后，在文件列表中未查看到添加的文件")
+        #勾选文件，点击取消或关闭弹窗，提示取消保存，在标签文件列表中不能查看到选择新增的文件
+        self.click(标签管理对象库.新增文件按钮)
+        self.wait(对话框对象库.弹框标题.format("选择文件"), 3)
+        self.click(标签管理对象库.新增标签文件.树资源节点.format("添加标签文件"))
+        self.click(标签管理对象库.新增标签文件.列表单选按钮.format("素材3.jpg"))
+        self.click(标签管理对象库.新增标签文件.取消按钮)
+        if self.wait(标签管理对象库.标签文件名称.format("素材3.jpg"), 3):
+            raise AssertionError("取消添加标签文件后，在文件列表中查看到取消添加的文件")
+        #点击标签文件的跳转按钮，自动跳转到文件对应的文件目录下
+        self.click(标签管理对象库.跳转查看文件.format("素材3.jpg"))
+        面包屑 = []
+        elements = self.driver.getelements('//span[@class="el-breadcrumb__item"]//span[@class="el-link--inner"]')
+        for element in elements:
+            面包屑.append(element.text)
+        if 面包屑 != ['添加标签文件']:
+            raise AssertionError("点击标签文件的跳转按钮，页面没有自动跳转到文件对应的文件目录下")
+
+    def 移除标签文件(self):
+        self.进入到操作位置.进入项目管理页()
+        self.项目管理页面.删除项目(项目名称="移除标签文件")
+        self.项目管理页面.创建空白项目(项目名称="移除标签文件")
+        self.项目管理页面.点击进入标签管理(项目名称="移除标签文件")
+        self.标签管理页面.新增标签(标签名称="标签1")
+        self.项目管理页面.点击进入项目(项目名称="移除标签文件")
+        self.wait(项目对象库.目录节点.format("移除标签文件"), 3)
+        self.driver.refrsh()
+        素材2 = ['TestData', 'FrontData', '项目页', '素材2.jpg']
+        素材3 = ['TestData', 'FrontData', '项目页', '素材3.jpg']
+        self.click(项目对象库.目录节点.format("移除标签文件"))
+        self.项目页面.批量上传文件(目录路径=['移除标签文件'], 文件路径列表=[素材2, 素材3])
+        self.项目页面.添加标签文件(标签名称="标签1",标签文件路径列表=[["移除标签文件","素材2.jpg"],["移除标签文件","素材3.jpg"]])
+        #点击删除文件按钮，弹出提示信息，点击确定，提示删除成功，在文件列表中不能查看到被删除的文件
+        self.click(标签管理对象库.移除标签文件.format("素材2.jpg"))
+        if not self.wait(对话框对象库.对话框标题.format("提示"),3):
+            raise AssertionError("点击移除文件按钮，未弹出删除确认对话框")
+        self.click(对话框对象库.对话框按钮.format("提示","取消"))
+        if not self.wait(标签管理对象库.标签文件名称.format("素材2.jpg"),3):
+            raise AssertionError("移除标签文件时，点击取消，在列表中未查看到取消移除的文件")
+        #点击删除文件按钮，弹出提示信息，点击取消，提示取消删除，在文件列表中可以查看到要删除的文件
+        self.click(标签管理对象库.移除标签文件.format("素材2.jpg"))
+        self.wait(对话框对象库.对话框标题.format("提示"), 3)
+        self.click(对话框对象库.对话框按钮.format("提示", "确定"))
+        if self.wait(标签管理对象库.标签文件名称.format("素材2.jpg"), 3):
+            raise AssertionError("移除标签文件时，点击确定，在列表中查看到已经被移除的文件")
+        #点击批量操作，点击勾选多个文件，点击批量删除，弹出提示信息，点击取消，提示取消删除，在文件列表中可以查看到要删除的文件
+        self.click(标签管理对象库.文件批量操作按钮)
+        self.click(标签管理对象库.标签文件复选框.format("素材3.jpg"))
+        self.click(标签管理对象库.批量删除标签文件)
+        if not self.wait(对话框对象库.对话框标题.format("提示"), 3):
+            raise AssertionError("点击移除文件按钮，未弹出删除确认对话框")
+        self.click(对话框对象库.对话框按钮.format("提示", "取消"))
+        if not self.wait(标签管理对象库.标签文件名称.format("素材3.jpg"), 3):
+            raise AssertionError("移除标签文件时，点击取消，在列表中未查看到取消移除的文件")
+        #点击批量操作，点击勾选多个文件，点击批量删除，弹出提示信息，点击确定，提示删除成功，在文件列表中不能查看到被删除的文件
+        self.click(标签管理对象库.批量删除标签文件)
+        self.wait(对话框对象库.对话框标题.format("提示"), 3)
+        self.click(对话框对象库.对话框按钮.format("提示", "确定"))
+        if self.wait(标签管理对象库.标签文件名称.format("素材3.jpg"), 3):
+            raise AssertionError("移除标签文件时，点击确定，在列表中查看到已经被移除的文件")
+
+    def 查看标签文件(self):
+        self.进入到操作位置.进入项目管理页()
+        self.项目管理页面.删除项目(项目名称="查看标签文件")
+        self.项目管理页面.创建空白项目(项目名称="查看标签文件")
+        self.项目管理页面.点击进入标签管理(项目名称="查看标签文件")
+        self.标签管理页面.新增标签(标签名称="标签1")
+        self.项目管理页面.点击进入项目(项目名称="查看标签文件")
+        self.wait(项目对象库.目录节点.format("查看标签文件"), 3)
+        self.driver.refrsh()
+        素材2 = ['TestData', 'FrontData', '项目页', '素材2.jpg']
+        素材3 = ['TestData', 'FrontData', '项目页', '素材3.jpg']
+        self.click(项目对象库.目录节点.format("查看标签文件"))
+        self.项目页面.批量上传文件(目录路径=['查看标签文件'], 文件路径列表=[素材2, 素材3])
+        self.项目页面.添加标签文件(标签名称="标签1", 标签文件路径列表=[["查看标签文件", "素材2.jpg"], ["查看标签文件", "素材3.jpg"]])
+        #点击选择标签，右侧文件列表显示标签下对应的文件
+        self.driver.refrsh()
+        self.click(标签管理对象库.标签名.format("标签1"))
+        if not self.wait(标签管理对象库.标签文件名称.format("素材2.jpg"),3) or \
+                not self.wait(标签管理对象库.标签文件名称.format("素材3.jpg"), 3):
+            raise AssertionError("点击选择标签，未在右侧文件列表显示标签下对应的文件")
+        #点击批量操作，点击勾选多个文件，点击批量打包，等待打包完成后查看文件是否被打包
+        self.click(标签管理对象库.标签文件复选框.format("素材2.jpg"))
+        self.click(标签管理对象库.标签文件复选框.format("素材3.jpg"))
+        self.公共操作.清空浏览器下载目录()
+        self.click(标签管理对象库.批量打包标签文件)
+        time.sleep(3)
+        downpath = self.公共操作.检查文件是否下载完成()
+        filepath = downpath + '\文件.zip'
+        time.sleep(4)
+        namelist = self.公共操作.查看zip文件(zip文件路径=filepath)
+        for name in ['素材2.png', '素材3.jpg']:
+            if not name in namelist or len(namelist) != 2:
+                raise AssertionError("在打包的文件中未查看到被打包的文件")
+        #标签下的标签文件的项目实体文件被删除时，标签文件列表中该标签文件也会跟着一起被删除
+        self.进入到操作位置.进入项目管理页()
+        self.项目管理页面.点击进入项目(项目名称="查看标签文件")
+        self.wait(项目对象库.目录节点.format("查看标签文件"), 3)
+        self.项目页面.删除资源(资源名称="素材2.png")
+        self.进入到操作位置.进入项目管理页()
+        self.项目管理页面.点击进入标签管理(项目名称="查看标签文件")
+        self.click(标签管理对象库.标签名.format("标签1"))
+        if self.wait(标签管理对象库.标签文件名称.format("素材2.jpg"), 3):
+            raise AssertionError("标签下的标签文件的项目实体文件被删除时，标签文件列表中该标签文件咩有一起被删除")
+
 
 class 项目工作区(page):
 
@@ -958,6 +1264,7 @@ class 项目工作区(page):
         self.公共操作 = 公共操作(Secdriver=Secdriver)
         self.项目页面 = 项目页面(Secdriver=Secdriver)
         self.生命周期管理页面 = 生命周期管理页面(Secdriver=Secdriver)
+        self.标签管理页面 = 项目管理页面.标签管理页面(Secdriver=Secdriver)
         self.logger = Logger(logger='logger').getlog()
 
     def 数据准备(self):
@@ -1841,7 +2148,10 @@ class 项目工作区(page):
         if not '素材1.png' in 文件目录 or not '素材2.jpg' in 文件目录:
             raise AssertionError("在打包的文件中未查看到被打包的状态为检出的文件")
 
-    def 文件或目录分享(self):
+    def 文件分享(self):
+        pass
+
+    def 目录分享(self):
         pass
 
     def 文件下载(self):
@@ -2939,11 +3249,11 @@ class 项目工作区(page):
     def 撤销归档(self):
         self.进入到操作位置.进入项目管理页()
         self.项目管理页面.删除项目(项目名称="文件归档")
-        self.项目管理页面.创建空白项目(项目名称="文件归档", 生命周期名称='系统默认生命周期')
-        self.项目管理页面.点击进入项目(项目名称="文件归档")
+        self.项目管理页面.创建空白项目(项目名称="文件撤销归档", 生命周期名称='系统默认生命周期')
+        self.项目管理页面.点击进入项目(项目名称="文件撤销归档")
         素材1 = ['TestData', 'FrontData', '项目页', '素材1.png']
         素材2 = ['TestData', 'FrontData', '项目页', '素材2.jpg']
-        self.项目页面.批量上传文件(目录路径=['文件归档'], 文件路径列表=[素材1, 素材2])
+        self.项目页面.批量上传文件(目录路径=['文件撤销归档'], 文件路径列表=[素材1, 素材2])
         self.项目页面.归档单个文件(文件名称='素材1.png')
         #点击已归档文件更多操作，点击撤销归档按钮，文件的已归档标志消失
         #只有已归档的文件才有撤销归档的操作
@@ -3553,4 +3863,161 @@ class 项目工作区(page):
         #不勾选任何会签行，点击删除，删除按钮不可用
         if not self.wait(项目对象库.目录设置.置灰_批量删除会签,3):
             raise AssertionError("不勾选任何会签行，点击删除，删除按钮可用")
+
+    def 单个文件添加标签(self):
+        self.进入到操作位置.进入项目管理页()
+        self.项目管理页面.删除项目(项目名称="添加标签")
+        self.项目管理页面.创建空白项目(项目名称="添加标签")
+        self.项目管理页面.点击进入标签管理(项目名称="添加标签")
+        self.标签管理页面.新增标签(标签名称="标签1")
+        self.标签管理页面.新增标签(标签名称="标签2")
+        self.项目管理页面.点击进入项目(项目名称="添加标签")
+        self.wait(项目对象库.目录节点.format("添加标签"), 3)
+        self.driver.refrsh()
+        素材2 = ['TestData', 'FrontData', '项目页', '素材2.jpg']
+        素材3 = ['TestData', 'FrontData', '项目页', '素材3.jpg']
+        self.click(项目对象库.目录节点.format("添加标签"))
+        self.项目页面.批量上传文件(目录路径=['添加标签'], 文件路径列表=[素材2, 素材3])
+        #点击文件更多操作按钮，点击添加标签操作，弹出添加标签弹窗
+        序号 = self.公共操作.获取文件在列表中的行号(文件名称="素材2.jpg")
+        self.click(项目对象库.悬浮列行操作.format(序号))
+        self.click(项目对象库.行操作选项.format("添加标签"))
+        if not self.wait(对话框对象库.弹框标题.format("添加标签"), 3):
+            raise AssertionError("点击文件添加标签，未弹出添加标签按钮")
+        #不选择任何标签，点击确定，弹出提示信息
+        self.click(对话框对象库.对话框按钮.format("添加标签", "确定"))
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("标签内容不能为空"),3):
+            raise AssertionError("不选择任何标签，点击确定，没有弹出提示信息")
+        #点击标签名下拉按钮，下拉列表显示当前项目中设置的标签名
+        self.click(公共元素对象库.列表框.format("标签名"))
+        if not self.wait(公共元素对象库.列表框选项.format("标签1"),3) or\
+                not self.wait(公共元素对象库.列表框选项.format("标签2"),3):
+            raise AssertionError("点击标签下拉列表，未查看到项目下的所有标签")
+        #可以通过输入标签名称然后回车来添加新的标签
+        self.send_keys(公共元素对象库.输入框.format("标签名"), "标签4")
+        self.click(公共元素对象库.列表框选项.format("标签4"))
+        self.click(对话框对象库.对话框按钮.format("添加标签", "确定"))
+        self.wait(公共元素对象库.系统提示信息弹框.format("成功"), 3)
+        #对文件版本的标签添加成功后，可以在版本列表中查看到文件版本存在标签标志
+        self.driver.refrsh()
+        self.click(项目对象库.列表文件名称.format("素材2.jpg"))
+        if not self.wait(项目对象库.版本标签标志.format(1), 3):
+            raise AssertionError("项目添加标签后，未在添加的版本下查看到标签标志")
+        #同一个文件的不同版本不能添加到同一个标签下
+        self.项目页面.附加文件(目录路径=['添加标签'], 文件名称="素材2.jpg", 附加文件路径列表=[['添加标签', "素材3.jpg"]])
+        self.项目页面.单个添加标签(文件名称="素材2.jpg",标签名="标签4")
+        self.项目管理页面.点击进入标签管理(项目名称="添加标签")
+        if not self.wait(标签管理对象库.标签名.format("标签4"),3):
+            raise AssertionError("添加标签时，通过直接输入标签名不能创建对应的标签")
+        self.click(标签管理对象库.标签名.format("标签4"))
+        if not self.wait(标签管理对象库.标签文件版本.format("素材2.jpg","1"),3):
+            raise AssertionError("添加标签文件的版本是错误的")
+
+    def 文件目录添加标签(self):
+        self.进入到操作位置.进入项目管理页()
+        self.项目管理页面.删除项目(项目名称="添加标签")
+        self.项目管理页面.创建空白项目(项目名称="添加标签")
+        self.项目管理页面.点击进入标签管理(项目名称="添加标签")
+        self.标签管理页面.新增标签(标签名称="标签1")
+        self.标签管理页面.新增标签(标签名称="标签2")
+        self.项目管理页面.点击进入项目(项目名称="添加标签")
+        self.wait(项目对象库.目录节点.format("添加标签"), 3)
+        self.driver.refrsh()
+        self.项目页面.创建文件目录(目录名称="一级目录", 目录父节点名称="添加标签")
+        self.项目页面.创建文件目录(目录名称="一级目录2", 目录父节点名称="添加标签")
+        self.项目页面.创建文件目录(目录名称="二级目录", 目录父节点名称="一级目录")
+        素材1 = ['TestData', 'FrontData', '项目页', '素材1.png']
+        素材2 = ['TestData', 'FrontData', '项目页', '素材2.jpg']
+        素材3 = ['TestData', 'FrontData', '项目页', '素材3.jpg']
+        素材4 = ['TestData', 'FrontData', '项目页', '素材4.png']
+        self.click(项目对象库.目录节点.format("添加标签"))
+        self.项目页面.批量上传文件(目录路径=['添加标签','一级目录'], 文件路径列表=[素材1, 素材2])
+        self.项目页面.批量上传文件(目录路径=['添加标签', '一级目录','二级目录'], 文件路径列表=[素材3, 素材4])
+        #对空文件目录添加标签，提示不能为空
+        self.click(项目对象库.目录节点.format("添加标签"))
+        序号 = self.公共操作.获取文件在列表中的行号(文件名称="一级目录2")
+        self.click(项目对象库.悬浮列行操作.format(序号))
+        self.click(项目对象库.行操作选项.format("添加标签"))
+        self.wait(对话框对象库.弹框标题.format("添加标签"), 3)
+        self.click(公共元素对象库.列表框.format("标签名"))
+        self.send_keys(公共元素对象库.输入框.format("标签名"), "标签1")
+        self.click(公共元素对象库.列表框选项.format("标签1"))
+        self.click(对话框对象库.对话框按钮.format("添加标签", "确定"))
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("可操作的文件列表为空"), 3):
+            raise AssertionError("对空文件目录添加标签，没有提示不能为空")
+        #对文件目录添加标签，文件目录下的所有子文件会添加到标签中
+        self.项目页面.单个添加标签(文件名称="一级目录",标签名="标签1")
+        self.项目管理页面.点击进入标签管理(项目名称="添加标签")
+        self.click(标签管理对象库.标签名.format("标签1"))
+        if not self.wait(标签管理对象库.标签文件版本.format("素材1.png", "1"), 3) or \
+                not self.wait(标签管理对象库.标签文件版本.format("素材2.jpg", "1"), 3) or\
+                not self.wait(标签管理对象库.标签文件版本.format("素材2.jpg", "1"), 3) or\
+                not self.wait(标签管理对象库.标签文件版本.format("素材4.png", "1"), 3):
+            raise AssertionError("对文件目录添加标签，文件目录下的所有子文件咩有添加到标签中")
+
+    def 批量添加标签(self):
+        self.进入到操作位置.进入项目管理页()
+        self.项目管理页面.删除项目(项目名称="添加标签")
+        self.项目管理页面.创建空白项目(项目名称="添加标签")
+        self.项目管理页面.点击进入标签管理(项目名称="添加标签")
+        self.标签管理页面.新增标签(标签名称="标签1")
+        self.标签管理页面.新增标签(标签名称="标签2")
+        self.项目管理页面.点击进入项目(项目名称="添加标签")
+        self.wait(项目对象库.目录节点.format("添加标签"), 3)
+        self.driver.refrsh()
+        self.项目页面.创建文件目录(目录名称="一级目录", 目录父节点名称="添加标签")
+        self.项目页面.创建文件目录(目录名称="一级目录2", 目录父节点名称="添加标签")
+        self.项目页面.创建文件目录(目录名称="二级目录", 目录父节点名称="一级目录")
+        素材1 = ['TestData', 'FrontData', '项目页', '素材1.png']
+        素材2 = ['TestData', 'FrontData', '项目页', '素材2.jpg']
+        素材3 = ['TestData', 'FrontData', '项目页', '素材3.jpg']
+        素材4 = ['TestData', 'FrontData', '项目页', '素材4.png']
+        self.click(项目对象库.目录节点.format("添加标签"))
+        self.项目页面.批量上传文件(目录路径=['添加标签', '一级目录'], 文件路径列表=[素材1, 素材2])
+        self.项目页面.批量上传文件(目录路径=['添加标签', '一级目录', '二级目录'], 文件路径列表=[素材1,素材3, 素材4])
+
+        self.click(项目对象库.目录节点.format("一级目录"))
+        self.click(项目对象库.列表复选框.format("素材1.png"))
+        self.click(项目对象库.列表复选框.format("素材2.jpg"))
+        self.click(项目对象库.列表复选框.format("二级目录"))
+        #选择多个文件或目录，点击添加标签操作，弹出添加标签弹窗
+        self.click(项目对象库.工具栏按钮.format('添加标签'))
+        if not self.wait(对话框对象库.弹框标题.format("添加标签"), 3):
+            raise AssertionError("点击批量添加标签，没有弹出添加标签弹框")
+        #不选择任何标签，点击确定，弹出提示信息
+        self.click(对话框对象库.对话框按钮.format("添加标签", "确定"))
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("标签内容不能为空"), 3):
+            raise AssertionError("不选择任何标签，点击确定，没有弹出提示信息")
+        #不选择任何标签，点击确定，弹出提示信息
+        self.click(公共元素对象库.列表框.format("标签名"))
+        if not self.wait(公共元素对象库.列表框选项.format("标签1"), 3) or \
+                not self.wait(公共元素对象库.列表框选项.format("标签2"), 3):
+            raise AssertionError("点击标签下拉列表，未查看到项目下的所有标签")
+        #可以通过输入标签名称然后回车来添加新的标签
+        self.send_keys(公共元素对象库.输入框.format("标签名"), "标签4")
+        self.click(公共元素对象库.列表框选项.format("标签4"))
+        self.click(对话框对象库.对话框按钮.format("添加标签", "确定"))
+        self.wait(公共元素对象库.系统提示信息弹框.format("成功"), 3)
+        # 对文件版本的标签添加成功后，可以在版本列表中查看到文件版本存在标签标志
+        self.driver.refrsh()
+        self.click(项目对象库.列表文件名称.format("素材2.jpg"))
+        if not self.wait(项目对象库.版本标签标志.format(1), 3):
+            raise AssertionError("项目添加标签后，未在添加的版本下查看到标签标志")
+        # 同一个文件的不同版本不能添加到同一个标签下
+        self.项目页面.附加文件(目录路径=['添加标签', '一级目录'], 文件名称="素材2.jpg", 附加文件路径列表=[['添加标签', '一级目录', "素材1.png"]])
+        self.项目页面.单个添加标签(文件名称="素材2.jpg", 标签名="标签4")
+        self.项目管理页面.点击进入标签管理(项目名称="添加标签")
+        if not self.wait(标签管理对象库.标签名.format("标签4"), 3):
+            raise AssertionError("添加标签时，通过直接输入标签名不能创建对应的标签")
+        self.click(标签管理对象库.标签名.format("标签4"))
+        if not self.wait(标签管理对象库.标签文件版本.format("素材2.jpg", "1"), 3):
+            raise AssertionError("添加标签文件的版本是错误的")
+        #对文件目录添加标签后，文件目录下的所有子文件都会添加到该标签下
+        #不同文件目录下的同名文件可以添加到同一个标签下
+        if not self.wait(标签管理对象库.标签文件版本.format("素材3.jpg", "1"), 3) or\
+                not self.wait(标签管理对象库.标签文件版本.format("素材4.png", "1"), 3):
+            raise AssertionError("对文件目录添加标签后，文件目录下的所有子文件咩有添加到该标签下")
+        leng=self.driver.getelements(标签管理对象库.标签文件版本.format("素材1.png", "1"))
+        if len(leng)!=2:
+            raise AssertionError("不同文件目录下的同名文件没有添加到同一个标签下")
 

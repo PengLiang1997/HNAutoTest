@@ -214,6 +214,11 @@ class 项目管理页面(page):
             self.wait(公共元素对象库.系统提示信息弹框.format("删除成功"),3)
         self.进入到操作位置.进入项目管理页()
 
+    def 点击进入标签管理(self,项目名称):
+        self.进入到操作位置.进入项目管理页()
+        self.click(项目管理对象库.更多操作按钮.format(项目名称))
+        self.click(项目管理对象库.更多操作选项.format("标签管理"))
+
     def 进入点击项目设置(self,项目名称,项目成员tab页=None,项目生命周期模板设置=None):
         self.进入到操作位置.进入项目管理页()
         self.click(项目管理对象库.更多操作按钮.format(项目名称))
@@ -290,6 +295,25 @@ class 项目管理页面(page):
             self.click(项目设置页面.删除生命周期)
             self.wait(公共元素对象库.系统提示信息弹框.format("成功"), 3)
 
+    class 标签管理页面(page):
+
+        def __init__(self, Secdriver=None):
+            page.__init__(self, secdriver=Secdriver)
+            self.进入到操作位置 = 进入到操作位置(Secdriver=Secdriver)
+            self.公共操作 = 公共操作(Secdriver=Secdriver)
+
+        def 新增标签(self,标签名称):
+            self.click(标签管理对象库.新增标签按钮)
+            self.wait(对话框对象库.弹框标题.format("新增标签"), 3)
+            self.send_keys(公共元素对象库.输入框.format("标签名"), 标签名称)
+            self.click(对话框对象库.弹框按钮.format("新增标签", "确定"))
+            self.wait(公共元素对象库.系统提示信息弹框.format("成功"), 3)
+
+        def 删除单个标签(self,标签名称):
+            self.click(标签管理对象库.删除单个标签.format("删除标签1"))
+            self.wait(对话框对象库.对话框标题.format("提示"), 3)
+            self.click(对话框对象库.对话框按钮.format("提示", "确定"))
+            self.wait(公共元素对象库.系统提示信息弹框.format("成功"), 3)
 
 class 项目页面(page):
     def __init__(self, Secdriver=None):
@@ -507,6 +531,38 @@ class 项目页面(page):
             self.click(项目对象库.列表复选框.format(资源))
         self.click(项目对象库.工具栏按钮.format('文件归档'))
         self.wait(公共元素对象库.系统提示信息弹框.format("操作成功"), 3)
+
+    def 单个添加标签(self,文件名称,标签名):
+        序号 = self.公共操作.获取文件在列表中的行号(文件名称=文件名称)
+        self.click(项目对象库.悬浮列行操作.format(序号))
+        self.click(项目对象库.行操作选项.format("添加标签"))
+        self.wait(对话框对象库.弹框标题.format("添加标签"),3)
+        self.click(公共元素对象库.列表框.format("标签名"))
+        self.send_keys(公共元素对象库.输入框.format("标签名"),标签名)
+        self.click(公共元素对象库.列表框选项.format(标签名))
+        self.click(对话框对象库.对话框按钮.format("添加标签","确定"))
+        self.wait(公共元素对象库.系统提示信息弹框.format("成功"),3)
+
+    def 添加标签文件(self,标签名称,标签文件路径列表):
+        self.click(标签管理对象库.标签名.format(标签名称))
+        self.click(标签管理对象库.新增文件按钮)
+        self.wait(对话框对象库.弹框标题.format("选择文件"), 3)
+        for 标签文件路径 in 标签文件路径列表:
+            附加文件 = 标签文件路径[-1]
+            文件路径 = 标签文件路径.remove(标签文件路径[-1])
+            if 文件路径:
+                for code in 文件路径:
+                    if self.wait(标签管理对象库.新增标签文件.节点展开按钮.format(code), 1):
+                        self.click(标签管理对象库.新增标签文件.节点展开按钮.format(code))
+            self.click(标签管理对象库.新增标签文件.列表单选按钮.format(附加文件))
+        self.click(标签管理对象库.新增标签文件.保存按钮)
+        self.default_content()
+        self.wait(公共元素对象库.系统提示信息弹框.format("操作成功"), 3)
+
+
+
+
+
 
     def 进入目录设置(self, 目录名称):
         序号 = self.公共操作.获取文件在列表中的行号(文件名称=目录名称)
