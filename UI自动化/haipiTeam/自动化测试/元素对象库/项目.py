@@ -114,7 +114,7 @@ class 项目对象库:
         升级记录tab页='//div[@id="tab-upgradeRecord"]'
 
         #版本tab页
-        版本更多操作='//tr/td[4]//span[text()="{}"]/ancestor::tr/td[last()]//i[@title="更多操作"]'#参数为版本号
+        版本更多操作='//tr/td[4]//span[text()="{}"]/ancestor::tr/td[last()]//i[@title="操作"]'#参数为版本号
         版本更多操作选项='//ul[contains(@id,"dropdown-menu") and contains(@x-placement,"-end")]//li[text()="{}"]'
 
         #引用tab页文件列表

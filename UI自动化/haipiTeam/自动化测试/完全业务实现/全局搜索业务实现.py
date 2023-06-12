@@ -162,7 +162,7 @@ class 全局搜索工作区(page):
         elements = self.driver.getelements('//span[@class="el-breadcrumb__item"]//span[@class="el-link--inner"]')
         for element in elements:
             面包屑.append(element.text)
-        if 面包屑 != ['全局搜索1','一级目录3','一级目录']:
+        if 面包屑 != ['全局搜索3','一级目录']:
             raise AssertionError("击搜索结构列表中的目录名称，页面没有自动跳转到对应文件的项目目录下")
         #如果多个项目或目录存在相同的文件目录，输入文件目录名搜索后，会展示全部符合搜索条件的文件目录
         self.进入到操作位置.进入搜索页()
@@ -224,7 +224,7 @@ class 全局搜索工作区(page):
         lelements = self.driver.getelements('//div[@class="el-table__header-wrapper"]//tr/th/div')
         for element in lelements:
             结果列.append(element.text)
-        if 结果列 != ['成员用户名', '项目名称', '权限名称', '权限说明', '加入日期']:
+        if 结果列 != ['成员用户名', '项目名称', '权限名称', '权限说明']:
             raise AssertionError("项目成员搜索列表显示成员用户名、项目名称、权限名称、权限说明、加入日期列")
         # 输入项目名称，可以搜索到该项目下的所有成员
         self.全局搜索页面.搜索文件(搜索条件="全局搜索1")

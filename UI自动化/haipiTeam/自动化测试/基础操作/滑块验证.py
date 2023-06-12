@@ -95,7 +95,7 @@ class 滑块验证(page):
         # backtarget2='temp_target_crop_'+f'{strtime}'+'.png'
         # cv2.imwrite("report\pic\\"+backtarget2,cropped)
         # self.driver.close()
-        # self.switch_to_window_byTagName("Hapy Team")
+        # self.switch_to_window_byTagName("HAPYTEAM 管理您的设计数据")
         #
         # #新建标签页
         # self.driver.driver.execute_script("window.open('');")
@@ -118,11 +118,11 @@ class 滑块验证(page):
         # target2 = 'temp_temp_crop_' + f'{strtime}' + '.png'
         # cv2.imwrite('report\pic\\'+target2, cropped)
         # self.driver.close()
-        # self.switch_to_window_byTagName("Hapy Team")
-
+        # self.switch_to_window_byTagName("HAPYTEAM 管理您的设计数据")
+        #
         # #模糊匹配
         # move=self.matchImg('report\pic\\'+backtarget2,'report\pic\\'+target2)
-        self.drag_and_drop_by_offset(srpath=人机验证弹窗对象库.滑动按钮,offset_x=155,offset_y=0)
+        self.drag_and_drop_by_offset(srpath=人机验证弹窗对象库.滑动按钮,offset_x=150,offset_y=0)
         if self.wait('//*[text()="验证失败"]',1):
             if self.flage>20:
                 raise RuntimeError("人机验证失败")

@@ -1698,9 +1698,9 @@ class 属性管理工作区(page):
             raise AssertionError("点击添加属性按钮，属性列表未新增一行属性")
         #对属性类别，属性名称进行空值校验
         self.click(设置页对象库.属性管理工作区.行保存按钮.format("1"))
-        if not self.wait('//div[@class="el-card__body"]//table[@class="el-table__body"]//tr[1]/td[3]//input[@placeholder="请输入属性类别"]',3):
+        if not self.wait('//table[@class="el-table__body"]//tr[1]/td[3]//input[@placeholder="请输入属性类别"]',3):
             raise AssertionError("属性类别为空时，点击保存属性，没有给出对应的提示信息")
-        if not self.wait('//div[@class="el-card__body"]//table[@class="el-table__body"]//tr[1]/td[4]//input[@placeholder="请输入属性名称"]',3):
+        if not self.wait('//table[@class="el-table__body"]//tr[1]/td[4]//input[@placeholder="请输入属性名称"]',3):
             raise AssertionError("属性名称为空时，点击保存属性，没有给出对应的提示信息")
 
     def 导入属性模板(self):
