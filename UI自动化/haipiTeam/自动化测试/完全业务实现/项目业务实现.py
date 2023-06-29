@@ -8,6 +8,7 @@ from ..基础操作.用户信息页面 import *
 from ..基础操作.登录页面 import *
 from ..基础操作.滑块验证 import *
 from ..基础操作.项目页面 import *
+from ..元素对象库.分享管理页 import *
 from ..元素对象库.公共元素 import *
 from ..元素对象库.收藏页 import *
 from ..基础操作.设置页面 import *
@@ -2149,10 +2150,294 @@ class 项目工作区(page):
             raise AssertionError("在打包的文件中未查看到被打包的状态为检出的文件")
 
     def 文件分享(self):
-        pass
+        self.进入到操作位置.进入项目管理页()
+        self.项目管理页面.删除项目(项目名称="分享文件")
+        self.项目管理页面.创建空白项目(项目名称="分享文件")
+        self.项目管理页面.点击进入项目(项目名称="分享文件")
+        self.wait(项目对象库.目录节点.format("分享文件"), 3)
+        self.driver.refrsh()
+        self.项目页面.创建文件目录(目录名称="一级目录", 目录父节点名称="分享文件")
+        素材1 = ['TestData', 'FrontData', '项目页', '素材1.png']
+        素材2 = ['TestData', 'FrontData', '项目页', '素材2.jpg']
+        self.click(项目对象库.目录节点.format("分享文件"))
+        self.项目页面.批量上传文件(目录路径=['分享文件', '一级目录'], 文件路径列表=[素材1, 素材2])
+        #点击文件更多操作，点击分享，弹出分享文件弹窗
+        序号 = self.公共操作.获取文件在列表中的行号(文件名称='素材1.png')
+        self.click(项目对象库.悬浮列行操作.format(序号))
+        self.click(项目对象库.行操作选项.format("分享"))
+        if not self.wait(对话框对象库.弹框标题.format("分享文件"),3):
+            raise AssertionError("点击分享文件，未弹出文件分享弹窗")
+        #在分享文件弹窗中查看分享文件名称是否正确
+        if not self.wait('//div[@aria-label="分享文件"]//div[text()="素材1.png"]',3):
+            raise AssertionError("对文件发起分享后，分享弹框中文件名不正确")
+        #选择有效期，点击生成链接，页面生成分享链接
+        self.click(对话框对象库.弹框按钮.format('分享文件','生成链接'))
+        分享时间=time.time()
+        if not self.wait(对话框对象库.弹框按钮.format('分享文件','复制链接'),3):
+            raise AssertionError("选择有效期后点击生成链接，页面未生成链接")
+        #点击复制链接，链接被复制
+        self.click(对话框对象库.弹框按钮.format('分享文件','复制链接'))
+        链接=None
+        链接=self.公共操作.获取剪切板内容()
+        if not 链接:
+            raise AssertionError('点击复制链接，链接没有复制到剪切板')
+        self.click(对话框对象库.关闭弹框.format("分享文件"))
+        #在新标签页打开链接，如果有用户登录，则直接跳转到文件分享页面
+        self.driver.driver.execute_script("window.open('');")
+        self.switch_to_new_window()
+        self.driver.driver.get(链接)
+        time.sleep(3)
+        if not self.wait(项目对象库.分享查看页面.列表文件名称.format("素材1.png"),3):
+            raise AssertionError("用户登录时，打开链接时，页面没有跳转到文件分享页面")
+        #如果分享文件没有设置可下载操作，则文件分享页面，文件只支持浏览
+        if self.wait(项目对象库.分享查看页面.下载文件.format("素材1.png"),3):
+            raise AssertionError("分享文件没有设置可下载操作，在分享页面，文件具有下载选项")
+        if not self.wait(项目对象库.分享查看页面.预览文件.format("素材1.png"), 3):
+            raise AssertionError("分享文件后，在分享页面，文件没有浏览选项")
+        #如果没有用户登录，则先跳转到用户登录页面，用户登录后再跳转到文件分享页面
+        self.driver.close()
+        self.switch_to_window_byTagName("HAPYTEAM 管理您的数据")
+        self.登录页面.退出登录()
+        self.driver.driver.execute_script("window.open('');")
+        self.switch_to_new_window()
+        self.driver.driver.get(链接)
+        time.sleep(3)
+        self.登录页面.账号密码登录(账号='18942178870', 密码='user@8870')
+        time.sleep(3)
+        if not self.wait(项目对象库.分享查看页面.列表文件名称.format("素材1.png"), 3):
+            raise AssertionError("用户重新登录后，打开链接时，页面没有跳转到文件分享页面")
+        #分享文件页面，检查过期时间和分享人是否正确
+        datatime1=self.driver.getelement(项目对象库.分享查看页面.分享过期时间).text
+        timearray=time.strptime(datatime1[5:],"%Y-%m-%d %H:%M:%S")
+        分享过期时间 = time.mktime(timearray)
+        if 分享过期时间-分享时间>1000:
+            raise AssertionError(f"文件分享页面过期时间不准确，过期时间为：{datatime1}")
+        分享人=self.driver.getelement(项目对象库.分享查看页面.分享人).text
+        if '18942178870' not in 分享人:
+            raise AssertionError(f"文件分享页面分享人不正确，分享人是：{分享人}")
+        #分享文件时，设置了过期时间，查看过期时间之后，分享链接是否失效
+        self.driver.close()
+        self.switch_to_window_byTagName("HAPYTEAM 管理您的数据")
+        self.进入到操作位置.进入我的分享页()
+        self.click(分享管理对象库.编辑过期时间.format("素材1.png"))
+        self.clear(分享管理对象库.过期时间输入框.format("素材1.png"))
+        time_now=time.time()+60
+        time_lost=time.strftime(time_now,"%Y-%m-%d %H:%M:%S")
+        self.send_keys(分享管理对象库.过期时间输入框.format("素材1.png"),time_lost)
+        self.click(分享管理对象库.访问次数.format("素材1.png"))
+        time.sleep(70)
+        self.click(分享管理对象库.分享内容名称.format("素材1.png"))
+        self.switch_to_new_window()
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("分享链接不合法或已过期"),3):
+            raise AssertionError("分享链接过期后，点击进入链接，未弹出过期提示")
+        if self.wait(项目对象库.分享查看页面.列表文件名称.format("素材1.png"), 3):
+            raise AssertionError("分享链接过期后，点击进入链接，还可以查看到文件")
+        #如果分享文件设置可下载操作，则文件分享页面，文件可以下载
+        self.driver.close()
+        self.switch_to_window_byTagName("HAPYTEAM 管理您的数据")
+        self.项目管理页面.点击进入项目(项目名称="分享文件")
+        self.项目页面.分享文件(目录路径=['分享文件', '一级目录'],资源名称='素材2.jpg',下载=True)
+        self.driver.driver.execute_script("window.open('');")
+        self.switch_to_new_window()
+        self.driver.driver.get(链接)
+        time.sleep(3)
+        if not self.wait(项目对象库.分享查看页面.下载文件.format("素材2.jpg"), 3):
+            raise AssertionError("分享文件设置可下载操作，在分享页面，文件没有下载选项")
+        if not self.wait(项目对象库.分享查看页面.预览文件.format("素材2.jpg"), 3):
+            raise AssertionError("分享文件后，在分享页面，文件没有浏览选项")
 
     def 目录分享(self):
-        pass
+        self.进入到操作位置.进入项目管理页()
+        self.项目管理页面.删除项目(项目名称="目录分享")
+        self.项目管理页面.创建空白项目(项目名称="目录分享")
+        self.项目管理页面.点击进入项目(项目名称="目录分享")
+        self.wait(项目对象库.目录节点.format("目录分享"), 3)
+        self.driver.refrsh()
+        self.项目页面.创建文件目录(目录名称="一级目录", 目录父节点名称="目录分享")
+        self.项目页面.创建文件目录(目录名称="一级目录2", 目录父节点名称="目录分享")
+        self.项目页面.创建文件目录(目录名称="二级目录", 目录父节点名称="一级目录")
+        素材1 = ['TestData', 'FrontData', '项目页', '素材1.png']
+        素材2 = ['TestData', 'FrontData', '项目页', '素材2.jpg']
+        素材3 = ['TestData', 'FrontData', '项目页', '素材3.jpg']
+        素材4 = ['TestData', 'FrontData', '项目页', '素材4.png']
+        self.click(项目对象库.目录节点.format("目录分享"))
+        self.项目页面.批量上传文件(目录路径=['目录分享', '一级目录'], 文件路径列表=[素材1, 素材2])
+        self.项目页面.批量上传文件(目录路径=['目录分享', '一级目录', '二级目录'], 文件路径列表=[素材1, 素材3, 素材4])
+        #在分享文件弹窗中查看分享文件目录名称是否正确
+        self.click(项目对象库.目录节点.format("分享文件"))
+        序号 = self.公共操作.获取文件在列表中的行号(文件名称='一级目录')
+        self.click(项目对象库.悬浮列行操作.format(序号))
+        self.click(项目对象库.行操作选项.format("分享"))
+        self.wait(对话框对象库.弹框标题.format("分享文件"), 3)
+        if not self.wait('//div[@aria-label="分享文件"]//div[text()="一级目录"]',3):
+            raise AssertionError("对文件目录发起分享后，分享弹框中文件目录名称不正确")
+        #文件分享页面文件列表是否为分享的目录的子文件和子目录
+        self.click(对话框对象库.弹框按钮.format('分享文件', '生成链接'))
+        self.click(对话框对象库.弹框按钮.format('分享文件', '复制链接'))
+        链接 = None
+        链接 = self.公共操作.获取剪切板内容()
+        self.click(对话框对象库.关闭弹框.format("分享文件"))
+        self.driver.driver.execute_script("window.open('');")
+        self.switch_to_new_window()
+        self.driver.driver.get(链接)
+        time.sleep(3)
+        for 资源名称 in ['二级目录','素材1.png','素材2.jpg']:
+            if not self.wait(项目对象库.分享查看页面.列表文件名称.format(资源名称),3):
+                raise AssertionError(f"查看文件目录分享链接时，文件目录下的{资源名称}没有显示")
+        #如果分享文件没有设置可下载操作，则文件分享页面，文件只支持浏览
+        for 资源名称 in ['素材1.png', '素材2.jpg']:
+            if not self.wait(项目对象库.分享查看页面.下载文件.format(资源名称), 3):
+                raise AssertionError(f"分享文件目录时，没有设置下载，文件目录下的{资源名称}有下载操作")
+        #分享多级文件目录，在文件分享页面，点击查看每级文件目录显示是否正常以及面包屑是否正常
+        self.click(项目对象库.分享查看页面.列表文件名称.format('二级目录'))
+        for 资源名称 in ['素材4.png ', '素材1.png ', '素材3.jpg ']:
+            if not self.wait(项目对象库.分享查看页面.列表文件名称.format(资源名称), 3):
+                raise AssertionError(f"查看文件目录分享链接时，文件目录子目录下的{资源名称}没有显示")
+        面包屑=[]
+        elems=self.driver.getelements('//span[@role="link"]//span')
+        for elem in elems:
+            面包屑.append(elem.text)
+        if 面包屑!=['全部','二级目录']:
+            raise AssertionError("查看文件目录分享链接时，分享页面面包屑显示不正确")
+        #如果分享文件设置可下载操作，则文件分享页面，文件可以下载和打包
+        self.driver.close()
+        self.switch_to_window_byTagName("HAPYTEAM 管理您的数据")
+        self.项目管理页面.点击进入项目(项目名称="目录分享")
+        self.项目页面.分享文件(目录路径=['目录分享', '一级目录'], 资源名称='二级目录', 下载=True)
+        self.driver.driver.execute_script("window.open('');")
+        self.switch_to_new_window()
+        self.driver.driver.get(链接)
+        time.sleep(3)
+        for 资源名称 in ['素材4.png', '素材1.png', '素材3.jpg']:
+            if not self.wait(项目对象库.分享查看页面.下载文件.format(资源名称), 3):
+                raise AssertionError(f"查看文件目录分享链接时，文件目录子目录下的{资源名称}没有下载操作按钮")
+        if not self.wait(项目对象库.分享查看页面.打包按钮,3):
+            raise AssertionError("查看文件目录分享链接时，分享查看页面没有打包按钮")
+        #文件分享页面，不勾选文件点击打包，查看是否有弹出提示信息
+        self.click(项目对象库.分享查看页面.打包按钮)
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("请选择文件"),3):
+            raise AssertionError("在文件分享查看页面，不选择文件直接点击打包按钮，未查看到提示信息")
+        #文件分享页面，勾选文件打包，查看打包文件是否正确
+        self.click(项目对象库.分享查看页面.文件复选框.format("素材1.png"))
+        self.click(项目对象库.分享查看页面.文件复选框.format("素材3.jpg"))
+        self.click(项目对象库.分享查看页面.文件复选框.format("素材4.png"))
+        self.公共操作.清空浏览器下载目录()
+        self.click(项目对象库.分享查看页面.打包按钮)
+        time.sleep(3)
+        downpath = self.公共操作.检查文件是否下载完成()
+        filepath = downpath + '\文件.zip'
+        time.sleep(4)
+        namelist = self.公共操作.查看zip文件(zip文件路径=filepath)
+        for name in ['素材1.png', '素材3.jpg','素材4.png']:
+            if not name in namelist or len(namelist) != 2:
+                raise AssertionError("在打包的文件中未查看到被打包的文件")
+
+    def 批量分享(self):
+        self.进入到操作位置.进入项目管理页()
+        self.项目管理页面.删除项目(项目名称="批量分享")
+        self.项目管理页面.创建空白项目(项目名称="批量分享")
+        self.项目管理页面.点击进入项目(项目名称="批量分享")
+        self.wait(项目对象库.目录节点.format("批量分享"), 3)
+        self.driver.refrsh()
+        self.项目页面.创建文件目录(目录名称="一级目录", 目录父节点名称="批量分享")
+        self.项目页面.创建文件目录(目录名称="一级目录2", 目录父节点名称="批量分享")
+        self.项目页面.创建文件目录(目录名称="二级目录", 目录父节点名称="一级目录")
+        素材1 = ['TestData', 'FrontData', '项目页', '素材1.png']
+        素材2 = ['TestData', 'FrontData', '项目页', '素材2.jpg']
+        素材3 = ['TestData', 'FrontData', '项目页', '素材3.jpg']
+        素材4 = ['TestData', 'FrontData', '项目页', '素材4.png']
+        self.click(项目对象库.目录节点.format("批量分享"))
+        self.项目页面.批量上传文件(目录路径=['批量分享', '一级目录'], 文件路径列表=[素材1, 素材2, 素材3, 素材4])
+        self.项目页面.批量上传文件(目录路径=['批量分享', '一级目录', '二级目录'], 文件路径列表=[素材1, 素材3, 素材4])
+        # 在分享文件弹窗中查看分享文件目录名称是否正确
+        self.click(项目对象库.目录节点.format("批量分享"))
+        #勾选多个文件目录，点击批量分享，弹出提示信息
+        self.click(项目对象库.文件目录复选框.format("一级目录"))
+        self.click(项目对象库.文件目录复选框.format("一级目录2"))
+        self.click(项目对象库.工具栏按钮.format('分享'))
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("批量分享不可分享文件夹"),3):
+            raise AssertionError("批量分享文件目录时，没有弹出提示信息")
+        self.click(项目对象库.列表文件名称.format("一级目录"))
+        #勾选多个文件或文件目录，点击批量分享，弹出提示信息
+        self.click(项目对象库.文件目录复选框.format("二级目录"))
+        self.click(项目对象库.文件目录复选框.format("素材2.jpg"))
+        self.click(项目对象库.工具栏按钮.format('分享'))
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("批量分享不可分享文件夹"), 3):
+            raise AssertionError("批量分享文件目录时，没有弹出提示信息")
+        #勾选多个文件，点击批量分享，弹出文件分享弹窗
+        self.click(项目对象库.文件目录复选框.format("二级目录"))
+        self.click(项目对象库.文件目录复选框.format("素材1.png"))
+        self.click(项目对象库.工具栏按钮.format('分享'))
+        if not self.wait(对话框对象库.弹框标题.format("分享文件"), 3):
+            raise AssertionError("点击分享文件，未弹出文件分享弹窗")
+        # 选择有效期，点击生成链接，页面生成分享链接
+        self.click(对话框对象库.弹框按钮.format('分享文件', '生成链接'))
+        分享时间 = time.time()
+        if not self.wait(对话框对象库.弹框按钮.format('分享文件', '复制链接'), 3):
+            raise AssertionError("选择有效期后点击生成链接，页面未生成链接")
+        # 点击复制链接，链接被复制
+        self.click(对话框对象库.弹框按钮.format('分享文件', '复制链接'))
+        链接 = None
+        链接 = self.公共操作.获取剪切板内容()
+        if not 链接:
+            raise AssertionError('点击复制链接，链接没有复制到剪切板')
+        self.click(对话框对象库.关闭弹框.format("分享文件"))
+        # 在新标签页打开链接，如果有用户登录，则直接跳转到文件分享页面
+        self.driver.driver.execute_script("window.open('');")
+        self.switch_to_new_window()
+        self.driver.driver.get(链接)
+        time.sleep(3)
+        if not self.wait(项目对象库.分享查看页面.列表文件名称.format("素材1.png"), 3):
+            raise AssertionError("用户登录时，打开链接时，页面没有跳转到文件分享页面")
+        #文件分享页面文件列表是否为分享的文件
+        if not self.wait(项目对象库.分享查看页面.列表文件名称.format("素材2.jpg"), 3):
+            raise AssertionError("查看批量分享的文件时，分享查看页面没有查看到所有的文件")
+        # 如果分享文件没有设置可下载操作，则文件分享页面，文件只支持浏览
+        if self.wait(项目对象库.分享查看页面.下载文件.format("素材1.png"), 3) or\
+            self.wait(项目对象库.分享查看页面.下载文件.format("素材2.jpg"), 3):
+            raise AssertionError("分享文件没有设置可下载操作，在分享页面，文件具有下载选项")
+        if not self.wait(项目对象库.分享查看页面.预览文件.format("素材1.png"), 3) or not\
+                self.wait(项目对象库.分享查看页面.预览文件.format("素材2.jpg"), 3):
+            raise AssertionError("分享文件后，在分享页面，文件没有浏览选项")
+        # 分享文件页面，检查过期时间和分享人是否正确
+        datatime1 = self.driver.getelement(项目对象库.分享查看页面.分享过期时间).text
+        timearray = time.strptime(datatime1[5:], "%Y-%m-%d %H:%M:%S")
+        分享过期时间 = time.mktime(timearray)
+        if 分享过期时间 - 分享时间 > 1000:
+            raise AssertionError(f"文件分享页面过期时间不准确，过期时间为：{datatime1}")
+        分享人 = self.driver.getelement(项目对象库.分享查看页面.分享人).text
+        if '18942178870' not in 分享人:
+            raise AssertionError(f"文件分享页面分享人不正确，分享人是：{分享人}")
+        self.driver.close()
+        self.switch_to_window_byTagName("HAPYTEAM 管理您的数据")
+        self.项目页面.批量分享文件(目录路径=['批量分享', '一级目录'],资源列表=['素材3.jpg','素材4.png'],下载=True)
+        self.登录页面.退出登录()
+        self.driver.driver.execute_script("window.open('');")
+        self.switch_to_new_window()
+        self.driver.driver.get(链接)
+        time.sleep(3)
+        self.登录页面.账号密码登录(账号='18942178870', 密码='user@8870')
+        time.sleep(3)
+        if not self.wait(项目对象库.分享查看页面.下载文件.format("素材3.jpg"), 3) or not \
+                self.wait(项目对象库.分享查看页面.下载文件.format("素材4.png"), 3):
+            raise AssertionError("分享文件设置可下载操作，在分享页面，文件没有下载选项")
+        # 分享文件时，设置了过期时间，查看过期时间之后，分享链接是否失效
+        self.driver.close()
+        self.switch_to_window_byTagName("HAPYTEAM 管理您的数据")
+        self.进入到操作位置.进入我的分享页()
+        self.click(分享管理对象库.编辑过期时间.format("素材3.jpg...."))
+        self.clear(分享管理对象库.过期时间输入框.format("素材3.jpg...."))
+        time_now = time.time() + 60
+        time_lost = time.strftime(time_now, "%Y-%m-%d %H:%M:%S")
+        self.send_keys(分享管理对象库.过期时间输入框.format("素材3.jpg...."), time_lost)
+        self.click(分享管理对象库.访问次数.format("素材3.jpg...."))
+        time.sleep(70)
+        self.click(分享管理对象库.分享内容名称.format("素材3.jpg...."))
+        self.switch_to_new_window()
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("分享链接不合法或已过期"), 3):
+            raise AssertionError("分享链接过期后，点击进入链接，未弹出过期提示")
+        if self.wait(项目对象库.分享查看页面.列表文件名称.format("素材3.jpg"), 3):
+            raise AssertionError("分享链接过期后，点击进入链接，还可以查看到文件")
 
     def 文件下载(self):
         self.公共操作.清空浏览器下载目录()
@@ -4020,4 +4305,6 @@ class 项目工作区(page):
         leng=self.driver.getelements(标签管理对象库.标签文件版本.format("素材1.png", "1"))
         if len(leng)!=2:
             raise AssertionError("不同文件目录下的同名文件没有添加到同一个标签下")
+
+
 

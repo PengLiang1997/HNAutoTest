@@ -3,6 +3,7 @@ from HNtest.Secselenium.secdriver import Secdriver
 from ..元素对象库.首页对象库 import *
 from ..元素对象库.公共元素 import *
 from ..元素对象库.设置页 import *
+from ..元素对象库.分享管理页 import *
 
 
 class 进入到操作位置(page):
@@ -56,4 +57,14 @@ class 进入到操作位置(page):
         self.click(首页对象库.用户)
         self.wait(首页对象库.用户首选项, 30)
         self.click(首页对象库.用户首选项)
+
+    def 进入我的分享页(self):
+        self.default_content()
+        self.click(首页对象库.分享)
+        self.click(分享管理对象库.我的分享tab页)
+
+    def 进入访问记录页(self):
+        self.default_content()
+        self.click(首页对象库.分享)
+        self.click(分享管理对象库.访问记录tab页)
 

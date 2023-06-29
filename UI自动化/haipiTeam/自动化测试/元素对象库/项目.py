@@ -122,6 +122,18 @@ class 项目对象库:
         #被引用tab页文件列表
         被引用文件名称='//div[@id="pane-quoted"]//table[@class="el-table__body"]//tr/td[1]/div[text()="{}"]'
 
+    class 分享查看页面:
+        列表文件名称='//table[@class="vxe-table--body"]//tr/td//span[text()="{} "]'
+        分享过期时间='//div[@class="el-card__body"]//span[@class="fz10"][1]'
+        打包按钮='//button/span[text()="打包"]'
+        文件复选框='//span[text()="{} "]/ancestor::tr/td[1]//span[2]'
+        分享人='//div[@class="el-card__body"]//span[@class="fz10"][2]'
+        下载文件='//span[text()="{} "]/ancestor::tr/td[last()]//span[text()="下载"]'
+        预览文件='//span[text()="{} "]/ancestor::tr/td[last()]//span[text()="预览"]'
+
+
+
+
     class 目录设置:
         目录设置tab页='//div[@role="tablist"]/div[text()="{}"]'
         生命周期列表框='//div[@id="pane-cyclePlanning"]//input[@placeholder="请选择"]'

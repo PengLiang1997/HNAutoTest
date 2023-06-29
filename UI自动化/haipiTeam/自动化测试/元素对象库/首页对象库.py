@@ -1,5 +1,7 @@
 class 首页对象库:
     项目='//ul[@role="menubar"]/li[@title="项目"]'
+    分享='//ul[@role="menubar"]/li[@title="分享"]'
+    流程='//ul[@role="menubar"]/li[@title="流程"]'
     收藏='//ul[@role="menubar"]/li[@title="收藏"]/i'
     设置='//ul[@role="menubar"]/li[@title="设置"]/i'
     全局搜索='//div[@class="foot"]/i[@title="搜索"]'

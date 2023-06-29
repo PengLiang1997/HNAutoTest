@@ -93,7 +93,7 @@ class 项目管理页面(page):
         self.driver.driver.execute_script("window.open('');")
         self.driver.close()
         self.switch_to_new_window()
-        self.driver.driver.get(链接)
+        self.driver.get(链接)
         if self.wait(对话框对象库.对话框按钮.format("确认注销","重新登录"),3):
             self.click(对话框对象库.对话框按钮.format("确认注销","重新登录"))
         # self.登录页面.短信快捷登录(手机号=成员手机号)
@@ -104,7 +104,10 @@ class 项目管理页面(page):
             self.driver.driver.execute_script("window.open('');")
             self.driver.close()
             self.switch_to_new_window()
-            self.driver.driver.get(链接1[:20]+'project')
+            if 链接1[8:16]=="hapyteam":
+                self.driver.get('https://hapyteam.com/project')
+            else:
+                self.driver.get(链接1[:20]+'project')
         else:
             self.wait(项目对象库.目录节点.format(项目名称), 3)
         if 是否返回项目创建账户:
@@ -488,6 +491,33 @@ class 项目页面(page):
         self.click(项目对象库.行操作选项.format("下载"))
         filepath = self.公共操作.检查文件是否下载完成()
         return filepath
+
+    def 分享文件(self,目录路径,资源名称,有效期=None,下载=False):
+        self.按路径展开目录(目录路径=目录路径)
+        序号 = self.公共操作.获取文件在列表中的行号(文件名称=资源名称)
+        self.click(项目对象库.悬浮列行操作.format(序号))
+        self.click(项目对象库.行操作选项.format("分享"))
+        if 有效期:
+            self.click(公共元素对象库.单选按钮.format(有效期))
+        if 下载==True:
+            self.click(公共元素对象库.单选按钮.format("下载"))
+        self.click(对话框对象库.弹框按钮.format('分享文件', '生成链接'))
+        self.click(对话框对象库.弹框按钮.format('分享文件', '复制链接'))
+        self.click(对话框对象库.关闭弹框.format("分享文件"))
+
+    def 批量分享文件(self,目录路径,资源列表,有效期=None,下载=False):
+        self.按路径展开目录(目录路径=目录路径)
+        for 资源 in 资源列表:
+            self.click(项目对象库.列表复选框.format(资源))
+        self.click(项目对象库.工具栏按钮.format('分享'))
+        self.click(项目对象库.行操作选项.format("分享"))
+        if 有效期:
+            self.click(公共元素对象库.单选按钮.format(有效期))
+        if 下载 == True:
+            self.click(公共元素对象库.单选按钮.format("下载"))
+        self.click(对话框对象库.弹框按钮.format('分享文件', '生成链接'))
+        self.click(对话框对象库.弹框按钮.format('分享文件', '复制链接'))
+        self.click(对话框对象库.关闭弹框.format("分享文件"))
 
     def 批量检出资源(self,目录路径,资源列表):
         self.按路径展开目录(目录路径=目录路径)
