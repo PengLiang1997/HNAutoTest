@@ -85,13 +85,13 @@ class 设置页对象库:
         下载模板 = '//button/span[contains(text(),"下载模板")]'
         删除属性 = '//div[@class="fzcolor top_btn"]//button/span[contains(text(),"删除")]'
 
-        属性行复选框 = '//table[@class="el-table__body"]//tr[{}]/td[1]//span'  # 参数为行号
-        服务类别输入框 = '//table[@class="el-table__body"]//tr[{}]/td[2]//input'  # 参数为行号
-        属性类别输入框 = '//table[@class="el-table__body"]//tr[{}]/td[3]//input'  # 参数为行号
-        属性名称输入框 = '//table[@class="el-table__body"]//tr[{}]/td[4]//input'  # 参数为行号
-        属性描述输入框 = '//table[@class="el-table__body"]//tr[{}]/td[5]//input'  # 参数为行号
-        行删除按钮 = '//table[@class="el-table__body"]//tr[{}]/td[last()]//span'  # 参数为行号
-        行保存按钮 = '//table[@class="el-table__body"]//tr[{}]/td[last()]/div/button'  # 参数为行号
+        属性行复选框 = '//div[@class="attr_b"]//table[@class="el-table__body"]//tr[{}]/td[1]//span'  # 参数为行号
+        服务类别输入框 = '//div[@class="attr_b"]//table[@class="el-table__body"]//tr[{}]/td[2]//input'  # 参数为行号
+        属性类别输入框 = '//div[@class="attr_b"]//table[@class="el-table__body"]//tr[{}]/td[3]//input'  # 参数为行号
+        属性名称输入框 = '//div[@class="attr_b"]//table[@class="el-table__body"]//tr[{}]/td[4]//input'  # 参数为行号
+        属性描述输入框 = '//div[@class="attr_b"]//table[@class="el-table__body"]//tr[{}]/td[5]//input'  # 参数为行号
+        行删除按钮 = '//div[@class="attr_b"]//table[@class="el-table__body"]//tr[{}]/td[last()]//span'  # 参数为行号
+        行保存按钮 = '//div[@class="attr_b"]//table[@class="el-table__body"]//tr[{}]/td[last()]/div/button'  # 参数为行号
 
         删除对话框='//div[contains(@id,"el-popover")]//p[contains(text(),"确定删除吗?")]'
         删除取消按钮='//div[contains(@id,"el-popover")]//button/span[contains(text(),"取消")]'

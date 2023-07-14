@@ -242,7 +242,7 @@ class 标签管理对象库:
 
 
     标签复选框='//table//tr/td[2]//div[text()="{}"]//ancestor::tr/td[1]//span'
-    标签名='//table//tr/td[1]//div[text()="{}"]'
+    标签名='//table//tr/td[1 or 2]//div[text()="{}"]'
     标签创建人='//table//tr/td[2]//div[text()="{}"]'
     标签创建时间='//table//tr/td[3]//div[text()="{}"]'
     编辑单个标签='//div[text()="{}"]//ancestor::tr/td[last()]//a[@title="编辑标签"]'

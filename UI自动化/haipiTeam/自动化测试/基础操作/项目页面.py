@@ -38,6 +38,13 @@ class 项目管理页面(page):
         self.click(创建项目页面.提交按钮)
         self.default_content()
         self.wait(项目设置页面.项目成员tab页, 30)
+
+        self.click(项目设置页面.项目生命周期模板设置)
+        self.click(项目设置页面.新增生命周期)
+        self.wait(对话框对象库.对话框标题.format("新增项目生命周期模板"), 3)
+        self.click('//div[@class="el-dialog__body"]//div[text()="生命周期名称"]/ancestor::tr/th[1]//span')
+        self.click(对话框对象库.对话框按钮.format("新增项目生命周期模板","保存"))
+        self.wait(公共元素对象库.系统提示信息弹框.format("成功"), 3)
         if 生命周期名称:
             self.click(公共元素对象库.列表框.format("生命周期"))
             self.公共操作.滚动选择列表框选项(选项名称=生命周期名称)

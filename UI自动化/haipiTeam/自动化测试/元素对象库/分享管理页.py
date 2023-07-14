@@ -1,6 +1,6 @@
 class 分享管理对象库:
     我的分享tab页='//div[@class="share_main"]//div[text()=" 我的分享 "]'
-    访问记录tab页='//div[@class="share_main"]//div[text()=" 我的访问记录 "]'
+    访问记录tab页='//div[@class="share_main"]//div[text()=" 访问记录 "]'
     全选复选框='//table[@class="el-table__header"]//tr/th[1]//span'
     #我的分享
     分享内容名称='//table[@class="el-table__body"]//tr/td[2]//a[not(contains(@class,"disabled"))]/span[text()="{}"]'
