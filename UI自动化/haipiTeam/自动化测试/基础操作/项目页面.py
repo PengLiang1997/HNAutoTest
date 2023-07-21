@@ -150,6 +150,9 @@ class 项目管理页面(page):
             if self.wait(项目管理对象库.更多操作选项.format("删除项目"),3):
                 self.click(项目管理对象库.更多操作选项.format("删除项目"))
                 self.default_content()
+                self.wait(对话框对象库.对话框标题.format("确认删除项目"), 3)
+                self.send_keys(公共元素对象库.输入框.format("项目名称"),项目名称)
+                self.click(对话框对象库.对话框按钮.format("确认删除项目", "确定"))
                 self.wait(对话框对象库.对话框标题.format("提示"),3)
                 self.click(对话框对象库.对话框按钮.format("提示","确定"))
                 self.wait(公共元素对象库.系统提示信息弹框.format("删除"),3)
@@ -582,6 +585,7 @@ class 项目页面(page):
         self.wait(对话框对象库.弹框标题.format("添加标签"),3)
         self.click(公共元素对象库.列表框.format("标签名"))
         self.send_keys(公共元素对象库.输入框.format("标签名"),标签名)
+        time.sleep(3)
         self.click(公共元素对象库.列表框选项.format(标签名))
         self.click(对话框对象库.对话框按钮.format("添加标签","确定"))
         self.wait(公共元素对象库.系统提示信息弹框.format("成功"),3)

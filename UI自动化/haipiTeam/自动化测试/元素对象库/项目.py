@@ -255,7 +255,7 @@ class 标签管理对象库:
     批量打包标签文件='//span[text()="文件列表"]//following-sibling::button//span[text()="批量打包"]'
 
 
-    标签文件名称='//table//tr/td[2]/div[text()="{}"]'
+    标签文件名称='//table//tr/td[2 or 3]/div[text()="{}"]'
     标签文件复选框='//table//tr/td[3]/div[text()="{}"]//ancestor::tr/td[1]//span'
     标签文件版本='//table//tr/td[2]/div[text()="{}"]//ancestor::tr/td[3]/div[text()="{}"]'#文件名和版本
 

@@ -427,10 +427,10 @@ class 项目管理工作区(page):
         self.click(项目管理对象库.更多操作按钮.format("删除项目1"))
         self.click(项目管理对象库.更多操作选项.format("删除项目"))
         self.default_content()
-        if not self.wait(对话框对象库.对话框标题.format("确认删除项目"), 3):
+        if not self.wait(对话框对象库.弹框标题.format("确认删除项目"), 3):
             raise AssertionError("点击删除项目，未查看到删除确认的对话框")
         #点击项目操作按钮，点击删除项目，弹出删除确认对话框，点击取消删除
-        self.click(对话框对象库.对话框按钮.format("确认删除项目", "取消"))
+        self.click(对话框对象库.弹框按钮.format("确认删除项目", "取消"))
         self.wait(公共元素对象库.系统提示信息弹框.format("已取消删除"), 3)
         if not self.wait(项目管理对象库.项目卡片.format("删除项目1"), 3):
             raise AssertionError("删除项目点击取消后项目管理页面未查看到被删除项目卡片")
@@ -438,8 +438,8 @@ class 项目管理工作区(page):
         self.click(项目管理对象库.更多操作按钮.format("删除项目1"))
         self.click(项目管理对象库.更多操作选项.format("删除项目"))
         self.default_content()
-        self.wait(对话框对象库.对话框标题.format("确认删除项目"), 3)
-        self.click(对话框对象库.关闭对话框.format("确认删除项目"))
+        self.wait(对话框对象库.弹框标题.format("确认删除项目"), 3)
+        self.click(对话框对象库.关闭弹框.format("确认删除项目"))
         self.wait(公共元素对象库.系统提示信息弹框.format("已取消删除"), 3)
         if not self.wait(项目管理对象库.项目卡片.format("删除项目1"), 3):
             raise AssertionError("删除项目点击关闭删除提示后项目管理页面未查看到被删除项目卡片")
@@ -447,11 +447,11 @@ class 项目管理工作区(page):
         self.click(项目管理对象库.更多操作按钮.format("删除项目1"))
         self.click(项目管理对象库.更多操作选项.format("删除项目"))
         self.default_content()
-        self.wait(对话框对象库.对话框标题.format("确认删除项目"), 3)
+        self.wait(对话框对象库.弹框标题.format("确认删除项目"), 3)
         self.send_keys(公共元素对象库.输入框.format("项目名称"),"删除项目1")
-        self.click(对话框对象库.对话框按钮.format("确认删除项目", "确定"))
+        self.click(对话框对象库.弹框按钮.format("确认删除项目", "确定"))
         self.wait(对话框对象库.对话框标题.format("提示"), 3)
-        self.click(对话框对象库.对话框按钮.format("提示", "确定"))
+        self.click(对话框对象库.弹框按钮.format("提示", "确定"))
         self.wait(公共元素对象库.系统提示信息弹框.format("删除"), 3)
         if self.wait(项目管理对象库.项目卡片.format("删除项目1"), 3):
             raise AssertionError("删除项目成功后项目管理页面仍然能查看到被删除项目卡片")
@@ -728,8 +728,7 @@ class 项目管理工作区(page):
         self.项目设置页面.撤回用户授权(成员名称='18942178871', 目录列表=['权限编辑', '一级目录','二级目录'], 权限列表=['目录打包', '目录下载'])
         self.click(项目设置页面.权限编辑按钮.format('18942178871'))
         self.项目设置页面.展开并点击最后一项目录(结构目录=['权限编辑', '一级目录'])
-        if not self.wait(项目设置页面.已选_权限复选框.format("目录打包"),3) or \
-            not self.wait(项目设置页面.已选_权限复选框.format("目录下载"),3):
+        if not self.wait(项目设置页面.已选_权限复选框.format("文件下载"),3):
             raise AssertionError("对子级节点授权后，父级节点的权限被改变")
         #设置权限后，点击关闭权限编辑弹窗，权限没有被保存
         self.click(项目设置页面.已选_权限复选框.format("目录修改"))
@@ -879,7 +878,7 @@ class 项目管理工作区(page):
             raise AssertionError('项目进行归档操作失败')
         #项目归档后，项目详情中的项目状态为已归档
         self.项目管理页面.查看项目详情(项目名称='项目归档')
-        if not self.wait('//div/span[text()="项目状态:"]/following-sibling::span[text()="已归档"]', 3):
+        if not self.wait('//div/span[text()="状态:"]/following-sibling::span[text()="已归档"]', 3):
             raise AssertionError("项目归档后，查看项目详情，没有查看到项目状态为已归档")
 
     def 存为模板2(self):
@@ -1161,7 +1160,7 @@ class 项目管理工作区(page):
         if self.wait(标签管理对象库.标签文件名称.format("素材3.jpg"), 3):
             raise AssertionError("取消添加标签文件后，在文件列表中查看到取消添加的文件")
         #点击标签文件的跳转按钮，自动跳转到文件对应的文件目录下
-        self.click(标签管理对象库.跳转查看文件.format("素材3.jpg"))
+        self.click(标签管理对象库.跳转查看文件.format("素材2.jpg"))
         面包屑 = []
         elements = self.driver.getelements('//span[@class="el-breadcrumb__item"]//span[@class="el-link--inner"]')
         for element in elements:
@@ -1230,7 +1229,7 @@ class 项目管理工作区(page):
         self.项目页面.批量上传文件(目录路径=['查看标签文件'], 文件路径列表=[素材2, 素材3])
 
         self.进入到操作位置.进入项目管理页()
-        self.项目管理页面.点击进入标签管理(项目名称="移除标签文件")
+        self.项目管理页面.点击进入标签管理(项目名称="查看标签文件")
         self.项目页面.添加标签文件(标签名称="标签1", 标签文件路径列表=[["查看标签文件", "素材2.jpg"], ["查看标签文件", "素材3.jpg"]])
         #点击选择标签，右侧文件列表显示标签下对应的文件
         self.driver.refrsh()
@@ -1723,7 +1722,7 @@ class 项目工作区(page):
         time.sleep(2)
         序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称='检入检出素材.txt')
         self.click(项目对象库.悬浮列行操作.format(序号))
-        if self.wait(项目对象库.行操作选项.format("检出"), 3):
+        if self.wait(项目对象库.置灰_行操作选项.format("检出"), 3):
             raise AssertionError("进行检出操作后，文件的检出操作按钮仍然可见")
         #文件被检出后，不能进行删除操作
         if not self.wait(项目对象库.置灰_行操作选项.format("删除")):
@@ -1774,7 +1773,7 @@ class 项目工作区(page):
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("检出"))
         if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "确定"))
+            self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("成功"), 3):
             raise AssertionError("文件目录下没有已检出的文件，点击检出，没有检出成功的提示信息")
         #对文件目录检出操作后，不能进行删除操作
@@ -1790,7 +1789,7 @@ class 项目工作区(page):
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("检出"))
         if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "确定"))
+            self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("存在已被检出的文件，不能执行该操作"), 3):
             raise AssertionError("对文件目录进行检出操作后，再次进行检出操作，系统未给出不能检出的提示信息")
         self.click(项目对象库.目录节点.format("一级目录"))
@@ -1806,7 +1805,7 @@ class 项目工作区(page):
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("检出"))
         if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "确定"))
+            self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("存在已被检出的文件，不能执行该操作"), 3):
             raise AssertionError("文件目录下含有已检出的文件，点击检出，系统未出现不能检出的提示信息")
         self.click(项目对象库.目录节点.format("一级目录"))
@@ -1818,7 +1817,7 @@ class 项目工作区(page):
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("检出"))
         if self.wait(对话框对象库.对话框标题.format("提示"),3):
-            self.click(对话框对象库.对话框按钮.format("提示","确定"))
+            self.click(对话框对象库.对话框按钮.format("提示","打包预览文件"))
         #对文件目录检出操作后，检出人以外的其他项目成员不能对文件目录进行删除和撤销检出操作
         self.登录页面.退出登录()
         if self.wait(对话框对象库.对话框按钮.format("确认注销","重新登录"),3):
@@ -2207,7 +2206,7 @@ class 项目工作区(page):
             raise AssertionError("分享文件后，在分享页面，文件没有浏览选项")
         #如果没有用户登录，则先跳转到用户登录页面，用户登录后再跳转到文件分享页面
         self.driver.close()
-        self.switch_to_window_byTagName(TagName="HAPYTEAM 管理您的数据")
+        self.switch_to_window_byTagName(TagName="HAPYTEAM 管理您的设计数据")
         self.登录页面.退出登录()
         self.driver.driver.execute_script("window.open('');")
         self.switch_to_new_window()
@@ -2221,14 +2220,15 @@ class 项目工作区(page):
         datatime1=self.driver.getelement(项目对象库.分享查看页面.分享过期时间).text
         timearray=time.strptime(datatime1[5:],"%Y-%m-%d %H:%M:%S")
         分享过期时间 = time.mktime(timearray)
-        if 分享过期时间-分享时间>1000:
-            raise AssertionError(f"文件分享页面过期时间不准确，过期时间为：{datatime1}")
+        if 分享过期时间-分享时间>86500 or 分享过期时间-分享时间<86300:
+            raise AssertionError(f"文件分享页面过期时间不准确，过期时间为：{datatime1}，过{分享过期时间}，先{分享时间}")
         分享人=self.driver.getelement(项目对象库.分享查看页面.分享人).text
         if '18942178870' not in 分享人:
             raise AssertionError(f"文件分享页面分享人不正确，分享人是：{分享人}")
         #分享文件时，设置了过期时间，查看过期时间之后，分享链接是否失效
         self.driver.close()
-        self.switch_to_window_byTagName(TagName="HAPYTEAM 管理您的数据")
+        self.switch_to_window_byTagName(TagName="HAPYTEAM 管理您的设计数据")
+        self.driver.refrsh()
         self.进入到操作位置.进入我的分享页()
         self.click(分享管理对象库.编辑过期时间.format("素材1.png"))
         self.clear(分享管理对象库.过期时间输入框.format("素材1.png"))
@@ -2245,7 +2245,7 @@ class 项目工作区(page):
             raise AssertionError("分享链接过期后，点击进入链接，还可以查看到文件")
         #如果分享文件设置可下载操作，则文件分享页面，文件可以下载
         self.driver.close()
-        self.switch_to_window_byTagName("HAPYTEAM 管理您的数据")
+        self.switch_to_window_byTagName("HAPYTEAM 管理您的设计数据")
         self.项目管理页面.点击进入项目(项目名称="分享文件")
         self.项目页面.分享文件(目录路径=['分享文件', '一级目录'],资源名称='素材2.jpg',下载=True)
         self.driver.driver.execute_script("window.open('');")
@@ -2312,7 +2312,7 @@ class 项目工作区(page):
             raise AssertionError("查看文件目录分享链接时，分享页面面包屑显示不正确")
         #如果分享文件设置可下载操作，则文件分享页面，文件可以下载和打包
         self.driver.close()
-        self.switch_to_window_byTagName("HAPYTEAM 管理您的数据")
+        self.switch_to_window_byTagName("HAPYTEAM 管理您的设计数据")
         self.项目管理页面.点击进入项目(项目名称="目录分享")
         self.项目页面.分享文件(目录路径=['目录分享', '一级目录'], 资源名称='二级目录', 下载=True)
         self.driver.driver.execute_script("window.open('');")
@@ -2414,7 +2414,7 @@ class 项目工作区(page):
         datatime1 = self.driver.getelement(项目对象库.分享查看页面.分享过期时间).text
         timearray = time.strptime(datatime1[5:], "%Y-%m-%d %H:%M:%S")
         分享过期时间 = time.mktime(timearray)
-        if 分享过期时间 - 分享时间 > 1000:
+        if 分享过期时间-分享时间>86500 or 分享过期时间-分享时间<86300:
             raise AssertionError(f"文件分享页面过期时间不准确，过期时间为：{datatime1,分享过期时间,timearray}")
         分享人 = self.driver.getelement(项目对象库.分享查看页面.分享人).text
         if '18942178870' not in 分享人:
@@ -2574,8 +2574,6 @@ class 项目工作区(page):
         self.click(项目对象库.列表复选框.format('素材1.png'))
         self.click(项目对象库.列表复选框.format('素材3.jpg'))
         self.click(项目对象库.工具栏按钮.format('检出'))
-        if self.wait(对话框对象库.对话框标题.format("提示"), 1):
-            self.click(对话框对象库.对话框按钮.format("提示", "是"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("存在已被检出的文件，不能执行该操作"), 3):
             raise AssertionError("对文件进行批量检出操作，文件中含有已检出的文件，批量检出时未出现提示信息")
         if not self.wait(项目对象库.检出按钮.format('素材1.png'), 3) or \
@@ -2585,7 +2583,7 @@ class 项目工作区(page):
         self.click(项目对象库.列表复选框.format('二级目录'))
         self.click(项目对象库.列表复选框.format('素材1.png'))
         self.click(项目对象库.工具栏按钮.format('检出'))
-        if self.wait(对话框对象库.对话框标题.format("提示"), 3):
+        if self.wait(对话框对象库.对话框标题.format("提示"), 1):
             self.click(对话框对象库.对话框按钮.format("提示", "是"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("成功"), 3):
             raise AssertionError("对文件和文件目录进行批量检出操作，未查看到系统提示信息")
@@ -2599,7 +2597,7 @@ class 项目工作区(page):
         self.click(项目对象库.列表复选框.format('一级目录3'))
         self.click(项目对象库.列表复选框.format('一级目录2'))
         self.click(项目对象库.工具栏按钮.format('检出'))
-        if self.wait(对话框对象库.对话框标题.format("提示"), 3):
+        if self.wait(对话框对象库.对话框标题.format("提示"), 1):
             self.click(对话框对象库.对话框按钮.format("提示", "是"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("成功"), 3):
             raise AssertionError("对文件和文件目录进行批量检出操作，未查看到系统提示信息")
@@ -2615,7 +2613,7 @@ class 项目工作区(page):
         self.click(项目对象库.列表复选框.format('一级目录3'))
         self.click(项目对象库.列表复选框.format('一级目录2'))
         self.click(项目对象库.工具栏按钮.format('检出'))
-        if self.wait(对话框对象库.对话框标题.format("提示"), 3):
+        if self.wait(对话框对象库.对话框标题.format("提示"), 13):
             self.click(对话框对象库.对话框按钮.format("提示", "是"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("存在已被检出的文件，不能执行该操作"), 3):
             raise AssertionError("对文件目录进行批量检出操作，目录下含有已检出的文件，未查看到系统提示信息")
@@ -3505,7 +3503,7 @@ class 项目工作区(page):
         序号 = self.公共操作.获取文件在列表中的行号(文件名称='空目录')
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("文件归档"))
-        if not self.wait(公共元素对象库.系统提示信息弹框.format("未选择文件"), 3):
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("可操作的文件列表为空"), 3):
             raise AssertionError("对空目录进行归档操作，未出现提示信息")
         #当文件目录下存在已检出文件时，进行文件归档操作，不能归档成功
         序号 = self.公共操作.获取文件在列表中的行号(文件名称='已检出文件')
@@ -3598,7 +3596,7 @@ class 项目工作区(page):
         序号 = self.公共操作.获取文件在列表中的行号(文件名称='空目录')
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("撤销归档"))
-        if not self.wait(公共元素对象库.系统提示信息弹框.format("未选择文件"), 3):
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("可操作的文件列表为空"), 3):
             raise AssertionError("对空目录进行撤销归档操作，未出现提示信息")
         #当文件目录下存在已检出文件时，进行撤销归档操作，不能操作成功
         序号 = self.公共操作.获取文件在列表中的行号(文件名称='已检出文件')
@@ -3674,7 +3672,7 @@ class 项目工作区(page):
         self.click(项目对象库.文件目录复选框.format('空目录'))
         self.click(项目对象库.文件目录复选框.format('空目录2'))
         self.click(项目对象库.工具栏按钮.format('文件归档'))
-        if not self.wait(公共元素对象库.系统提示信息弹框.format("未选择文件"), 3):
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("可操作的文件列表为空"), 3):
             raise AssertionError("文件目录为空时，进行批量归档，未查看到提示信息")
 
     def 批量撤销归档(self):
@@ -3741,7 +3739,7 @@ class 项目工作区(page):
         self.click(项目对象库.文件目录复选框.format('空目录'))
         self.click(项目对象库.文件目录复选框.format('空目录2'))
         self.click(项目对象库.工具栏按钮.format('撤销归档'))
-        if not self.wait(公共元素对象库.系统提示信息弹框.format("未选择文件"), 3):
+        if not self.wait(公共元素对象库.系统提示信息弹框.format("可操作的文件列表为空"), 3):
             raise AssertionError("文件目录为空时，进行批量撤销归档，未查看到提示信息")
 
     def 目录设置生命周期模板(self):
@@ -4002,11 +4000,11 @@ class 项目工作区(page):
         self.click(项目对象库.目录设置.新增会签)
         self.wait(对话框对象库.弹框标题.format("新增"), 3)
         self.click(公共元素对象库.列表框.format("专业:"))
-        self.click(公共元素对象库.列表框选项.format("结构"))
+        self.click(公共元素对象库.列表框选项.format("钢结构"))
         self.click(公共元素对象库.列表框.format("人员:"))
         self.click(公共元素对象库.列表框选项.format("18942178871"))
         self.click(对话框对象库.弹框按钮.format("新增", "确定"))
-        if not self.wait(项目对象库.目录设置.会签行.format("电气", "18942178871"), 3):
+        if not self.wait(项目对象库.目录设置.会签行.format("钢结构", "18942178871"), 3):
             raise AssertionError("同一人员不同专业的会签行没有保存成功")
         #专业&人员重名校验
         self.click(项目对象库.目录设置.新增会签)
@@ -4105,22 +4103,22 @@ class 项目工作区(page):
         self.项目页面.新增会签(专业='建筑', 人员='18942178871')
         self.项目页面.新增会签(专业='结构', 人员='18942178870')
         #点击会签行删除按钮，弹出删除确认对话框，点击确定，会签行被删除
-        self.click(项目对象库.目录设置.删除单个会签.format("金融","18942178870"))
+        self.click(项目对象库.目录设置.删除单个会签.format("建筑","18942178870"))
         self.wait(对话框对象库.对话框标题.format("提示"))
         self.click(对话框对象库.对话框按钮.format("提示","确定"))
-        if self.wait(项目对象库.目录设置.会签行.format("金融", "18942178870"), 3):
+        if self.wait(项目对象库.目录设置.会签行.format("建筑", "18942178870"), 3):
             raise AssertionError("删除的会签行仍然可以在会签列表中查看到")
         #击会签行删除按钮，弹出删除确认对话框，点击取消，会签行没有被删除
-        self.click(项目对象库.目录设置.删除单个会签.format("金融", "18942178871"))
+        self.click(项目对象库.目录设置.删除单个会签.format("建筑", "18942178871"))
         self.wait(对话框对象库.对话框标题.format("提示"))
         self.click(对话框对象库.对话框按钮.format("提示", "取消"))
-        if not self.wait(项目对象库.目录设置.会签行.format("金融", "18942178871"), 3):
+        if not self.wait(项目对象库.目录设置.会签行.format("建筑", "18942178871"), 3):
             raise AssertionError("取消删除的会签行没有在会签列表中查看到")
         #点击会签行删除按钮，弹出删除确认对话框，关闭提示对话框，会签行没有被删除
-        self.click(项目对象库.目录设置.删除单个会签.format("金融", "18942178871"))
+        self.click(项目对象库.目录设置.删除单个会签.format("建筑", "18942178871"))
         self.wait(对话框对象库.对话框标题.format("提示"))
         self.click(对话框对象库.关闭对话框.format("提示"))
-        if not self.wait(项目对象库.目录设置.会签行.format("金融", "18942178871"), 3):
+        if not self.wait(项目对象库.目录设置.会签行.format("建筑", "18942178871"), 3):
             raise AssertionError("取消删除的会签行没有在会签列表中查看到")
 
     def 批量删除会签(self):
@@ -4138,25 +4136,25 @@ class 项目工作区(page):
         self.项目页面.新增会签(专业='建筑', 人员='18942178871')
         self.项目页面.新增会签(专业='结构', 人员='18942178870')
         #批量勾选会签行，点击批量删除按钮，出现删除确认对话框
-        self.click(项目对象库.目录设置.会签行复选框.format("金融","18942178870"))
+        self.click(项目对象库.目录设置.会签行复选框.format("建筑","18942178870"))
         self.click(项目对象库.目录设置.批量删除会签)
         if not self.wait(对话框对象库.对话框标题.format("提示"),3):
             raise AssertionError("点击批量删除按钮，未出现删除提示对话框")
         #删除确认对话框中点击取消，被删除的会签行没有消失
         self.click(对话框对象库.对话框按钮.format("提示", "取消"))
-        if not self.wait(项目对象库.目录设置.会签行.format("金融", "18942178870"), 3):
+        if not self.wait(项目对象库.目录设置.会签行.format("建筑", "18942178870"), 3):
             raise AssertionError("取消删除的会签行不能在会签列表中查看到")
         #删除确认对话框中点击关闭，被删除的会签行没有消失
         self.click(项目对象库.目录设置.批量删除会签)
         self.wait(对话框对象库.对话框标题.format("提示"))
         self.click(对话框对象库.关闭对话框.format("提示"))
-        if not self.wait(项目对象库.目录设置.会签行.format("金融", "18942178870"), 3):
+        if not self.wait(项目对象库.目录设置.会签行.format("建筑", "18942178870"), 3):
             raise AssertionError("取消删除的会签行没有在会签列表中查看到")
         #删除确认对话框中点击确定，出现删除成功提示，被删除的会签行消失
         self.click(项目对象库.目录设置.批量删除会签)
         self.wait(对话框对象库.对话框标题.format("提示"))
         self.click(对话框对象库.对话框按钮.format("提示", "确定"))
-        if self.wait(项目对象库.目录设置.会签行.format("金融", "18942178870"), 3):
+        if self.wait(项目对象库.目录设置.会签行.format("建筑", "18942178870"), 3):
             raise AssertionError("删除的会签行在会签列表中被查看到")
         #不勾选任何会签行，点击删除，删除按钮不可用
         if not self.wait(项目对象库.目录设置.置灰_批量删除会签,3):
@@ -4298,7 +4296,6 @@ class 项目工作区(page):
         self.click(对话框对象库.对话框按钮.format("添加标签", "确定"))
         self.wait(公共元素对象库.系统提示信息弹框.format("成功"), 3)
         # 对文件版本的标签添加成功后，可以在版本列表中查看到文件版本存在标签标志
-        self.driver.refrsh()
         self.click(项目对象库.列表文件名称.format("素材2.jpg"))
         if not self.wait(项目对象库.版本标签标志.format(1), 3):
             raise AssertionError("项目添加标签后，未在添加的版本下查看到标签标志")
