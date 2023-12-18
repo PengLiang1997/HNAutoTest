@@ -73,7 +73,6 @@ class 项目管理工作区(page):
                 num2=num1+j
                 list=['TestData', 'FrontData', '存为模板', f'{i*10+j}.jpg']
                 文件列表.append(['TestData', 'FrontData', '存为模板', f'{i*10+j}.jpg'])
-            print(文件列表)
             self.项目页面.批量上传文件(目录路径=['模板保存文件'], 文件路径列表=文件列表)
         self.项目页面.上传单个文件(目录路径=['模板保存文件'], 文件路径=['TestData', 'FrontData', '存为模板', '50.jpg'])
 
@@ -1238,6 +1237,7 @@ class 项目管理工作区(page):
                 not self.wait(标签管理对象库.标签文件名称.format("素材3.jpg"), 3):
             raise AssertionError("点击选择标签，未在右侧文件列表显示标签下对应的文件")
         #点击批量操作，点击勾选多个文件，点击批量打包，等待打包完成后查看文件是否被打包
+        self.click(标签管理对象库.文件批量操作按钮)
         self.click(标签管理对象库.标签文件复选框.format("素材2.jpg"))
         self.click(标签管理对象库.标签文件复选框.format("素材3.jpg"))
         self.公共操作.清空浏览器下载目录()
@@ -1722,7 +1722,7 @@ class 项目工作区(page):
         time.sleep(2)
         序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称='检入检出素材.txt')
         self.click(项目对象库.悬浮列行操作.format(序号))
-        if self.wait(项目对象库.置灰_行操作选项.format("检出"), 3):
+        if not self.wait(项目对象库.置灰_行操作选项.format("检出"), 3):
             raise AssertionError("进行检出操作后，文件的检出操作按钮仍然可见")
         #文件被检出后，不能进行删除操作
         if not self.wait(项目对象库.置灰_行操作选项.format("删除")):
@@ -1788,7 +1788,7 @@ class 项目工作区(page):
         序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称='一级目录')
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("检出"))
-        if self.wait(对话框对象库.对话框标题.format("提示"), 3):
+        if self.wait(对话框对象库.对话框标题.format("提示"), 1):
             self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("存在已被检出的文件，不能执行该操作"), 3):
             raise AssertionError("对文件目录进行检出操作后，再次进行检出操作，系统未给出不能检出的提示信息")
@@ -2279,15 +2279,15 @@ class 项目工作区(page):
         序号 = self.公共操作.获取文件在列表中的行号(文件名称='一级目录')
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("分享"))
-        self.wait(对话框对象库.弹框标题.format("分享文件"), 3)
-        if not self.wait('//div[@aria-label="分享文件"]//div[text()="一级目录"]',3):
+        self.wait(对话框对象库.弹框标题.format("分享文件夹"), 3)
+        if not self.wait('//div[@aria-label="分享文件夹"]//div[text()="一级目录"]',3):
             raise AssertionError("对文件目录发起分享后，分享弹框中文件目录名称不正确")
         #文件分享页面文件列表是否为分享的目录的子文件和子目录
-        self.click(对话框对象库.弹框按钮.format('分享文件', '生成链接'))
-        self.click(对话框对象库.弹框按钮.format('分享文件', '复制链接'))
+        self.click(对话框对象库.弹框按钮.format('分享文件夹', '生成链接'))
+        self.click(对话框对象库.弹框按钮.format('分享文件夹', '复制链接'))
         链接 = None
         链接 = self.公共操作.获取剪切板内容()
-        self.click(对话框对象库.关闭弹框.format("分享文件"))
+        self.click(对话框对象库.关闭弹框.format("分享文件夹"))
         self.driver.driver.execute_script("window.open('');")
         self.switch_to_new_window()
         self.driver.driver.get(链接)
@@ -2314,7 +2314,7 @@ class 项目工作区(page):
         self.driver.close()
         self.switch_to_window_byTagName("HAPYTEAM 管理您的设计数据")
         self.项目管理页面.点击进入项目(项目名称="目录分享")
-        self.项目页面.分享文件(目录路径=['目录分享', '一级目录'], 资源名称='二级目录', 下载=True)
+        self.项目页面.分享文件(目录路径=['目录分享', '一级目录'], 资源名称='二级目录', 下载=True,资源类型="文件目录")
         self.driver.driver.execute_script("window.open('');")
         self.switch_to_new_window()
         self.driver.driver.get(链接)
@@ -2420,7 +2420,7 @@ class 项目工作区(page):
         if '18942178870' not in 分享人:
             raise AssertionError(f"文件分享页面分享人不正确，分享人是：{分享人}")
         self.driver.close()
-        self.switch_to_window_byTagName("HAPYTEAM 管理您的数据")
+        self.switch_to_window_byTagName("HAPYTEAM 管理您的设计数据")
         self.项目页面.批量分享文件(目录路径=['批量分享', '一级目录'],资源列表=['素材3.jpg','素材4.png'],下载=True)
         self.登录页面.退出登录()
         self.driver.driver.execute_script("window.open('');")
@@ -2434,7 +2434,7 @@ class 项目工作区(page):
             raise AssertionError("分享文件设置可下载操作，在分享页面，文件没有下载选项")
         # 分享文件时，设置了过期时间，查看过期时间之后，分享链接是否失效
         self.driver.close()
-        self.switch_to_window_byTagName("HAPYTEAM 管理您的数据")
+        self.switch_to_window_byTagName("HAPYTEAM 管理您的设计数据")
         self.进入到操作位置.进入我的分享页()
         self.click(分享管理对象库.编辑过期时间.format("素材3.jpg...."))
         self.clear(分享管理对象库.过期时间输入框.format("素材3.jpg...."))
@@ -2526,7 +2526,7 @@ class 项目工作区(page):
         #在右侧文件列表中勾选多个资源时，批量操作工具栏出现，工具栏中包括检出、撤销检出、收藏、下载、批量删除和打包按钮
         self.click(项目对象库.列表复选框.format('素材1.png'))
         self.click(项目对象库.列表复选框.format('素材2.jpg'))
-        按钮列表=['检出','撤销检出','收藏','删除','打包']
+        按钮列表=['检出','撤销检出','收藏','取消收藏','删除','批量下载','文件归档','撤销归档','改变状态','分享','发起流程','添加标签']
         for 按钮 in 按钮列表:
             if not self.wait(项目对象库.工具栏按钮.format(按钮),3):
                 raise AssertionError(f"工具栏{按钮}按钮未正常出现")
@@ -2583,6 +2583,8 @@ class 项目工作区(page):
         self.click(项目对象库.列表复选框.format('二级目录'))
         self.click(项目对象库.列表复选框.format('素材1.png'))
         self.click(项目对象库.工具栏按钮.format('检出'))
+        if self.wait(对话框对象库.对话框标题.format("提示"), 1):
+            self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
         if self.wait(对话框对象库.对话框标题.format("提示"), 1):
             self.click(对话框对象库.对话框按钮.format("提示", "是"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("成功"), 3):
@@ -3520,7 +3522,7 @@ class 项目工作区(page):
         #已归档的文件目录不能进行检出、撤销检出、删除、清理版本、文件归档等操作
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("检出"))
-        if self.wait(对话框对象库.对话框标题.format("提示"), 3):
+        if self.wait(对话框对象库.对话框标题.format("提示"), 1):
             self.click(对话框对象库.对话框按钮.format("提示", "确定"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("存在已归档文件，不能执行该操作"), 3):
             raise AssertionError("对存在已归档文件的文件目录进行检出操作，未出现提示信息")
@@ -3764,7 +3766,7 @@ class 项目工作区(page):
         if not self.wait(项目对象库.行操作选项.format("设置"),3):
             raise AssertionError("文件目录更多操作中没有文件目录设置选项")
         self.click(项目对象库.行操作选项.format("设置"))
-        if not self.wait(对话框对象库.弹框标题.format("设置"),3):
+        if not self.wait(对话框对象库.弹框标题.format("设置-目录1"),3):
             raise AssertionError("点击文件目录设置选项，未查看到文件目录设置弹框")
         #选择生命周期下拉框，显示项目设置中生命周期模板设置下配置的生命周期模板
         self.click(项目对象库.目录设置.生命周期列表框)
@@ -3780,7 +3782,7 @@ class 项目工作区(page):
             if not self.wait(项目对象库.目录设置.生命周期节点.format(节点),3):
                 raise AssertionError(f"选择生命周期节点后，未查看到生命周期节点{节点}")
         #子目录不选择生命周期，则自动继承父目录的生命周期设置
-        self.click(对话框对象库.关闭弹框.format("设置"))
+        self.click(对话框对象库.关闭弹框.format("设置-目录1"))
         self.项目页面.上传单个文件(目录路径=['目录设置生命周期模板','目录1','目录2'], 文件路径=素材1)
         elestat1 = self.driver.getelement(项目对象库.生命周期状态.format('素材1.png')).text
         if elestat1 != "11":
@@ -4231,6 +4233,7 @@ class 项目工作区(page):
         self.项目页面.批量上传文件(目录路径=['添加标签', '一级目录','二级目录'], 文件路径列表=[素材3, 素材4])
         #对空文件目录添加标签，提示不能为空
         self.click(项目对象库.目录节点.format("添加标签"))
+        time.sleep(3)
         序号 = self.公共操作.获取文件在列表中的行号(文件名称="一级目录2")
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("添加标签"))

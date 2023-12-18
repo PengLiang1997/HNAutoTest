@@ -41,10 +41,10 @@ class 项目管理页面(page):
 
         self.click(项目设置页面.项目生命周期模板设置)
         self.click(项目设置页面.新增生命周期)
-        self.wait(对话框对象库.对话框标题.format("新增项目生命周期模板"), 3)
-        self.click('//div[@class="el-dialog__body"]//div[text()="生命周期名称"]/ancestor::tr/th[1]//span')
-        self.click(对话框对象库.对话框按钮.format("新增项目生命周期模板","保存"))
-        self.wait(公共元素对象库.系统提示信息弹框.format("成功"), 3)
+        if self.wait(对话框对象库.弹框标题.format("新增项目生命周期模板"), 3):
+            self.click('//div[@class="el-dialog__body"]//div[text()="生命周期名称"]/ancestor::tr/th[1]//span')
+            self.click(对话框对象库.弹框按钮.format("新增项目生命周期模板","保存"))
+            self.wait(公共元素对象库.系统提示信息弹框.format("成功"), 3)
         if 生命周期名称:
             self.click(公共元素对象库.列表框.format("生命周期"))
             self.公共操作.滚动选择列表框选项(选项名称=生命周期名称)
@@ -329,7 +329,7 @@ class 项目管理页面(page):
             self.wait(公共元素对象库.系统提示信息弹框.format("成功"), 3)
 
         def 删除单个标签(self,标签名称):
-            self.click(标签管理对象库.删除单个标签.format("删除标签1"))
+            self.click(标签管理对象库.删除单个标签.format(标签名称))
             self.wait(对话框对象库.对话框标题.format("提示"), 3)
             self.click(对话框对象库.对话框按钮.format("提示", "确定"))
             self.wait(公共元素对象库.系统提示信息弹框.format("成功"), 3)
@@ -502,7 +502,7 @@ class 项目页面(page):
         filepath = self.公共操作.检查文件是否下载完成()
         return filepath
 
-    def 分享文件(self,目录路径,资源名称,有效期=None,下载=False):
+    def 分享文件(self,目录路径,资源名称,有效期=None,下载=False,资源类型="文件"):
         self.按路径展开目录(目录路径=目录路径)
         序号 = self.公共操作.获取文件在列表中的行号(文件名称=资源名称)
         self.click(项目对象库.悬浮列行操作.format(序号))
@@ -511,9 +511,14 @@ class 项目页面(page):
             self.click(公共元素对象库.单选按钮.format(有效期))
         if 下载==True:
             self.click(公共元素对象库.单选按钮.format("下载"))
-        self.click(对话框对象库.弹框按钮.format('分享文件', '生成链接'))
-        self.click(对话框对象库.弹框按钮.format('分享文件', '复制链接'))
-        self.click(对话框对象库.关闭弹框.format("分享文件"))
+        if 资源类型=="文件":
+            self.click(对话框对象库.弹框按钮.format('分享文件', '生成链接'))
+            self.click(对话框对象库.弹框按钮.format('分享文件', '复制链接'))
+            self.click(对话框对象库.关闭弹框.format("分享文件"))
+        if 资源类型=="文件目录":
+            self.click(对话框对象库.弹框按钮.format('分享文件夹', '生成链接'))
+            self.click(对话框对象库.弹框按钮.format('分享文件夹', '复制链接'))
+            self.click(对话框对象库.关闭弹框.format("分享文件夹"))
 
     def 批量分享文件(self,目录路径,资源列表,有效期=None,下载=False):
         self.按路径展开目录(目录路径=目录路径)

@@ -12,7 +12,7 @@ class Test_生命周期管理工作区(TestCaseSec):
         cls.生命周期管理工作区=生命周期管理工作区(Secdriver=cls.driver)
         cls.登录页=登录页面(Secdriver=cls.driver)
         # cls.登录页.短信快捷登录(手机号='18942178870')
-        cls.登录页.账号密码登录(账号='18942178870', 密码='user@8870')
+        cls.登录页.账号密码登录(账号='hapyteamadmin', 密码='Changeme12#4')
 
     @classmethod
     def tearDown(cls):
@@ -263,7 +263,7 @@ class Test_版次管理工作区(TestCaseSec):
         cls.版次管理工作区 = 版次管理工作区(Secdriver=cls.driver)
         cls.登录页 = 登录页面(Secdriver=cls.driver)
         # cls.登录页.短信快捷登录(手机号='18942178870')
-        cls.登录页.账号密码登录(账号='18942178870', 密码='user@8870')
+        cls.登录页.账号密码登录(账号='hapyteamadmin', 密码='Changeme12#4')
 
     @classmethod
     def tearDown(cls):
@@ -422,7 +422,7 @@ class Test_属性管理工作区(TestCaseSec):
         cls.属性管理工作区 = 属性管理工作区(Secdriver=cls.driver)
         cls.登录页 = 登录页面(Secdriver=cls.driver)
         # cls.登录页.短信快捷登录(手机号='18942178870')
-        cls.登录页.账号密码登录(账号='18942178870', 密码='user@8870')
+        cls.登录页.账号密码登录(账号='hapyteamadmin', 密码='Changeme12#4')
 
     @classmethod
     def tearDown(cls):

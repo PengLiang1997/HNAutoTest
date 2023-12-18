@@ -30,7 +30,7 @@ class 登录页面(page):
         self.default_content()
         if self.wait(对话框对象库.对话框标题.format("确认注销"),3):
             self.click(对话框对象库.对话框按钮.format("确认注销","重新登录"))
-        self.click(登录页对象库.账号密码登录)
+        # self.click(登录页对象库.账号密码登录)
         self.click(登录页对象库.账号输入框)
         self.clear(登录页对象库.账号输入框)
         self.send_keys(登录页对象库.账号输入框,账号)

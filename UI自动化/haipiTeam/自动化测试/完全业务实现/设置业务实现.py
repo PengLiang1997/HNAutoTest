@@ -22,7 +22,7 @@ class 生命周期管理工作区(page):
         self.进入到操作位置 = 进入到操作位置(Secdriver=Secdriver)
 
     def 数据准备(self):
-        self.项目管理页面.删除所有项目()
+        # self.项目管理页面.删除所有项目()
         self.进入到操作位置.进入生命周期工作区()
         self.生命周期管理页面.删除所有生命周期()
 
@@ -1015,7 +1015,7 @@ class 版次管理工作区(page):
         self.进入到操作位置 = 进入到操作位置(Secdriver=Secdriver)
 
     def 数据准备(self):
-        self.项目管理页面.删除所有项目()
+        # self.项目管理页面.删除所有项目()
         self.进入到操作位置.进入版次工作区()
         self.版次管理页面.删除所有版次()
 
@@ -1522,7 +1522,7 @@ class 属性管理工作区(page):
         self.进入到操作位置 = 进入到操作位置(Secdriver=Secdriver)
 
     def 数据准备(self):
-        self.项目管理页面.删除所有项目()
+        # self.项目管理页面.删除所有项目()
         self.进入到操作位置.进入属性工作区()
         self.属性管理页面.删除所有属性系统()
 
