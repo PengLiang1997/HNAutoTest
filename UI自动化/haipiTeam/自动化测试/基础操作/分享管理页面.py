@@ -48,8 +48,8 @@ class 分享管理页面(page):
     def 清除所有访问记录(self):
         self.click(分享管理对象库.全选复选框)
         self.click(分享管理对象库.批量删除访问记录)
-        self.wait(对话框对象库.对话框标题.format("提示"), 3)
-        self.click(对话框对象库.对话框按钮.format("提示", "确定"))
+        if self.wait(对话框对象库.对话框标题.format("提示"), 3):
+            self.click(对话框对象库.对话框按钮.format("提示", "确定"))
         self.wait(公共元素对象库.系统提示信息弹框.format("成功"), 3)
 
     def 清除单个访问记录(self):

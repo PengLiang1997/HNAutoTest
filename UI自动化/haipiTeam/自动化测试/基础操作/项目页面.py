@@ -237,6 +237,9 @@ class 项目管理页面(page):
         self.进入到操作位置.进入项目管理页()
         self.click(项目管理对象库.更多操作按钮.format(项目名称))
         self.click(项目管理对象库.更多操作选项.format("标签管理"))
+        self.driver.driver.execute_script("window.open('');")
+        self.driver.close()
+        self.switch_to_new_window()
 
     def 进入点击项目设置(self,项目名称,项目成员tab页=None,项目生命周期模板设置=None):
         self.进入到操作位置.进入项目管理页()
@@ -525,7 +528,6 @@ class 项目页面(page):
         for 资源 in 资源列表:
             self.click(项目对象库.列表复选框.format(资源))
         self.click(项目对象库.工具栏按钮.format('分享'))
-        self.click(项目对象库.行操作选项.format("分享"))
         if 有效期:
             self.click(公共元素对象库.单选按钮.format(有效期))
         if 下载 == True:
@@ -626,10 +628,10 @@ class 项目页面(page):
         序号 = self.公共操作.获取文件在列表中的行号(文件名称=目录名称)
         self.click(项目对象库.悬浮列行操作.format(序号))
         self.click(项目对象库.行操作选项.format("设置"))
-        self.wait(对话框对象库.弹框标题.format("设置"), 3)
+        self.wait(对话框对象库.弹框标题.format(f" 设置-{目录名称} "), 3)
         self.click(项目对象库.目录设置.生命周期列表框)
         self.click(公共元素对象库.列表框选项.format(生命周期名称))
-        self.click(对话框对象库.关闭弹框.format("设置"))
+        self.click(对话框对象库.关闭弹框.format(f" 设置-{目录名称} "))
 
     def 添加节点人员(self, 节点名称, 成员名称=None, 所有人提交后可进入下一节点=True):
         self.click(项目对象库.目录设置.节点下成员.format(节点名称))

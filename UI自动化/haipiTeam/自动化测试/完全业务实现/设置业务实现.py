@@ -221,12 +221,13 @@ class 生命周期管理工作区(page):
         self.项目管理页面.点击进入项目(项目名称="升版测试")
         self.项目页面.上传单个文件(目录路径=['升版测试'], 文件路径=['TestData', 'FrontData', '项目页', '检入检出素材.txt'])
         self.项目页面.改变文件状态(目录路径=['升版测试'],文件名='检入检出素材.txt',状态名称='22')
-        if not self.wait('//div[contains(@class,"pane-two")]//tr[1]/td[5]//span[text()="B"]',3):
+        if not self.wait('//div[contains(@class,"body-wrapper")]//tr[1]/td[5]//span[text()="B"]',3):
             raise AssertionError("设置升版流程，项目生命周期经过此流程时，项目并没有进行升版")
         self.进入到操作位置.进入项目管理页()
         self.项目管理页面.删除项目(项目名称="升版测试")
 
     def 保存新增生命周期(self):
+        self.项目管理页面.删除项目(项目名称="升版测试")
         self.进入到操作位置.进入生命周期工作区()
         self.生命周期管理页面.删除生命周期('test2')
         # 设置生命周期属性后，关闭新增生命周期界面，生命周期属性不能被保存
@@ -514,7 +515,7 @@ class 生命周期管理工作区(page):
         self.项目管理页面.点击进入项目(项目名称="升版测试")
         self.项目页面.上传单个文件(目录路径=['升版测试'], 文件路径=['TestData', 'FrontData', '项目页', '检入检出素材.txt'])
         self.项目页面.改变文件状态(目录路径=['升版测试'], 文件名='检入检出素材.txt', 状态名称='22')
-        if not self.wait('//div[contains(@class,"pane-two")]//tr[1]/td[5]//span[text()="B"]', 3):
+        if not self.wait('//div[contains(@class,"body-wrapper")]//tr[1]/td[5]//span[text()="B"]', 3):
             raise AssertionError("设置升版流程，项目生命周期经过此流程时，项目并没有进行升版")
         #如果生命周期已经被使用，再编辑升版流程，系统会给出对应的提示
         self.进入到操作位置.进入生命周期工作区()
@@ -786,7 +787,7 @@ class 生命周期管理工作区(page):
         self.项目管理页面.点击进入项目(项目名称="升版测试")
         self.项目页面.上传单个文件(目录路径=['升版测试'], 文件路径=['TestData', 'FrontData', '项目页', '检入检出素材.txt'])
         self.项目页面.改变文件状态(目录路径=['升版测试'], 文件名='检入检出素材.txt', 状态名称='22')
-        if not self.wait('//div[contains(@class,"pane-two")]//tr[1]/td[5]//span[text()="B"]', 3):
+        if not self.wait('//div[contains(@class,"body-wrapper")]//tr[1]/td[5]//span[text()="B"]', 3):
             raise AssertionError("设置升版流程，项目生命周期经过此流程时，项目并没有进行升版")
         # 如果生命周期已经被使用，再编辑升版流程，系统会给出对应的提示
         self.进入到操作位置.进入生命周期工作区()

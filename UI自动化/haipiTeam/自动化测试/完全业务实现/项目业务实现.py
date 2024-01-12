@@ -1354,7 +1354,7 @@ class 项目工作区(page):
 
     def 获取列表列名(self):
         titles = []
-        mxpath = '//div[contains(@class,"-header-wrapper")]//table[@class="vxe-table--header"]//tr/th//span'
+        mxpath = '//div[contains(@class,"splitter-paneL")]//table[@class="vxe-table--header"]//tr/th//span'
         elements = self.driver.getelements(mxpath)
         for element in elements:
             if element.text != "":
@@ -1472,7 +1472,7 @@ class 项目工作区(page):
         列名2 = self.获取列表列名()
         差异1=self.对比两个列表的差异项(列表1=列名1,列表2=列名2)
         if len(差异1)!=1 and 差异1[0]!="检出人":
-            raise AssertionError("设置显示内容弹窗设置后，资源列表的列未发生变化")
+            raise AssertionError(f"设置显示内容弹窗设置后，资源列表的列未发生变化:{差异1[0]}")
         #勾选对应选项，不点击保存，退出项目后再进入项目，查看是否有变化
         self.进入到操作位置.进入项目管理页()
         self.项目管理页面.点击进入项目(项目名称="列表显示管理")
@@ -2075,88 +2075,47 @@ class 项目工作区(page):
         #文件行操作，点击打包，自动下载打包后的压缩包，压缩包名为被打包的文件名，压缩包内容为被打包的文件
         序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称='素材1.png')
         self.click(项目对象库.悬浮列行操作.format(序号))
-        self.click(项目对象库.行操作选项.format("打包"))
-        if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
-            if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-                self.click(对话框对象库.对话框按钮.format("提示", "确定"))
-        while (True):
-            if not self.wait('//div[contains(@class,"el-dialog__header")]/span[text()="打包进度"]', 3):
-                break
+        self.click(项目对象库.行操作选项.format("下载"))
+        time.sleep(10)
         downpath = self.公共操作.检查文件是否下载完成()
-        filepath = downpath + '\素材1.png.zip'
+        filepath = downpath + '\素材1.png'
         time.sleep(3)
         if not os.path.exists(filepath):
             raise AssertionError("在下载目录下未查看到打包的文件")
-        namelist=self.公共操作.查看zip文件(zip文件路径=filepath)
-        if not '素材1.png' in namelist:
-            raise AssertionError("在打包的文件中未查看到被打包的文件")
         #目录行操作，点击打包，自动下载打包后的压缩包，压缩包名为被打包的目录的名称，压缩包内容未被打包的目录及目录下的全部资源
         self.公共操作.清空浏览器下载目录()
         self.click(项目对象库.目录节点.format("文件或目录打包"))
         time.sleep(1)
         序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称='一级目录')
         self.click(项目对象库.悬浮列行操作.format(序号))
-        self.click(项目对象库.行操作选项.format("打包"))
-        if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
-            if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-                self.click(对话框对象库.对话框按钮.format("提示", "确定"))
-        while (True):
-            if not self.wait('//div[contains(@class,"el-dialog__header")]/span[text()="打包进度"]', 3):
-                break
+        self.click(项目对象库.行操作选项.format("批量下载"))
+        time.sleep(20)
         downpath = self.公共操作.检查文件是否下载完成()
-        filepath = downpath + '\一级目录.zip'
-        time.sleep(3)
-        if not os.path.exists(filepath):
-            raise AssertionError("在下载目录下未查看到打包的文件目录")
-        self.公共操作.解压zip到指定目录(zip文件路径=filepath,目标路径=downpath)
-        文件目录=os.listdir(downpath + '\一级目录')
+        文件目录=os.listdir(downpath)
         if not '素材1.png' in 文件目录 or not '素材2.jpg' in 文件目录:
             raise AssertionError("在打包的文件中未查看到被打包的文件")
         self.公共操作.清空浏览器下载目录()
         #文件被检出后也可以打包
-        self.公共操作.清空浏览器下载目录()
         self.项目页面.检出资源(目录路径=['文件或目录打包', '一级目录'], 资源名称='素材1.png')
         序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称='素材1.png')
         self.click(项目对象库.悬浮列行操作.format(序号))
-        self.click(项目对象库.行操作选项.format("打包"))
-        if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
-            if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-                self.click(对话框对象库.对话框按钮.format("提示", "确定"))
-        while (True):
-            if not self.wait('//div[contains(@class,"el-dialog__header")]/span[text()="打包进度"]', 3):
-                break
+        self.click(项目对象库.行操作选项.format("下载"))
+        time.sleep(10)
         downpath = self.公共操作.检查文件是否下载完成()
-        filepath = downpath + '\素材1.png.zip'
+        filepath = downpath + '\素材1.png'
         time.sleep(3)
         if not os.path.exists(filepath):
             raise AssertionError("在下载目录下未查看到打包的文件")
-        namelist = self.公共操作.查看zip文件(zip文件路径=filepath)
-        if not '素材1.png' in namelist:
-            raise AssertionError("在打包的文件中未查看到被打包的状态为检出的文件")
         #目录下含有被检出的文件时，目录也可以被正常打包，压缩包内容为被打包的目录及目录下的全部资源
         self.公共操作.清空浏览器下载目录()
         self.click(项目对象库.目录节点.format("文件或目录打包"))
         time.sleep(1)
         序号 = self.公共操作.获取文件在列表中的行号(列表xpath='//table//tr/td[2 or 3]/div/span/span[not(contains(@class,"checkbox"))]', 文件名称='一级目录')
         self.click(项目对象库.悬浮列行操作.format(序号))
-        self.click(项目对象库.行操作选项.format("打包"))
-        if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
-            if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-                self.click(对话框对象库.对话框按钮.format("提示", "确定"))
-        while (True):
-            if not self.wait('//div[contains(@class,"el-dialog__header")]/span[text()="打包进度"]', 3):
-                break
+        self.click(项目对象库.行操作选项.format("批量下载"))
+        time.sleep(20)
         downpath = self.公共操作.检查文件是否下载完成()
-        filepath = downpath + '\一级目录.zip'
-        time.sleep(3)
-        if not os.path.exists(filepath):
-            raise AssertionError("在下载目录下未查看到打包的文件目录")
-        self.公共操作.解压zip到指定目录(zip文件路径=filepath, 目标路径=downpath)
-        文件目录 = os.listdir(downpath + '\一级目录')
+        文件目录 = os.listdir(downpath)
         if not '素材1.png' in 文件目录 or not '素材2.jpg' in 文件目录:
             raise AssertionError("在打包的文件中未查看到被打包的状态为检出的文件")
 
@@ -2298,7 +2257,7 @@ class 项目工作区(page):
                 raise AssertionError(f"查看文件目录分享链接时，文件目录下的{资源名称}没有显示")
         #如果分享文件没有设置可下载操作，则文件分享页面，文件只支持浏览
         for 资源名称 in ['素材1.png', '素材2.jpg']:
-            if not self.wait(项目对象库.分享查看页面.下载文件.format(资源名称), 3):
+            if self.wait(项目对象库.分享查看页面.下载文件.format(资源名称), 3):
                 raise AssertionError(f"分享文件目录时，没有设置下载，文件目录下的{资源名称}有下载操作")
         #分享多级文件目录，在文件分享页面，点击查看每级文件目录显示是否正常以及面包屑是否正常
         self.click(项目对象库.分享查看页面.列表文件名称.format('二级目录'))
@@ -2337,9 +2296,9 @@ class 项目工作区(page):
         self.click(项目对象库.分享查看页面.打包按钮)
         time.sleep(3)
         downpath = self.公共操作.检查文件是否下载完成()
-        filepath = downpath + '\文件.zip'
+        filepath = downpath
         time.sleep(4)
-        namelist = self.公共操作.查看zip文件(zip文件路径=filepath)
+        namelist = os.listdir(downpath)
         for name in ['素材1.png', '素材3.jpg','素材4.png']:
             if not name in namelist or len(namelist) != 2:
                 raise AssertionError("在打包的文件中未查看到被打包的文件")
@@ -2527,7 +2486,7 @@ class 项目工作区(page):
         #在右侧文件列表中勾选多个资源时，批量操作工具栏出现，工具栏中包括检出、撤销检出、收藏、下载、批量删除和打包按钮
         self.click(项目对象库.列表复选框.format('素材1.png'))
         self.click(项目对象库.列表复选框.format('素材2.jpg'))
-        按钮列表=['检出','撤销检出','收藏','取消收藏','删除','批量下载','文件归档','撤销归档','改变状态','分享','发起流程','添加标签']
+        按钮列表=['检出','撤销检出','收藏','取消收藏','删除','批量下载','文件归档','撤销归档','改变状态','分享','发起流程','添加标签 ']
         for 按钮 in 按钮列表:
             if not self.wait(项目对象库.工具栏按钮.format(按钮),3):
                 raise AssertionError(f"工具栏{按钮}按钮未正常出现")
@@ -2559,13 +2518,6 @@ class 项目工作区(page):
         self.click(项目对象库.列表复选框.format('素材1.png'))
         self.click(项目对象库.列表复选框.format('素材2.jpg'))
         self.click(项目对象库.工具栏按钮.format('检出'))
-        if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
-            if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-                self.click(对话框对象库.对话框按钮.format("提示", "确定"))
-        while (True):
-            if not self.wait('//div[contains(@class,"el-dialog__header")]/span[text()="打包进度"]', 3):
-                break
         # if not self.wait(公共元素对象库.系统提示信息弹框.format("成功"),3):
         #     raise AssertionError("对文件进行批量检出操作，未查看到系统提示信息")
         if not self.wait(项目对象库.检出按钮.format('素材1.png'), 3) or not\
@@ -2584,10 +2536,6 @@ class 项目工作区(page):
         self.click(项目对象库.列表复选框.format('二级目录'))
         self.click(项目对象库.列表复选框.format('素材1.png'))
         self.click(项目对象库.工具栏按钮.format('检出'))
-        if self.wait(对话框对象库.对话框标题.format("提示"), 1):
-            self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
-        if self.wait(对话框对象库.对话框标题.format("提示"), 1):
-            self.click(对话框对象库.对话框按钮.format("提示", "是"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("成功"), 3):
             raise AssertionError("对文件和文件目录进行批量检出操作，未查看到系统提示信息")
         if not self.wait(项目对象库.检出按钮.format('素材3.jpg'), 3) :
@@ -2600,8 +2548,6 @@ class 项目工作区(page):
         self.click(项目对象库.列表复选框.format('一级目录3'))
         self.click(项目对象库.列表复选框.format('一级目录2'))
         self.click(项目对象库.工具栏按钮.format('检出'))
-        if self.wait(对话框对象库.对话框标题.format("提示"), 1):
-            self.click(对话框对象库.对话框按钮.format("提示", "是"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("成功"), 3):
             raise AssertionError("对文件和文件目录进行批量检出操作，未查看到系统提示信息")
         self.click(项目对象库.目录节点.format('一级目录2'))
@@ -2616,8 +2562,6 @@ class 项目工作区(page):
         self.click(项目对象库.列表复选框.format('一级目录3'))
         self.click(项目对象库.列表复选框.format('一级目录2'))
         self.click(项目对象库.工具栏按钮.format('检出'))
-        if self.wait(对话框对象库.对话框标题.format("提示"), 13):
-            self.click(对话框对象库.对话框按钮.format("提示", "是"))
         if not self.wait(公共元素对象库.系统提示信息弹框.format("存在已被检出的文件，不能执行该操作"), 3):
             raise AssertionError("对文件目录进行批量检出操作，目录下含有已检出的文件，未查看到系统提示信息")
         self.click(项目对象库.目录节点.format('一级目录2'))
@@ -2964,19 +2908,11 @@ class 项目工作区(page):
         self.click(项目对象库.目录节点.format('一级目录'))
         self.click(项目对象库.列表复选框.format('素材1.png'))
         self.click(项目对象库.列表复选框.format('素材2.jpg'))
-        self.click(项目对象库.工具栏按钮.format('打包'))
-        if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
-            if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-                self.click(对话框对象库.对话框按钮.format("提示", "确定"))
-        while (True):
-            if not self.wait('//div[contains(@class,"el-dialog__header")]/span[text()="打包进度"]',3):
-                break
+        self.click(项目对象库.工具栏按钮.format('批量下载'))
         time.sleep(3)
         downpath = self.公共操作.检查文件是否下载完成()
-        filepath = downpath + '\批量打包.zip'
         time.sleep(4)
-        namelist = self.公共操作.查看zip文件(zip文件路径=filepath)
+        namelist = os.listdir(downpath)
         for name in ['素材1.png','素材2.jpg']:
             if not name in namelist or len(namelist)!=2:
                 raise AssertionError("在打包的文件中未查看到被打包的文件")
@@ -2985,19 +2921,11 @@ class 项目工作区(page):
         self.click(项目对象库.列表复选框.format('素材1.png'))
         self.click(项目对象库.列表复选框.format('素材2.jpg'))
         self.click(项目对象库.列表复选框.format('素材3.jpg'))
-        self.click(项目对象库.工具栏按钮.format('打包'))
-        if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
-            if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-                self.click(对话框对象库.对话框按钮.format("提示", "确定"))
-        while (True):
-            if not self.wait('//div[contains(@class,"el-dialog__header")]/span[text()="打包进度"]', 3):
-                break
+        self.click(项目对象库.工具栏按钮.format('批量下载'))
         time.sleep(3)
         downpath = self.公共操作.检查文件是否下载完成()
-        filepath = downpath + '\批量打包.zip'
         time.sleep(4)
-        namelist = self.公共操作.查看zip文件(zip文件路径=filepath)
+        namelist = os.listdir(downpath)
         for name in ['素材1.png', '素材2.jpg','素材3.jpg']:
             if not name in namelist or len(namelist)!=3:
                 raise AssertionError("在打包的文件中未查看到被打包的文件")
@@ -3007,18 +2935,10 @@ class 项目工作区(page):
         self.click(项目对象库.目录节点.format('一级目录'))
         self.click(项目对象库.列表复选框.format('素材1.png'))
         self.click(项目对象库.列表复选框.format('二级目录2'))
-        self.click(项目对象库.工具栏按钮.format('打包'))
-        if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
-            if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-                self.click(对话框对象库.对话框按钮.format("提示", "确定"))
-        while (True):
-            if not self.wait('//div[contains(@class,"el-dialog__header")]/span[text()="打包进度"]', 3):
-                break
+        self.click(项目对象库.工具栏按钮.format('批量下载'))
         downpath = self.公共操作.检查文件是否下载完成()
-        filepath = downpath + '\批量打包.zip'
         time.sleep(30)
-        namelist = self.公共操作.查看zip文件(zip文件路径=filepath)
+        namelist = os.listdir(downpath)
         for name in ['素材1.png', '二级目录2/']:
             if not name in namelist or len(namelist) != 2:
                 raise AssertionError("在打包的文件中未查看到被打包的文件或目录")
@@ -3028,18 +2948,10 @@ class 项目工作区(page):
         self.click(项目对象库.目录节点.format('一级目录'))
         self.click(项目对象库.列表复选框.format('素材1.png'))
         self.click(项目对象库.列表复选框.format('二级目录'))
-        self.click(项目对象库.工具栏按钮.format('打包'))
-        if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-            self.click(对话框对象库.对话框按钮.format("提示", "打包预览文件"))
-            if self.wait(对话框对象库.对话框标题.format("提示"), 3):
-                self.click(对话框对象库.对话框按钮.format("提示", "确定"))
-        while (True):
-            if not self.wait('//div[contains(@class,"el-dialog__header")]/span[text()="打包进度"]', 3):
-                break
+        self.click(项目对象库.工具栏按钮.format('批量下载'))
         downpath = self.公共操作.检查文件是否下载完成()
-        filepath = downpath + '\批量打包.zip'
         time.sleep(4)
-        namelist = self.公共操作.查看zip文件(zip文件路径=filepath)
+        namelist = os.listdir(downpath)
         for name in ['素材1.png', '二级目录/检入检出素材.txt']:
             if not name in namelist or len(namelist) != 2:
                 raise AssertionError("在打包的文件中未查看到被打包的文件或目录")
@@ -3767,7 +3679,7 @@ class 项目工作区(page):
         if not self.wait(项目对象库.行操作选项.format("设置"),3):
             raise AssertionError("文件目录更多操作中没有文件目录设置选项")
         self.click(项目对象库.行操作选项.format("设置"))
-        if not self.wait(对话框对象库.弹框标题.format("设置-目录1"),3):
+        if not self.wait(对话框对象库.弹框标题.format(" 设置-目录1 "),3):
             raise AssertionError("点击文件目录设置选项，未查看到文件目录设置弹框")
         #选择生命周期下拉框，显示项目设置中生命周期模板设置下配置的生命周期模板
         self.click(项目对象库.目录设置.生命周期列表框)

@@ -59,6 +59,8 @@ class 分享管理工作区(page):
         self.进入到操作位置.进入我的分享页()
         #点击分享记录名称，可以进入到分享页，查看到分享文件
         self.click(分享管理对象库.分享内容名称.format("素材1.png"))
+        time.sleep(3)
+        self.switch_to_new_window()
         if not self.wait(项目对象库.分享查看页面.列表文件名称.format("素材1.png"), 3):
             raise AssertionError("在我的分享页点击查看分享内容，页面没有跳转到文件分享页面")
 
@@ -81,7 +83,7 @@ class 分享管理工作区(page):
             raise AssertionError("编辑分享状态为失效后，访问分享链接，未查看到分享失效的提示信息")
         #编辑生效按钮为失效，分享内容置灰
         self.driver.close()
-        self.switch_to_window_byTagName("HAPYTEAM 管理您的数据")
+        self.switch_to_window_byTagName("HAPYTEAM 管理您的设计数据")
         self.进入到操作位置.进入我的分享页()
         if not self.wait(分享管理对象库.置灰_分享内容名称.format("素材2.jpg"),3):
             raise AssertionError("编辑分享状态为失效后，分享名称没有置灰")
@@ -115,12 +117,12 @@ class 分享管理工作区(page):
         self.clear(分享管理对象库.过期时间输入框.format("素材2.jpg"))
         self.send_keys(分享管理对象库.过期时间输入框.format("素材2.jpg"),"2023-06-20 09:40:10")
         self.click(分享管理对象库.访问次数.format("素材2.jpg"))
-        if not self.wait(公共元素对象库.系统提示信息弹框.format("2023-06-20 09:40:10"),3):
+        if self.wait(公共元素对象库.系统提示信息弹框.format("2023-06-20 09:40:10"),3):
             raise AssertionError("过期时间不可以选择过去的时间")
         #编辑过期时间，点击确定，过期时间生效，然后查看到达该时间后，分享链接是否过期
         self.clear(分享管理对象库.过期时间输入框.format("素材2.jpg"))
         time_now = time.time() + 60
-        time_lost = time.strftime(time_now, "%Y-%m-%d %H:%M:%S")
+        time_lost = time.strftime("%Y-%m-%d %H:%M:%S",time.localtime(time_now))
         self.send_keys(分享管理对象库.过期时间输入框.format("素材2.jpg"), time_lost)
         self.click(分享管理对象库.访问次数.format("素材2.jpg"))
         time.sleep(70)
@@ -129,14 +131,14 @@ class 分享管理工作区(page):
         if not self.wait(公共元素对象库.系统提示信息弹框.format("分享链接不合法或已过期"), 3):
             raise AssertionError("编辑分享过期时间，超过过期时间后访问分享链接，未弹出提示信息")
         self.driver.close()
-        self.switch_to_window_byTagName("HAPYTEAM 管理您的数据")
+        self.switch_to_window_byTagName("HAPYTEAM 管理您的设计数据")
         self.进入到操作位置.进入我的分享页()
         #编辑过期时间，点击取消编辑按钮，不保存编辑结果
         原过期时间=self.driver.getelement(分享管理对象库.过期时间)
         self.click(分享管理对象库.编辑过期时间.format("素材2.jpg"))
         self.clear(分享管理对象库.过期时间输入框.format("素材2.jpg"))
         time_now = time.time() + 60
-        time_lost = time.strftime(time_now, "%Y-%m-%d %H:%M:%S")
+        time_lost = time.strftime("%Y-%m-%d %H:%M:%S",time.localtime(time_now))
         self.send_keys(分享管理对象库.过期时间输入框.format("素材2.jpg"), time_lost)
         self.click(分享管理对象库.取消编辑过期时间.format("素材2.jpg"))
         现过期时间 = self.driver.getelement(分享管理对象库.过期时间)
@@ -147,7 +149,7 @@ class 分享管理工作区(page):
         self.进入到操作位置.进入我的分享页()
         self.分享管理页面.取消单个分享(分享内容名称='一级目录')
         self.项目管理页面.点击进入项目(项目名称="分享管理")
-        self.项目页面.分享文件(目录路径=['分享管理'], 资源名称='一级目录',下载=True)
+        self.项目页面.分享文件(目录路径=['分享管理'], 资源名称='一级目录',下载=True,资源类型="文件目录")
         链接 = self.公共操作.获取剪切板内容()
         self.公共操作.清空浏览器下载目录()
         self.driver.driver.execute_script("window.open('');")
@@ -167,12 +169,12 @@ class 分享管理工作区(page):
         self.driver.close()
         self.driver.switch_to_window_byTitle("素材2.jpg")
         self.driver.close()
-        self.switch_to_window_byTagName("HAPYTEAM 管理您的数据")
+        self.switch_to_window_byTagName("HAPYTEAM 管理您的设计数据")
         self.进入到操作位置.进入我的分享页()
         访问次数=self.driver.getelement(分享管理对象库.访问次数.format("一级目录"))
         浏览次数=self.driver.getelement(分享管理对象库.浏览次数.format("一级目录"))
         下载次数=self.driver.getelement(分享管理对象库.下载次数.format("一级目录"))
-        if 访问次数!='3':
+        if 访问次数!='2':
             raise AssertionError("分享访问次数统计不正确")
         if 浏览次数!='1':
             raise AssertionError("分享浏览次数统计不正确")
@@ -210,7 +212,7 @@ class 分享管理工作区(page):
         self.分享管理页面.取消单个分享(分享内容名称='一级目录')
         self.分享管理页面.取消单个分享(分享内容名称='素材2.jpg')
         self.项目管理页面.点击进入项目(项目名称="分享管理")
-        self.项目页面.分享文件(目录路径=['分享管理'], 资源名称='一级目录', 下载=True)
+        self.项目页面.分享文件(目录路径=['分享管理'], 资源名称='一级目录', 下载=True,资源类型="文件目录")
         链接1 = self.公共操作.获取剪切板内容()
         self.项目页面.分享文件(目录路径=['分享管理', '一级目录'], 资源名称='素材2.jpg')
         链接2 = self.公共操作.获取剪切板内容()
@@ -224,7 +226,7 @@ class 分享管理工作区(page):
         if not self.wait(公共元素对象库.系统提示信息弹框.format("分享链接不合法或已过期"), 3):
             raise AssertionError("取消分享后，访问分享链接，未查看到分享失效的提示信息")
         self.driver.close()
-        self.switch_to_window_byTagName("HAPYTEAM 管理您的数据")
+        self.switch_to_window_byTagName("HAPYTEAM 管理您的设计数据")
         self.进入到操作位置.进入我的分享页()
         #勾选多条分享记录，点击取消分享，分享列表中该条记录被清除，访问分享链接，显示链接失效
         self.click(分享管理对象库.全选复选框)
@@ -241,7 +243,7 @@ class 分享管理工作区(page):
         self.分享管理页面.取消单个分享(分享内容名称='一级目录')
         self.分享管理页面.取消单个分享(分享内容名称='素材2.jpg')
         self.项目管理页面.点击进入项目(项目名称="分享管理")
-        self.项目页面.分享文件(目录路径=['分享管理'], 资源名称='一级目录', 下载=True)
+        self.项目页面.分享文件(目录路径=['分享管理'], 资源名称='一级目录', 下载=True,资源类型="文件目录")
         链接1 = self.公共操作.获取剪切板内容()
         self.项目页面.分享文件(目录路径=['分享管理', '一级目录'], 资源名称='素材2.jpg')
         链接2 = self.公共操作.获取剪切板内容()
@@ -252,13 +254,13 @@ class 分享管理工作区(page):
         self.driver.driver.get(链接1)
         time.sleep(3)
         self.driver.close()
-        self.switch_to_window_byTagName("HAPYTEAM 管理您的数据")
+        self.switch_to_window_byTagName("HAPYTEAM 管理您的设计数据")
         self.driver.driver.execute_script("window.open('');")
         self.switch_to_new_window()
         self.driver.driver.get(链接2)
         time.sleep(3)
         self.driver.close()
-        self.switch_to_window_byTagName("HAPYTEAM 管理您的数据")
+        self.switch_to_window_byTagName("HAPYTEAM 管理您的设计数据")
         self.driver.refrsh()
         self.进入到操作位置.进入访问记录页()
         #访问列表显示的是当前用户访问的分享链接的记录
@@ -277,7 +279,7 @@ class 分享管理工作区(page):
         self.进入到操作位置.进入我的分享页()
         self.分享管理页面.取消单个分享(分享内容名称='一级目录')
         self.项目管理页面.点击进入项目(项目名称="分享管理")
-        self.项目页面.分享文件(目录路径=['分享管理'], 资源名称='一级目录', 下载=True)
+        self.项目页面.分享文件(目录路径=['分享管理'], 资源名称='一级目录', 下载=True,资源类型="文件目录")
         链接1 = self.公共操作.获取剪切板内容()
         self.进入到操作位置.进入访问记录页()
         self.分享管理页面.清除所有访问记录()
@@ -286,7 +288,7 @@ class 分享管理工作区(page):
         self.driver.driver.get(链接1)
         time.sleep(3)
         self.driver.close()
-        self.switch_to_window_byTagName("HAPYTEAM 管理您的数据")
+        self.switch_to_window_byTagName("HAPYTEAM 管理您的设计数据")
         self.driver.refrsh()
         self.进入到操作位置.进入访问记录页()
         #点击分享内容，可以查看到分享内容
@@ -309,7 +311,7 @@ class 分享管理工作区(page):
         self.分享管理页面.取消单个分享(分享内容名称='一级目录')
         self.分享管理页面.取消单个分享(分享内容名称='素材2.jpg')
         self.项目管理页面.点击进入项目(项目名称="分享管理")
-        self.项目页面.分享文件(目录路径=['分享管理'], 资源名称='一级目录', 下载=True)
+        self.项目页面.分享文件(目录路径=['分享管理'], 资源名称='一级目录', 下载=True,资源类型="文件目录")
         链接1 = self.公共操作.获取剪切板内容()
         self.项目页面.分享文件(目录路径=['分享管理', '一级目录'], 资源名称='素材2.jpg')
         链接2 = self.公共操作.获取剪切板内容()
@@ -320,13 +322,13 @@ class 分享管理工作区(page):
         self.driver.driver.get(链接1)
         time.sleep(3)
         self.driver.close()
-        self.switch_to_window_byTagName("HAPYTEAM 管理您的数据")
+        self.switch_to_window_byTagName("HAPYTEAM 管理您的设计数据")
         self.driver.driver.execute_script("window.open('');")
         self.switch_to_new_window()
         self.driver.driver.get(链接2)
         time.sleep(3)
         self.driver.close()
-        self.switch_to_window_byTagName("HAPYTEAM 管理您的数据")
+        self.switch_to_window_byTagName("HAPYTEAM 管理您的设计数据")
         self.driver.refrsh()
         self.进入到操作位置.进入访问记录页()
         #点击删除按钮，访问记录从列表中移除

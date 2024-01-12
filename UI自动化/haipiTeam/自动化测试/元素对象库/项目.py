@@ -76,8 +76,8 @@ class 项目对象库:
     检出按钮='//table//tr/td[2 or 3]//span[text()="{}"]/ancestor::tr/td[2]//i[@class="iconfont icon-correct" or @class="iconfont icon-wrong"]'
     归档按钮='//table//tr/td[2 or 3]//span[text()="{}"]/ancestor::tr/td[2]//i[@title="已归档"]'
     列表文件名称='//table//tr/td[2 or 3]//span[text()="{}"]'#参数为文件名称
-    生命周期状态='//div[contains(@class,"pane-one")]//td[2 or 3]//span[text()="{}"]/ancestor::tr/td[11]//span'
-    文件状态='//div[contains(@class,"pane-one")]//td[2 or 3]//span[text()="{}"]/ancestor::tr/td[5]//span'
+    生命周期状态='//div[contains(@class,"body-wrapper")]//td[2 or 3]//span[text()="{}"]/ancestor::tr/td[11]//span'
+    文件状态='//div[contains(@class,"body-wrapper")]//td[2 or 3]//span[text()="{}"]/ancestor::tr/td[5]//span'
     收藏按钮='//table//tr/td[2 or 3]//span[text()="{}"]/ancestor::td/following-sibling::td[last()]/div/div/i[contains(@class,"shoucang-yellow")]'
     未收藏按钮='//table//tr/td[2 or 3]//span[text()="{}"]/ancestor::td/following-sibling::td[last()]/div/div/i[contains(@class,"icon-shoucang1")]'
     列表行操作='//table//tr/td[2 or 3]//span[text()="{}"]/ancestor::td/following-sibling::td[last()]//span/i'#参数为文件名称
@@ -125,7 +125,7 @@ class 项目对象库:
     class 分享查看页面:
         列表文件名称='//table[@class="vxe-table--body"]//tr/td//span[text()="{} "]'
         分享过期时间='//div[@class="el-card__body"]//span[@class="fz10"][1]'
-        打包按钮='//button/span[text()="打包"]'
+        打包按钮='//button/span[text()="批量下载"]'
         文件复选框='//span[text()="{} "]/ancestor::tr/td[1]//span[2]'
         分享人='//div[@class="el-card__body"]//span[@class="fz10"][2]'
         下载文件='//span[text()="{} "]/ancestor::tr/td[last()]//span[text()="下载"]'
@@ -194,9 +194,9 @@ class 项目设置页面:
 
     项目成员tab页='//div[@id="tab-projectMember"]'
     项目生命周期模板设置='//div[@id="tab-projectCyclePlan"]'
-    项目成员名称='//div[text()="{}"]/ancestor::tr/td[5]/div[text()="{}"]'#参数1为成员名称，参数2为角色名称
-    角色编辑按钮='//div[text()="{}"]/ancestor::tr/td[last()]//i[@title="编辑角色"]'
-    权限编辑按钮='//div[text()="{}"]/ancestor::tr/td[last()]//i[@title="编辑权限"]'
+    项目成员名称='//span[text()="{}}"]/ancestor::tr/td[5]//span[text()="{}"]'#参数1为成员名称，参数2为角色名称
+    角色编辑按钮='//span[text()="{}"]/ancestor::tr/td[last()]//i[@title="编辑角色"]'
+    权限编辑按钮='//span[text()="{}"]/ancestor::tr/td[last()]//i[@title="编辑权限"]'
 
 
     #切换生命周期弹框
