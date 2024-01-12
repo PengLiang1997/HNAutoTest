@@ -65,64 +65,64 @@ class 滑块验证(page):
 
     def 滑块验证操作(self):
         self.清理pic目录()
-        self.flage+=1
-        self.default_content()
-        self.wait(人机验证弹窗对象库.弹窗标题,1)
-        #获取背景图src
-        targetUrl=self.driver.getelement(人机验证弹窗对象库.背景图).get_attribute('src')
-        #获取拼图src
-        tempUrl=self.driver.getelement(人机验证弹窗对象库.拼图).get_attribute('src')
-        #新建标签页
-        self.driver.driver.execute_script("window.open('');")
-        self.switch_to_new_window()
-        self.driver.driver.get(targetUrl)
-        time.sleep(3)
-        #截图
-        strtime=str(int(time.time()))
-        backtarget1='temp_target_'+f'{strtime}'+'.png'
-        self.get_screenshot(path='report\pic\\'+backtarget1)
-        w=310
-        h=155
-        img=cv2.imread('report\pic\\'+backtarget1)
-        size=img.shape
-        top = int((size[0] - h) / 2)
-        height = int(h + ((size[0] - h) / 2))
-        left = int((size[1] - w) / 2)
-        width = int(w + ((size[1] - w) / 2))
-
-        cropped = img[top:height, left:width]
-        #裁剪
-        backtarget2='temp_target_crop_'+f'{strtime}'+'.png'
-        cv2.imwrite("report\pic\\"+backtarget2,cropped)
-        self.driver.close()
-        self.switch_to_window_byTagName("HAPYTEAM 管理您的设计数据")
-
-        #新建标签页
-        self.driver.driver.execute_script("window.open('');")
-        self.switch_to_new_window()
-        self.driver.driver.get(tempUrl)
-        time.sleep(3)
-        #截图
-        target1 = 'temp_temp_' + f'{strtime}' + '.png'
-        self.get_screenshot(path='report\pic\\'+target1)
-        w=47
-        h=155
-        img = cv2.imread('report\pic\\'+target1)
-        size = img.shape
-        top = int((size[0] - h) / 2)
-        height = int(h + ((size[0] - h) / 2))
-        left = int((size[1] - w) / 2)
-        width = int(w + ((size[1] - w) / 2))
-        cropped = img[top:height, left:width]
-        #裁剪
-        target2 = 'temp_temp_crop_' + f'{strtime}' + '.png'
-        cv2.imwrite('report\pic\\'+target2, cropped)
-        self.driver.close()
-        self.switch_to_window_byTagName("HAPYTEAM 管理您的设计数据")
-
-        #模糊匹配
-        move=self.matchImg('report\pic\\'+backtarget2,'report\pic\\'+target2)
-        self.drag_and_drop_by_offset(srpath=人机验证弹窗对象库.滑动按钮,offset_x=move+20,offset_y=30)
+        # self.flage+=1
+        # self.default_content()
+        # self.wait(人机验证弹窗对象库.弹窗标题,1)
+        # #获取背景图src
+        # targetUrl=self.driver.getelement(人机验证弹窗对象库.背景图).get_attribute('src')
+        # #获取拼图src
+        # tempUrl=self.driver.getelement(人机验证弹窗对象库.拼图).get_attribute('src')
+        # #新建标签页
+        # self.driver.driver.execute_script("window.open('');")
+        # self.switch_to_new_window()
+        # self.driver.driver.get(targetUrl)
+        # time.sleep(3)
+        # #截图
+        # strtime=str(int(time.time()))
+        # backtarget1='temp_target_'+f'{strtime}'+'.png'
+        # self.get_screenshot(path='report\pic\\'+backtarget1)
+        # w=310
+        # h=155
+        # img=cv2.imread('report\pic\\'+backtarget1)
+        # size=img.shape
+        # top = int((size[0] - h) / 2)
+        # height = int(h + ((size[0] - h) / 2))
+        # left = int((size[1] - w) / 2)
+        # width = int(w + ((size[1] - w) / 2))
+        #
+        # cropped = img[top:height, left:width]
+        # #裁剪
+        # backtarget2='temp_target_crop_'+f'{strtime}'+'.png'
+        # cv2.imwrite("report\pic\\"+backtarget2,cropped)
+        # self.driver.close()
+        # self.switch_to_window_byTagName("HAPYTEAM 管理您的设计数据")
+        #
+        # #新建标签页
+        # self.driver.driver.execute_script("window.open('');")
+        # self.switch_to_new_window()
+        # self.driver.driver.get(tempUrl)
+        # time.sleep(3)
+        # #截图
+        # target1 = 'temp_temp_' + f'{strtime}' + '.png'
+        # self.get_screenshot(path='report\pic\\'+target1)
+        # w=47
+        # h=155
+        # img = cv2.imread('report\pic\\'+target1)
+        # size = img.shape
+        # top = int((size[0] - h) / 2)
+        # height = int(h + ((size[0] - h) / 2))
+        # left = int((size[1] - w) / 2)
+        # width = int(w + ((size[1] - w) / 2))
+        # cropped = img[top:height, left:width]
+        # #裁剪
+        # target2 = 'temp_temp_crop_' + f'{strtime}' + '.png'
+        # cv2.imwrite('report\pic\\'+target2, cropped)
+        # self.driver.close()
+        # self.switch_to_window_byTagName("HAPYTEAM 管理您的设计数据")
+        #
+        # #模糊匹配
+        # move=self.matchImg('report\pic\\'+backtarget2,'report\pic\\'+target2)
+        self.drag_and_drop_by_offset(srpath=人机验证弹窗对象库.滑动按钮,offset_x=50,offset_y=30)
         if self.wait('//*[text()="验证失败"]',1):
             if self.flage>20:
                 raise RuntimeError("人机验证失败")

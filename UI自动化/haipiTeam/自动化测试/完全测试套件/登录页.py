@@ -12,7 +12,10 @@ class Test_登录页(TestCaseSec):
 
     @classmethod
     def tearDown(cls):
+        cls.登录页1=登录页面(Secdriver=cls.driver)
+        cls.登录页1.忘记密码(手机号="18942178871",验证码="888888",新密码="user@8871")
         cls.driver.quite()
+
 
     @add_to_report
     def test_00_数据准备(self):

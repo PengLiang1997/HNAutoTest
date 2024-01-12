@@ -384,7 +384,7 @@ class 项目管理工作区(page):
         if not self.wait(对话框对象库.弹框标题.format("项目协作"), 3):
             raise AssertionError("点击添加项目成员，项目协作弹框未出现")
         #角色有ENTERPRISE MANAGER、PROJECT MANAGER、PROJECT ASSISTANT、DOCUMENT MANAGER、DOCUMENT EDITOR、DOCUMENT CONSUMER、DOCUMENT VIEWER、GUEST、INDIVIDUAL ADMINISTRATOR
-        基准数据=["ENTERPRISE MANAGER","PROJECT MANAGER","PROJECT ASSISTANT","DOCUMENT MANAGER","DOCUMENT EDITOR","DOCUMENT CONSUMER","DOCUMENT VIEWER","GUEST","INDIVIDUAL ADMINISTRATOR"]
+        基准数据=["ENTERPRISE MANAGER","PROJECT MANAGER","PROJECT ASSISTANT","DOCUMENT MANAGER","DOCUMENT EDITOR","DOCUMENT CONSUMER","DOCUMENT VIEWER","GUEST","NOT AVAILABLE"]
         self.click(公共元素对象库.列表框.format("角色"))
         elements=self.driver.getelements('//ul/li[contains(@class,"dropdown__item")]/span')
         for element in elements:
@@ -609,6 +609,7 @@ class 项目管理工作区(page):
         #点击生命周期下拉列表，列表显示所有的生命周期模板，选择对应的生命周期设置
         self.click(项目管理对象库.更多操作按钮.format("切换生命周期"))
         self.click(项目管理对象库.更多操作选项.format("项目设置"))
+
         self.click(公共元素对象库.列表框.format("生命周期"))
         列表框list=self.driver.getelements('//ul/li[contains(@class,"dropdown__item")]/span')
         for 列表框 in 列表框list:

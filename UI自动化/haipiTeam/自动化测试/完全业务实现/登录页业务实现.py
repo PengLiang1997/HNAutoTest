@@ -93,27 +93,29 @@ class 登录页(page):
         self.click(登录页对象库.登录按钮)
         if not self.wait(公共元素对象库.输入框错误信息提示.format("用户名或邮箱不能为空"),3):
             raise AssertionError("账号为空时，点击登录，未给出相应的提示")
-        self.clear(登录页对象库.账号输入框)
-        self.send_keys(登录页对象库.账号输入框, 'user887user8870user8870user8870user8870user8870user8870user8870user8870user8870user8870user8870user8870user88700')
-        self.click(登录页对象库.登录按钮)
-        if not self.wait(公共元素对象库.输入框错误信息提示.format("用户名为4到16位(字母，数字，下划线，不能以下划线开头或结尾)"), 3):
-            raise AssertionError("账号超长时，点击登录，未给出相应的提示")
-        self.clear(登录页对象库.账号输入框)
-        self.send_keys(登录页对象库.账号输入框,'@##￥')
-        self.click(登录页对象库.登录按钮)
-        if not self.wait(公共元素对象库.输入框错误信息提示.format("用户名为4到16位(字母，数字，下划线，不能以下划线开头或结尾)")):
-            raise AssertionError("账号非法时，点击登录，未给出相应的提示")
+        #账号密码校验已移除
+        # self.clear(登录页对象库.账号输入框)
+        # self.send_keys(登录页对象库.账号输入框, 'user887user8870user8870user8870user8870user8870user8870user8870user8870user8870user8870user8870user8870user88700')
+        # self.click(登录页对象库.登录按钮)
+        # if not self.wait(公共元素对象库.输入框错误信息提示.format("用户名为4到16位(字母，数字，下划线，不能以下划线开头或结尾)"), 3):
+        #     raise AssertionError("账号超长时，点击登录，未给出相应的提示")
+        # self.clear(登录页对象库.账号输入框)
+        # self.send_keys(登录页对象库.账号输入框,'@##￥')
+        # self.click(登录页对象库.登录按钮)
+        # if not self.wait(公共元素对象库.输入框错误信息提示.format("用户名为4到16位(字母，数字，下划线，不能以下划线开头或结尾)")):
+        #     raise AssertionError("账号非法时，点击登录，未给出相应的提示")
         #对密码进行空值，非法值校验
         self.clear(登录页对象库.账号输入框)
         self.send_keys(登录页对象库.账号输入框,'user8870')
         self.click(登录页对象库.登录按钮)
         if not self.wait(公共元素对象库.输入框错误信息提示.format("请输入密码"), 3):
             raise AssertionError("密码为空时，点击登录，未给出相应的提示")
-        self.clear(登录页对象库.密码输入框)
-        self.send_keys(登录页对象库.密码输入框, 'user')
-        self.click(登录页对象库.登录按钮)
-        if not self.wait(公共元素对象库.输入框错误信息提示.format("密码必须包含字母，数字和特殊字符，且在8-18位之间"), 3):
-            raise AssertionError("密码为非法格式时，点击登录，未给出相应的提示")
+        # 账号密码校验已移除
+        # self.clear(登录页对象库.密码输入框)
+        # self.send_keys(登录页对象库.密码输入框, 'user')
+        # self.click(登录页对象库.登录按钮)
+        # if not self.wait(公共元素对象库.输入框错误信息提示.format("密码必须包含字母，数字和特殊字符，且在8-18位之间"), 3):
+        #     raise AssertionError("密码为非法格式时，点击登录，未给出相应的提示")
         #输入有效账号密码，点击登录后关闭人机验证弹窗
         self.clear(登录页对象库.密码输入框)
         self.send_keys(登录页对象库.密码输入框, 'user@8870')
@@ -202,14 +204,15 @@ class 登录页(page):
         if not self.wait(登录页对象库.忘记密码对象库.密码输入框,3):
             raise AssertionError("输入合法的手机号和验证码，点击重置密码，未进入到设置新密码页面")
         #对密码进行空值，非法值和一致性校验
-        self.click(登录页对象库.忘记密码对象库.提交按钮)
-        if not self.wait(公共元素对象库.输入框错误信息提示.format("密码必须包含字母，数字和特殊字符，且在8-18位之间"), 3):
-            raise AssertionError("对密码输入框进行空值校验，未出现对应的提示")
-        self.clear(登录页对象库.忘记密码对象库.密码输入框)
-        self.send_keys(登录页对象库.忘记密码对象库.密码输入框,"user")
-        self.click(登录页对象库.忘记密码对象库.提交按钮)
-        if not self.wait(公共元素对象库.输入框错误信息提示.format("密码必须包含字母，数字和特殊字符，且在8-18位之间"), 3):
-            raise AssertionError("对密码输入框进行非法值校验，未出现对应的提示")
+        #密码格式校验已移除
+        # self.click(登录页对象库.忘记密码对象库.提交按钮)
+        # if not self.wait(公共元素对象库.输入框错误信息提示.format("密码必须包含字母，数字和特殊字符，且在8-18位之间"), 3):
+        #     raise AssertionError("对密码输入框进行空值校验，未出现对应的提示")
+        # self.clear(登录页对象库.忘记密码对象库.密码输入框)
+        # self.send_keys(登录页对象库.忘记密码对象库.密码输入框,"user")
+        # self.click(登录页对象库.忘记密码对象库.提交按钮)
+        # if not self.wait(公共元素对象库.输入框错误信息提示.format("密码必须包含字母，数字和特殊字符，且在8-18位之间"), 3):
+        #     raise AssertionError("对密码输入框进行非法值校验，未出现对应的提示")
         self.clear(登录页对象库.忘记密码对象库.密码输入框)
         self.send_keys(登录页对象库.忘记密码对象库.密码输入框, "user@7771")
         self.clear(登录页对象库.忘记密码对象库.确认密码输入框)
@@ -261,7 +264,7 @@ class 登录页(page):
         self.click(登录页对象库.账号密码登录)
         #使用重置后的密码登录，查看是否能正常登录
         self.clear(登录页对象库.账号输入框)
-        self.send_keys(登录页对象库.账号输入框, 'user8871')
+        self.send_keys(登录页对象库.账号输入框, '18942178871')
         self.clear(登录页对象库.密码输入框)
         self.send_keys(登录页对象库.密码输入框, "user@"+str(num))
         self.click(登录页对象库.登录按钮)
