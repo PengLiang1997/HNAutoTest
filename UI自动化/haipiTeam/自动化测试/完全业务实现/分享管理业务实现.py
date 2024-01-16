@@ -171,9 +171,10 @@ class 分享管理工作区(page):
         self.driver.close()
         self.switch_to_window_byTagName("HAPYTEAM 管理您的设计数据")
         self.进入到操作位置.进入我的分享页()
-        访问次数=self.driver.getelement(分享管理对象库.访问次数.format("一级目录"))
-        浏览次数=self.driver.getelement(分享管理对象库.浏览次数.format("一级目录"))
-        下载次数=self.driver.getelement(分享管理对象库.下载次数.format("一级目录"))
+        访问次数=self.driver.getelement(分享管理对象库.访问次数.format("一级目录")).text
+        浏览次数=self.driver.getelement(分享管理对象库.浏览次数.format("一级目录")).text
+        下载次数=self.driver.getelement(分享管理对象库.下载次数.format("一级目录")).text
+        print("访问次数:",访问次数,"  浏览次数:",浏览次数,"   下载次数",下载次数)
         if 访问次数!='2':
             raise AssertionError("分享访问次数统计不正确")
         if 浏览次数!='1':
@@ -185,7 +186,7 @@ class 分享管理工作区(page):
         if not self.wait(对话框对象库.弹框标题.format("访问记录"),3):
             raise AssertionError("点击访问记录按钮，没有弹出访问记录弹窗")
         #记录列表显示查看人对分享资源的操作记录，有访问人ip地址、ip地理位置、操作类型、操作人、记录时间
-        elems = self.driver.getelements('//div[@aria-label="我的访问记录"]//table[@class="el-table__header"]//tr/th//div')
+        elems = self.driver.getelements('//div[@aria-label="访问记录"]//table[@class="el-table__header"]//tr/th//div')
         表头 = []
         for elem in elems:
             表头.append(elem.text)
@@ -203,7 +204,7 @@ class 分享管理工作区(page):
             raise AssertionError("分享访问记录过滤选项不全")
         #选择不同的过滤条件，查看过滤结果是否正确
         self.click(公共元素对象库.列表框选项.format("浏览"))
-        eles=self.driver.getelements('//div[@aria-label="我的访问记录"]//tr/td[3]//span[text()="浏览" and not(@style="display: none;")]')
+        eles=self.driver.getelements('//div[@aria-label="访问记录"]//tr/td[3]//span[text()="浏览" and not(@style="display: none;")]')
         if len(eles)!=1:
             raise AssertionError("分享访问记录过滤显示结果不正确")
 
@@ -298,12 +299,14 @@ class 分享管理工作区(page):
         if not self.wait(项目对象库.分享查看页面.列表文件名称.format("素材2.jpg"),3):
             raise AssertionError("在我的访问记录页面，点击分享内容名称，没有进入分享查看页面")
         #查看分享内容后，点击查看列表中最后一次访问时间是否正确
+        self.driver.close()
+        self.switch_to_window_byTagName("HAPYTEAM 管理您的设计数据")
         self.driver.refrsh()
         self.进入到操作位置.进入访问记录页()
         最后一次访问时间=self.driver.getelement(分享管理对象库.最后一次访问时间.format("一级目录")).text
-        timearray = time.strptime(最后一次访问时间[1:-1], "%Y-%m-%d %H:%M:%S")
-        分享过期时间 = time.mktime(timearray)
-        if 分享过期时间 - 最后一次访问时间 > 10:
+        timearray = time.strptime(最后一次访问时间, "%Y-%m-%d %H:%M:%S")
+        访问时间 = time.mktime(timearray)
+        if 访问时间 - time_now > 10:
             raise AssertionError("我的访问记录列表最后一次访问时间记录不正确")
 
     def 删除访问记录(self):
@@ -315,6 +318,8 @@ class 分享管理工作区(page):
         链接1 = self.公共操作.获取剪切板内容()
         self.项目页面.分享文件(目录路径=['分享管理', '一级目录'], 资源名称='素材2.jpg')
         链接2 = self.公共操作.获取剪切板内容()
+        self.项目页面.分享文件(目录路径=['分享管理', '一级目录'], 资源名称='素材1.png')
+        链接3 = self.公共操作.获取剪切板内容()
         self.进入到操作位置.进入访问记录页()
         self.分享管理页面.清除所有访问记录()
         self.driver.driver.execute_script("window.open('');")
@@ -329,16 +334,26 @@ class 分享管理工作区(page):
         time.sleep(3)
         self.driver.close()
         self.switch_to_window_byTagName("HAPYTEAM 管理您的设计数据")
+        self.driver.driver.execute_script("window.open('');")
+        self.switch_to_new_window()
+        self.driver.driver.get(链接3)
+        time.sleep(3)
+        self.driver.close()
+        self.switch_to_window_byTagName("HAPYTEAM 管理您的设计数据")
         self.driver.refrsh()
         self.进入到操作位置.进入访问记录页()
         #点击删除按钮，访问记录从列表中移除
         self.click(分享管理对象库.删除访问记录.format("素材2.jpg"))
+        if self.wait(对话框对象库.对话框标题.format("提示"),3):
+            self.click(对话框对象库.对话框按钮.format("提示","确定"))
         self.wait(公共元素对象库.系统提示信息弹框.format("成功"), 3)
         if self.wait(分享管理对象库.访问记录名称.format("素材2.jpg"),3):
             raise AssertionError("删除我的访问记录后，访问记录列表中还能查看到访问记录")
         #勾选多个访问记录，点击删除，勾选的访问记录从访问列表中移除
         self.click(分享管理对象库.全选复选框)
         self.click(分享管理对象库.批量删除访问记录)
+        if self.wait(对话框对象库.对话框标题.format("提示"), 3):
+            self.click(对话框对象库.对话框按钮.format("提示", "确定"))
         self.wait(公共元素对象库.系统提示信息弹框.format("成功"), 3)
         if self.wait(分享管理对象库.访问记录名称.format("一级目录"),3):
             raise AssertionError("批量删除我的访问记录后，访问记录列表中还能查看到访问记录")
